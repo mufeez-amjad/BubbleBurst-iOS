@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F8EDF191F816EA300336BC2 /* Bubblegum.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F8EDF181F816E8D00336BC2 /* Bubblegum.ttf */; };
+		8F8EDF1C1F82E1CA00336BC2 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8F8EDF1A1F82E1CA00336BC2 /* MyParticle.sks */; };
+		8F8EDF1D1F82E1CA00336BC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F8EDF1B1F82E1CA00336BC2 /* Assets.xcassets */; };
 		8FA131F61F8013DF00B6D3D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA131F51F8013DF00B6D3D8 /* AppDelegate.swift */; };
 		8FA131F81F8013DF00B6D3D8 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8FA131F71F8013DF00B6D3D8 /* GameScene.sks */; };
 		8FA131FA1F8013DF00B6D3D8 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8FA131F91F8013DF00B6D3D8 /* Actions.sks */; };
@@ -18,6 +21,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8F8EDF181F816E8D00336BC2 /* Bubblegum.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bubblegum.ttf; sourceTree = "<group>"; };
+		8F8EDF1A1F82E1CA00336BC2 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
+		8F8EDF1B1F82E1CA00336BC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8FA131F21F8013DF00B6D3D8 /* BubbleBurst iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BubbleBurst iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FA131F51F8013DF00B6D3D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8FA131F71F8013DF00B6D3D8 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -44,6 +50,7 @@
 		8FA131E91F8013DF00B6D3D8 = {
 			isa = PBXGroup;
 			children = (
+				8F8EDF1B1F82E1CA00336BC2 /* Assets.xcassets */,
 				8FA131F41F8013DF00B6D3D8 /* BubbleBurst iOS */,
 				8FA131F31F8013DF00B6D3D8 /* Products */,
 			);
@@ -60,6 +67,8 @@
 		8FA131F41F8013DF00B6D3D8 /* BubbleBurst iOS */ = {
 			isa = PBXGroup;
 			children = (
+				8F8EDF1A1F82E1CA00336BC2 /* MyParticle.sks */,
+				8F8EDF181F816E8D00336BC2 /* Bubblegum.ttf */,
 				8FA131F51F8013DF00B6D3D8 /* AppDelegate.swift */,
 				8FA131F71F8013DF00B6D3D8 /* GameScene.sks */,
 				8FA131F91F8013DF00B6D3D8 /* Actions.sks */,
@@ -134,8 +143,11 @@
 			files = (
 				8FA132011F8013DF00B6D3D8 /* Main.storyboard in Resources */,
 				8FA131F81F8013DF00B6D3D8 /* GameScene.sks in Resources */,
+				8F8EDF191F816EA300336BC2 /* Bubblegum.ttf in Resources */,
 				8FA132031F8013DF00B6D3D8 /* Assets.xcassets in Resources */,
+				8F8EDF1C1F82E1CA00336BC2 /* MyParticle.sks in Resources */,
 				8FA132061F8013DF00B6D3D8 /* LaunchScreen.storyboard in Resources */,
+				8F8EDF1D1F82E1CA00336BC2 /* Assets.xcassets in Resources */,
 				8FA131FA1F8013DF00B6D3D8 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,6 +301,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CYF2GV4SQ2;
 				INFOPLIST_FILE = "BubbleBurst iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Mufeez-Amjad.BubbleBurst-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -304,6 +317,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CYF2GV4SQ2;
 				INFOPLIST_FILE = "BubbleBurst iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Mufeez-Amjad.BubbleBurst-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
