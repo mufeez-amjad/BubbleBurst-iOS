@@ -9,6 +9,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Bubblegum.ttf">
+            <string>BubbleGum</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Menu-->
         <scene sceneID="Qzb-dI-c8D">
@@ -27,7 +32,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ExG-9a-C83">
-                                <rect key="frame" x="12" y="21" width="350" height="625"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kla-zm-uT2">
@@ -59,11 +64,11 @@
                                 <state key="normal" title="Endless"/>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="locked" translatesAutoresizingMaskIntoConstraints="NO" id="CG7-9G-Log">
-                                <rect key="frame" x="10" y="243" width="350" height="180"/>
+                                <rect key="frame" x="9" y="243" width="350" height="180"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="locked" translatesAutoresizingMaskIntoConstraints="NO" id="t9n-JO-13V">
-                                <rect key="frame" x="10" y="440" width="350" height="180"/>
+                                <rect key="frame" x="9" y="440" width="350" height="180"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RS6-M0-P3P">
@@ -82,9 +87,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="d54-bM-EmV" firstAttribute="centerX" secondItem="rDf-hZ-WBa" secondAttribute="centerX" id="3m3-Ql-mfw"/>
-                            <constraint firstItem="d54-bM-EmV" firstAttribute="centerX" secondItem="rDf-hZ-WBa" secondAttribute="centerX" id="hjC-tK-hF1"/>
-                            <constraint firstItem="d54-bM-EmV" firstAttribute="top" secondItem="rDf-hZ-WBa" secondAttribute="top" id="lpn-mF-npA"/>
+                            <constraint firstItem="d54-bM-EmV" firstAttribute="top" secondItem="rDf-hZ-WBa" secondAttribute="top" id="0dY-xF-YSy"/>
+                            <constraint firstItem="d54-bM-EmV" firstAttribute="centerX" secondItem="rDf-hZ-WBa" secondAttribute="centerX" id="dDD-jx-2rp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eit-Wk-Dlm"/>
                     </view>
@@ -106,10 +110,10 @@
             </objects>
             <point key="canvasLocation" x="-546.39999999999998" y="133.5832083958021"/>
         </scene>
-        <!--Game View Controller-->
+        <!--Game-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="GameViewController" customModule="BubbleBurst_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Game" id="BV1-FR-VrT" customClass="GameViewController" customModule="BubbleBurst_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -126,16 +130,95 @@
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
+                    <connections>
+                        <segue destination="NLy-4g-DwG" kind="replace" identifier="gameIsOver" splitViewControllerTargetIndex="1" id="FaO-yk-SI8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
+        </scene>
+        <!--Postgame-->
+        <scene sceneID="RcQ-t6-JsP">
+            <objects>
+                <viewController id="NLy-4g-DwG" customClass="Postgame" customModule="BubbleBurst_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EnT-Hj-bLg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="BG" translatesAutoresizingMaskIntoConstraints="NO" id="vC7-yI-GqB">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="gameover" translatesAutoresizingMaskIntoConstraints="NO" id="piS-7A-1Yr">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEH-LD-GWW">
+                                <rect key="frame" x="104" y="431" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Retry"/>
+                                <connections>
+                                    <segue destination="Dvg-yt-hkS" kind="unwind" unwindAction="unwindToGameWithSegue:" id="eAO-HJ-0do"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Ba-yx-qLN">
+                                <rect key="frame" x="201" y="431" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Home"/>
+                                <connections>
+                                    <segue destination="Dvg-yt-hkS" kind="unwind" unwindAction="unwindToMenuWithSegue:" id="BTN-3F-cPd"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 102" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fxH-pJ-Xv5" userLabel="ScoreLabel">
+                                <rect key="frame" x="140" y="271" width="95" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="18"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Best: 102" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZYC-5A-YiO" userLabel="HighScoreLabel">
+                                <rect key="frame" x="150" y="297" width="75" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E21-iL-F9r" customClass="GADBannerView">
+                                <rect key="frame" x="27" y="0.0" width="320" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="3ue-ND-aok"/>
+                                    <constraint firstAttribute="height" constant="50" id="iaH-yu-cxr"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="E21-iL-F9r" firstAttribute="centerX" secondItem="EnT-Hj-bLg" secondAttribute="centerX" id="9Fu-X8-UUU"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="HBc-g5-CKc"/>
+                    </view>
+                    <connections>
+                        <outlet property="Home" destination="8Ba-yx-qLN" id="P3Y-Yf-q2l"/>
+                        <outlet property="Retry" destination="aEH-LD-GWW" id="u17-hc-cg9"/>
+                        <outlet property="bannerAd" destination="E21-iL-F9r" id="nZA-zH-Fws"/>
+                        <outlet property="gameOverOverlay" destination="piS-7A-1Yr" id="t2j-m6-OK8"/>
+                        <outlet property="highScoreLabel" destination="ZYC-5A-YiO" id="pgg-NQ-chg"/>
+                        <outlet property="scoreLabel" destination="fxH-pJ-Xv5" id="kv8-Rg-S75"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kYZ-lD-dlT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Dvg-yt-hkS" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="829.60000000000002" y="133.5832083958021"/>
         </scene>
     </scenes>
     <resources>
         <image name="BG" width="4501" height="8001"/>
         <image name="Lives" width="1018" height="1018"/>
         <image name="Score" width="1017" height="1018"/>
+        <image name="gameover" width="4501" height="8001"/>
         <image name="locked" width="4263" height="2191"/>
         <image name="logo" width="1915" height="1217"/>
     </resources>

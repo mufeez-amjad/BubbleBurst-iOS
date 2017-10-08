@@ -18,11 +18,11 @@ class Menu: UIViewController, GADBannerViewDelegate {
     @IBOutlet var Play: UIButton!
     @IBOutlet var Info: UIButton!
     @IBOutlet var Back: UIButton!
-
+    
     @IBOutlet var Classic: UIButton!
     @IBOutlet var Timed: UIButton!
     @IBOutlet var Endless: UIButton!
-
+    
     @IBOutlet var EndlessLock: UIImageView!
     @IBOutlet var TimedLock: UIImageView!
     
@@ -67,23 +67,22 @@ class Menu: UIViewController, GADBannerViewDelegate {
         Info.center.y += view.bounds.height
         Back.center.x -= view.bounds.width
         
-        Instructions.center.y += view.bounds.height
+        Instructions.center.y -= view.bounds.height
         
         Classic.center.y += view.bounds.height
         Timed.center.y += view.bounds.height
         TimedLock.center.y += view.bounds.height
         Endless.center.y += view.bounds.height
         EndlessLock.center.y += view.bounds.height
-
-        introIn()
         
+        introIn()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     func introOut(menu: Int){
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
@@ -125,7 +124,7 @@ class Menu: UIViewController, GADBannerViewDelegate {
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
-                        self.Instructions.center.y -= self.view.bounds.height
+                        self.Instructions.center.y += self.view.bounds.height
                         self.Back.center.x += self.view.bounds.width
         },
                        completion: nil
@@ -136,12 +135,12 @@ class Menu: UIViewController, GADBannerViewDelegate {
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
-                        self.Instructions.center.y += self.view.bounds.height
+                        self.Instructions.center.y -= self.view.bounds.height
                         self.Back.center.x -= self.view.bounds.width
         },
                        completion: { finished in
-            self.introIn()
-    })
+                        self.introIn()
+        })
     }
     
     func playIn(){
@@ -187,7 +186,7 @@ class Menu: UIViewController, GADBannerViewDelegate {
             playScreen = true
             introOut(menu: 2)
         }
-        
+            
         else if sender === Back {
             if playScreen {
                 playOut()
@@ -201,6 +200,17 @@ class Menu: UIViewController, GADBannerViewDelegate {
         
     }
     
+    @IBAction func unwindToMenu(segue: UIStoryboardSegue) {
+        infoScreen = false
+        playScreen = false
+        
+        self.viewDidLoad()
+        self.viewWillAppear(true)
+    }
+    
+    func reset(){
+        
+    }
     
 }
 

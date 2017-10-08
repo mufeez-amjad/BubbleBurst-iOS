@@ -11,17 +11,23 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
-
+    
+    let scene = GameScene(fileNamed: "GameScene")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(GameViewController.segueToGameOver), name: NSNotification.Name(rawValue: "seguetoGameOver"), object: nil)
+        
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
+            if scene != nil {
                 // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFill
+                scene?.scaleMode = .aspectFill
                 
                 // Present the scene
+                //scene.viewController = self
+                
                 view.presentScene(scene)
             }
             
@@ -31,11 +37,23 @@ class GameViewController: UIViewController {
             view.showsNodeCount = true
         }
     }
-
+    
+    @objc func segueToGameOver(){
+        performSegue(withIdentifier: "gameIsOver", sender: self)
+        //self.view.removeFromSuperview()
+        //self.view = nil
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let yourVC = segue.destination as? Postgame {
+            yourVC.score = scene!.score
+        }
+    }
+    
     override var shouldAutorotate: Bool {
         return true
     }
-
+    
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return .allButUpsideDown
@@ -43,13 +61,17 @@ class GameViewController: UIViewController {
             return .all
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
     }
-
+    
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    @IBAction func unwindToGame(segue: UIStoryboardSegue) {
+        scene?.playAgain()
     }
 }
