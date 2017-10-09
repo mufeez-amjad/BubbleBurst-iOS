@@ -13,6 +13,7 @@ import GameplayKit
 class GameViewController: UIViewController {
     
     let scene = GameScene(fileNamed: "GameScene")
+    var gameMode: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +34,8 @@ class GameViewController: UIViewController {
             
             view.ignoresSiblingOrder = true
             //view.allowsTransparency = true;
-            view.showsFPS = true
-            view.showsNodeCount = true
+            //view.showsFPS = true
+            //view.showsNodeCount = true
         }
     }
     
@@ -49,7 +50,7 @@ class GameViewController: UIViewController {
             yourVC.score = scene!.score
         }
     }
-    
+
     override var shouldAutorotate: Bool {
         return true
     }
@@ -73,5 +74,20 @@ class GameViewController: UIViewController {
     
     @IBAction func unwindToGame(segue: UIStoryboardSegue) {
         scene?.playAgain()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if (scene?.gameTimer != nil) {
+            scene?.gameTimer.invalidate()
+        }
+        scene?.gameTimer = nil
+        scene?.oneUpTimer = nil
+        scene?.freezeTimer = nil
+        scene?.slowMoTimer = nil
+        scene?.autoPopTimer = nil
+        scene?.superPopTimer = nil
+    }
+    deinit {
+        print("deinit called")
     }
 }

@@ -20,7 +20,6 @@
 		8FA132011F8013DF00B6D3D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FA131FF1F8013DF00B6D3D8 /* Main.storyboard */; };
 		8FA132031F8013DF00B6D3D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FA132021F8013DF00B6D3D8 /* Assets.xcassets */; };
 		8FA132061F8013DF00B6D3D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FA132041F8013DF00B6D3D8 /* LaunchScreen.storyboard */; };
-		8FA1F6971F887D7800EFAC7E /* FTButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA1F6961F887D7800EFAC7E /* FTButtonNode.swift */; };
 		8FDAFF081F86FF0E00F5C852 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FDAFF071F86FF0E00F5C852 /* GoogleMobileAds.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +41,6 @@
 		8FA132021F8013DF00B6D3D8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8FA132051F8013DF00B6D3D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8FA132071F8013DF00B6D3D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8FA1F6961F887D7800EFAC7E /* FTButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTButtonNode.swift; sourceTree = "<group>"; };
 		8FDAFF071F86FF0E00F5C852 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = Framework/GoogleMobileAds.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,7 +93,6 @@
 				8FA131F71F8013DF00B6D3D8 /* GameScene.sks */,
 				8FA131F91F8013DF00B6D3D8 /* Actions.sks */,
 				8FA131FB1F8013DF00B6D3D8 /* GameScene.swift */,
-				8FA1F6961F887D7800EFAC7E /* FTButtonNode.swift */,
 				8FA131FD1F8013DF00B6D3D8 /* GameViewController.swift */,
 				8FA131FF1F8013DF00B6D3D8 /* Main.storyboard */,
 				8F525D8A1F87272500C2CD4F /* Postgame.swift */,
@@ -185,7 +182,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8FA131FC1F8013DF00B6D3D8 /* GameScene.swift in Sources */,
-				8FA1F6971F887D7800EFAC7E /* FTButtonNode.swift in Sources */,
 				8FA131FE1F8013DF00B6D3D8 /* GameViewController.swift in Sources */,
 				8F525D8B1F87272500C2CD4F /* Postgame.swift in Sources */,
 				8F2EA0891F86C507009AC742 /* Menu.swift in Sources */,

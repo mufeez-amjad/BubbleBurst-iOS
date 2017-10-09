@@ -72,9 +72,15 @@ class Postgame: UIViewController, GADBannerViewDelegate {
         }
         
         scoreLabel.text = "Score: \(score)"
-        scoreLabel.center.x = self.view.center.x
+        //scoreLabel.center.x = self.view.center.x
         
         highScoreLabel.center.x = self.view.center.x
+ 
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
 }

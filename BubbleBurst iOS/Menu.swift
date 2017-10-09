@@ -29,6 +29,8 @@ class Menu: UIViewController, GADBannerViewDelegate {
     @IBOutlet var bannerAd: GADBannerView!
     @IBOutlet var Instructions: UIImageView!
     
+    var gameMode = "Classic"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -208,10 +210,26 @@ class Menu: UIViewController, GADBannerViewDelegate {
         self.viewWillAppear(true)
     }
     
-    func reset(){
-        
+    
+    @IBAction func classicPressed(_ sender: Any) {
+        gameMode = "Classic"
+        performSegue(withIdentifier: "startPlay", sender: self)
     }
     
+    @IBAction func timedPressed(_ sender: Any) {
+        gameMode = "Timed"
+        performSegue(withIdentifier: "startPlay", sender: self)
+    }
+    @IBAction func endlessPressed(_ sender: Any) {
+        gameMode = "Endless"
+        performSegue(withIdentifier: "startPlay", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let yourVC = segue.destination as? GameViewController {
+            yourVC.gameMode = gameMode
+        }
+    }
 }
 
 

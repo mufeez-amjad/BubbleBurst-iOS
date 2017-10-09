@@ -12,7 +12,7 @@ import GameplayKit
 class GameScene: SKScene {
     
     var bubbles = [Bubble]()
-    var gameTimer:Timer!
+    weak var gameTimer:Timer!
     var score = 0
     var lives = 10
     var gameOver = false
@@ -34,7 +34,7 @@ class GameScene: SKScene {
     
     var oneUp = 3
     var slowMo = 3
-    var freeze = 10
+    var freeze = 5
     var superPop = 3
     var autoPop = 30
     
@@ -72,7 +72,7 @@ class GameScene: SKScene {
     
     override func sceneDidLoad() {
         
-        let bg = SKSpriteNode(imageNamed: "BG(750x1334)")
+        let bg = SKSpriteNode(imageNamed: "BG (750x1334)")
         
         bg.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
         bg.zPosition = -1
@@ -134,8 +134,11 @@ class GameScene: SKScene {
     }
     
     func startCountdown(){
-        if startsIn > 0 {
+        if startsIn >= 0 {
             powerUpLabel.text = "\(startsIn)"
+            if (startsIn == 0){
+                powerUpLabel.text = "START!"
+            }
             powerUpLabel.run(countdownAction)
             startsIn -= 1
             let when = DispatchTime.now() + 1 // change 1 to desired number of seconds
@@ -149,43 +152,6 @@ class GameScene: SKScene {
             startBubbles()
         }
         
-    }
-    
-    func playAgain(){
-        startsIn = 3
-        lives = 10
-        score = 0
-        startCountdown()
-        for (i,bubble) in bubbles.enumerated().reversed() {
-            bubbles.remove(at: i)
-            bubble.removeFromParent()
-        }
-        pathEmitter?.position = CGPoint(x:-100,y: -100)
-        Bubble.riseSpeed = 4.0
-        Bubble.frozen = false
-        gameEnded = false
-        gameOver = false
-        GameScene.gamePaused = false
-        
-        isOneUp = false
-        isSlowMo = false
-        isFreeze = false
-        isSuperPop = false
-        isAutoPop = false
-    }
-    
-    func reset(){
-        gameTimer.invalidate()
-        slowMoTimer?.invalidate()
-        freezeTimer?.invalidate()
-        autoPopTimer?.invalidate()
-        superPopTimer?.invalidate()
-        oneUpTimer?.invalidate()
-    }
-    
-    func endGame(){
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "seguetoGameOver"), object: nil)
-        //reset()
     }
     
     override func didMove(to view: SKView) {
@@ -240,7 +206,6 @@ class GameScene: SKScene {
                 if bubble.contains(touch.location(in: self)) {
                     if bubble.ifRed() {
                         gameOver = true
-                        
                     }
                     bubbles.remove(at: i)
                     bubble.removeFromParent()
@@ -252,7 +217,7 @@ class GameScene: SKScene {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         pathEmitter?.position = CGPoint(x:-100,y: -100)
-        if !isAutoPop {
+        if !(isAutoPop || startsIn != -1) {
             GameScene.gamePaused = true
         }
     }
@@ -272,14 +237,14 @@ class GameScene: SKScene {
                             let powerUp = Int(arc4random_uniform(33))
                             if powerUp <= 3 {
                                 lives += 1
-                                oneUpTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countdown), userInfo: nil, repeats: true)
+                                oneUpTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(oneUpCountdown), userInfo: nil, repeats: true)
                                 isOneUp = true
                                 oneUpIcon.isHidden = false
                                 powerUpLabel.text = "1 Up"
                                 powerUpLabel.run(reveal)
                             }
                             else if powerUp < 10 {
-                                slowMoTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countdown), userInfo: nil, repeats: true)
+                                slowMoTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(slowMoCountdown), userInfo: nil, repeats: true)
                                 isSlowMo = true
                                 Bubble.riseSpeed = Bubble.riseSpeed / 2.0
                                 slowMoIcon.isHidden = false
@@ -288,7 +253,7 @@ class GameScene: SKScene {
                             }
                             else if powerUp < 20 {
                                 if (Bubble.riseSpeed > 15){
-                                    freezeTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countdown), userInfo: nil, repeats: true)
+                                    freezeTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(freezeCountdown), userInfo: nil, repeats: true)
                                     isFreeze = true
                                     Bubble.frozen = true
                                     beforeFreezeSpeed = Bubble.riseSpeed
@@ -298,7 +263,7 @@ class GameScene: SKScene {
                                     powerUpLabel.run(reveal)
                                 }
                                 else {
-                                    slowMoTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countdown), userInfo: nil, repeats: true)
+                                    slowMoTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(slowMoCountdown), userInfo: nil, repeats: true)
                                     isSlowMo = true
                                     Bubble.riseSpeed = Bubble.riseSpeed / 2.0
                                     slowMoIcon.isHidden = false
@@ -307,7 +272,7 @@ class GameScene: SKScene {
                                 }
                             }
                             else if powerUp < 30 {
-                                superPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countdown), userInfo: nil, repeats: true)
+                                superPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(superPopCountdown), userInfo: nil, repeats: true)
                                 isSuperPop = true
                                 score += bubbles.capacity
                                 for bubble in bubbles {
@@ -324,7 +289,7 @@ class GameScene: SKScene {
                                 timerIcon.isHidden = false
                                 isAutoPop = true
                                 autoPopIcon.isHidden = false
-                                autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countdown), userInfo: nil, repeats: true)
+                                autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(autoPopCountdown), userInfo: nil, repeats: true)
                                 powerUpLabel.text = "Auto Pop"
                                 powerUpLabel.run(reveal)
                             }
@@ -333,12 +298,16 @@ class GameScene: SKScene {
                             let powerUp = Int(arc4random_uniform(10))
                             if powerUp == 0 {
                                 lives += 1
+                                oneUpTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(oneUpCountdown), userInfo: nil, repeats: true)
+                                isOneUp = true
                                 oneUpIcon.isHidden = false
                                 powerUpLabel.text = "1 Up"
                                 powerUpLabel.run(reveal)
                             }
                             else if powerUp <= 10 {
-                                score += bubbles.capacity - 1
+                                superPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(superPopCountdown), userInfo: nil, repeats: true)
+                                isSuperPop = true
+                                score += bubbles.capacity
                                 for bubble in bubbles {
                                     bubble.removeFromParent()
                                 }
@@ -355,8 +324,7 @@ class GameScene: SKScene {
                     if bubble.ifRed() {
                         lives = 0
                         if lives == 0 {
-                            //gameOver = true
-                            endGame()
+                            gameOver = true
                         }
                     }
                     bubble.removeFromParent()
@@ -367,7 +335,7 @@ class GameScene: SKScene {
         }
     }
     
-    @objc func countdown() {
+    @objc func oneUpCountdown(){
         if isOneUp {
             oneUp -= 1
         }
@@ -376,6 +344,9 @@ class GameScene: SKScene {
             oneUp = 3
             oneUpIcon.isHidden = true
         }
+    }
+    
+    @objc func slowMoCountdown(){
         if isSlowMo {
             slowMo -= 1
         }
@@ -384,6 +355,9 @@ class GameScene: SKScene {
             slowMo = 3
             slowMoIcon.isHidden = true
         }
+    }
+    
+    @objc func freezeCountdown(){
         if isFreeze {
             freeze -= 1
         }
@@ -391,12 +365,13 @@ class GameScene: SKScene {
             isFreeze = false
             Bubble.frozen = false
             Bubble.riseSpeed = beforeFreezeSpeed / 2
-            gameTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(addBubble), userInfo: nil, repeats: true)
-            //startBubbles()
-            freeze = 10
+            startBubbles()
+            freeze = 5
             freezeIcon.isHidden = true
-            
         }
+    }
+    
+    @objc func superPopCountdown(){
         if isSuperPop {
             superPop -= 1
         }
@@ -405,7 +380,9 @@ class GameScene: SKScene {
             superPop = 3
             superPopIcon.isHidden = true
         }
-        
+    }
+    
+    @objc func autoPopCountdown() {
         if isAutoPop {
             autoPop -= 1
         }
@@ -416,6 +393,47 @@ class GameScene: SKScene {
             autoPopIcon.isHidden = true
             timerIcon.isHidden = true
         }
+    }
+    
+    func playAgain(){
+        if (gameTimer != nil) {
+            gameTimer.invalidate()
+            gameTimer = nil
+        }
+        startsIn = 3
+        lives = 10
+        score = 0
+        startCountdown()
+        for (i,bubble) in bubbles.enumerated().reversed() {
+            bubbles.remove(at: i)
+            bubble.removeFromParent()
+        }
+        pathEmitter?.position = CGPoint(x:-100,y: -100)
+        Bubble.riseSpeed = 4.0
+        Bubble.frozen = false
+        gameEnded = false
+        gameOver = false
+        GameScene.gamePaused = false
+        
+        isOneUp = false
+        isSlowMo = false
+        isFreeze = false
+        isSuperPop = false
+        isAutoPop = false
+    }
+    
+    func reset(){
+        gameTimer.invalidate()
+        slowMoTimer?.invalidate()
+        freezeTimer?.invalidate()
+        autoPopTimer?.invalidate()
+        superPopTimer?.invalidate()
+        oneUpTimer?.invalidate()
+    }
+    
+    func endGame(){
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "seguetoGameOver"), object: nil)
+        //reset()
     }
     
     @objc func addBubble() {
@@ -435,8 +453,14 @@ class GameScene: SKScene {
      }*/
     
     func startBubbles(){
-        if (!gameTimer.isValid) {
+        if (gameTimer != nil) {
+            if (!gameTimer.isValid) {
+                gameTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(addBubble), userInfo: nil, repeats: true)
+            }
+        }
+        else {
             gameTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(addBubble), userInfo: nil, repeats: true)
+
         }
     }
     
@@ -474,7 +498,7 @@ class GameScene: SKScene {
             }
         }
         if lives <= 0 {
-            // gameOver = true
+            gameOver = true
         }
         
         livesLabel.text = "\(lives)"
