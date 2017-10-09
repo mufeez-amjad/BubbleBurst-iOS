@@ -36,7 +36,7 @@ class GameScene: SKScene {
     var slowMo = 3
     var freeze = 5
     var superPop = 3
-    var autoPop = 30
+    var autoPop = 10
     
     var isOneUp = false
     var isSlowMo = false
@@ -389,7 +389,7 @@ class GameScene: SKScene {
         
         if (autoPop == 0) {
             isAutoPop = false
-            autoPop = 30
+            autoPop = 10
             autoPopIcon.isHidden = true
             timerIcon.isHidden = true
         }

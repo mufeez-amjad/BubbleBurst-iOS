@@ -29,7 +29,11 @@ class Menu: UIViewController, GADBannerViewDelegate {
     @IBOutlet var bannerAd: GADBannerView!
     @IBOutlet var Instructions: UIImageView!
     
+    @IBOutlet var pointsLabel: UILabel!
+    @IBOutlet var pointsIcon: UIImageView!
+    
     var gameMode = "Classic"
+    var points = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +65,16 @@ class Menu: UIViewController, GADBannerViewDelegate {
         Classic.addTarget(self, action: #selector(self.buttonClicked), for: .touchUpInside)
         
         self.Instructions.image = UIImage(named: "instructions")
+        
+        let defaults = UserDefaults.standard
+        
+        if (defaults.value(forKeyPath: "Points") == nil){
+            points = 0
+        }
+        else {
+            points = defaults.integer(forKey: "Points")
+        }
+        pointsLabel.text = "\(points)"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,6 +82,8 @@ class Menu: UIViewController, GADBannerViewDelegate {
         Play.center.y += view.bounds.height
         Info.center.y += view.bounds.height
         Back.center.x -= view.bounds.width
+        pointsIcon.center.x -= view.bounds.width
+        pointsLabel.center.x -= view.bounds.width
         
         Instructions.center.y -= view.bounds.height
         
@@ -92,6 +108,8 @@ class Menu: UIViewController, GADBannerViewDelegate {
                         self.Logo.center.y -= self.view.bounds.height
                         self.Play.center.y += self.view.bounds.height
                         self.Info.center.y += self.view.bounds.height
+                        self.pointsIcon.center.x -= self.view.bounds.width
+                        self.pointsLabel.center.x -= self.view.bounds.width
         },
                        completion: { finished in
                         if (menu == 1) {
@@ -117,6 +135,15 @@ class Menu: UIViewController, GADBannerViewDelegate {
                        animations: {
                         self.Play.center.y -= self.view.bounds.height
                         self.Info.center.y -= self.view.bounds.height
+        },
+                       completion: nil
+        )
+        
+        UIView.animate(withDuration: 0.7, delay: 1.4,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.pointsIcon.center.x += self.view.bounds.width
+                        self.pointsLabel.center.x += self.view.bounds.width
         },
                        completion: nil
         )
