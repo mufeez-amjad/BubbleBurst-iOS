@@ -24,6 +24,7 @@ class Postgame: UIViewController, GADBannerViewDelegate {
     
     var score: Int = 0
     var highScore: Int = 0
+    var gameMode: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,16 +45,15 @@ class Postgame: UIViewController, GADBannerViewDelegate {
         
         let defaults = UserDefaults.standard
         
-        if (defaults.value(forKeyPath: "Highscore") == nil){
-            defaults.set(score, forKey: "Highscore")
-            highScore = score
-            highScoreLabel.text = "Best: \(highScore)"
+        if (defaults.value(forKeyPath: gameMode) == nil){
+            defaults.set(score, forKey: gameMode)
+            highScoreLabel.text = "New Best!"
         }
         else {
-            let readHighScore = defaults.integer(forKey: "Highscore")
+            let readHighScore = defaults.integer(forKey: gameMode)
             if readHighScore < score {
                 highScore = score
-                defaults.set(score, forKey: "Highscore")
+                defaults.set(score, forKey: gameMode)
                 highScoreLabel.text = "New Best!"
             }
             else {

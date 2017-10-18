@@ -23,8 +23,11 @@ class Menu: UIViewController, GADBannerViewDelegate {
     @IBOutlet var Timed: UIButton!
     @IBOutlet var Endless: UIButton!
     
-    @IBOutlet var EndlessLock: UIImageView!
+    @IBOutlet var Multiplayer: UIButton!
+    
+    
     @IBOutlet var TimedLock: UIImageView!
+    @IBOutlet var EndlessLock: UIImageView!
     
     @IBOutlet var bannerAd: GADBannerView!
     @IBOutlet var Instructions: UIImageView!
@@ -55,16 +58,18 @@ class Menu: UIViewController, GADBannerViewDelegate {
         Info.setImage(UIImage(named: "info"), for: .normal)
         Back.setImage(UIImage(named: "back"), for: .normal)
         
-        Classic.setImage(UIImage(named: "classic"), for: .normal)
-        Timed.setImage(UIImage(named: "timed"), for: .normal)
-        Endless.setImage(UIImage(named: "endless"), for: .normal)
+        Classic.setImage(UIImage(named: "classic3"), for: .normal)
+        Timed.setImage(UIImage(named: "timed3"), for: .normal)
+        Endless.setImage(UIImage(named: "endless3"), for: .normal)
+        
+        Multiplayer.setImage(UIImage(named: "multiplayersoon"), for: .normal)
         
         Play.addTarget(self, action: #selector(self.buttonClicked), for: .touchUpInside)
         Info.addTarget(self, action: #selector(self.buttonClicked), for: .touchUpInside)
         Back.addTarget(self, action: #selector(self.buttonClicked), for: .touchUpInside)
         Classic.addTarget(self, action: #selector(self.buttonClicked), for: .touchUpInside)
         
-        self.Instructions.image = UIImage(named: "instructions")
+        self.Instructions.image = UIImage(named: "instructions3")
         
         let defaults = UserDefaults.standard
         
@@ -90,8 +95,13 @@ class Menu: UIViewController, GADBannerViewDelegate {
         Classic.center.y += view.bounds.height
         Timed.center.y += view.bounds.height
         TimedLock.center.y += view.bounds.height
+        TimedLock.isHidden = true
+
         Endless.center.y += view.bounds.height
         EndlessLock.center.y += view.bounds.height
+        EndlessLock.isHidden = true
+
+        Multiplayer.center.y += view.bounds.height
         
         introIn()
     }
@@ -181,6 +191,7 @@ class Menu: UIViewController, GADBannerViewDelegate {
                         self.TimedLock.center.y -= self.view.bounds.height
                         self.Endless.center.y -= self.view.bounds.height
                         self.EndlessLock.center.y -= self.view.bounds.height
+                        self.Multiplayer.center.y -= self.view.bounds.height
                         self.Back.center.x += self.view.bounds.width
         },
                        completion: nil
@@ -196,6 +207,7 @@ class Menu: UIViewController, GADBannerViewDelegate {
                         self.TimedLock.center.y += self.view.bounds.height
                         self.Endless.center.y += self.view.bounds.height
                         self.EndlessLock.center.y += self.view.bounds.height
+                        self.Multiplayer.center.y += self.view.bounds.height
                         self.Back.center.x -= self.view.bounds.width
         },
                        completion: { finished in
@@ -250,6 +262,9 @@ class Menu: UIViewController, GADBannerViewDelegate {
     @IBAction func endlessPressed(_ sender: Any) {
         gameMode = "Endless"
         performSegue(withIdentifier: "startPlay", sender: self)
+    }
+    
+    @IBAction func multiplayerPressed(_ sender: Any) {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

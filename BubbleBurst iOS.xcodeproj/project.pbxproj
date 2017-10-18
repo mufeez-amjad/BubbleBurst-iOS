@@ -20,7 +20,9 @@
 		8FA132011F8013DF00B6D3D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FA131FF1F8013DF00B6D3D8 /* Main.storyboard */; };
 		8FA132031F8013DF00B6D3D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FA132021F8013DF00B6D3D8 /* Assets.xcassets */; };
 		8FA132061F8013DF00B6D3D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FA132041F8013DF00B6D3D8 /* LaunchScreen.storyboard */; };
+		8FC7F5631F96AF5400BF24A3 /* pop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8FC7F5621F96AD6500BF24A3 /* pop.wav */; };
 		8FDAFF081F86FF0E00F5C852 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FDAFF071F86FF0E00F5C852 /* GoogleMobileAds.framework */; };
+		8FF354111F96A76100F74F00 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FF354101F96A76100F74F00 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +43,9 @@
 		8FA132021F8013DF00B6D3D8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8FA132051F8013DF00B6D3D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8FA132071F8013DF00B6D3D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8FC7F5621F96AD6500BF24A3 /* pop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop.wav; sourceTree = "<group>"; };
 		8FDAFF071F86FF0E00F5C852 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = Framework/GoogleMobileAds.framework; sourceTree = "<group>"; };
+		8FF354101F96A76100F74F00 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FF354111F96A76100F74F00 /* AVFoundation.framework in Frameworks */,
 				8FDAFF081F86FF0E00F5C852 /* GoogleMobileAds.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -59,6 +64,7 @@
 		8F35C9411F86E970004D8C5A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8FF354101F96A76100F74F00 /* AVFoundation.framework */,
 				8FDAFF071F86FF0E00F5C852 /* GoogleMobileAds.framework */,
 				8F35C9421F86E970004D8C5A /* GoogleMobileAds.framework */,
 			);
@@ -93,6 +99,7 @@
 				8FA131F71F8013DF00B6D3D8 /* GameScene.sks */,
 				8FA131F91F8013DF00B6D3D8 /* Actions.sks */,
 				8FA131FB1F8013DF00B6D3D8 /* GameScene.swift */,
+				8FC7F5611F96AD3300BF24A3 /* Sounds */,
 				8FA131FD1F8013DF00B6D3D8 /* GameViewController.swift */,
 				8FA131FF1F8013DF00B6D3D8 /* Main.storyboard */,
 				8F525D8A1F87272500C2CD4F /* Postgame.swift */,
@@ -102,6 +109,14 @@
 				8FA132071F8013DF00B6D3D8 /* Info.plist */,
 			);
 			path = "BubbleBurst iOS";
+			sourceTree = "<group>";
+		};
+		8FC7F5611F96AD3300BF24A3 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				8FC7F5621F96AD6500BF24A3 /* pop.wav */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,6 +178,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FC7F5631F96AF5400BF24A3 /* pop.wav in Resources */,
 				8FA132011F8013DF00B6D3D8 /* Main.storyboard in Resources */,
 				8FA131F81F8013DF00B6D3D8 /* GameScene.sks in Resources */,
 				8F8EDF191F816EA300336BC2 /* Bubblegum.ttf in Resources */,
@@ -328,6 +344,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CYF2GV4SQ2;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Framework";
 				INFOPLIST_FILE = "BubbleBurst iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -345,6 +362,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CYF2GV4SQ2;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Framework";
 				INFOPLIST_FILE = "BubbleBurst iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
