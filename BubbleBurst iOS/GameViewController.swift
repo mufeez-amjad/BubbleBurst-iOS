@@ -12,13 +12,13 @@ import GameplayKit
 
 class GameViewController: UIViewController {
     
-    @IBOutlet var LivesIcon: UIImageView!
-    @IBOutlet var BubbleIcon: UIImageView!
+    @IBOutlet weak var LivesIcon: UIImageView!
+    @IBOutlet weak var BubbleIcon: UIImageView!
     
-    @IBOutlet var TimerIcon: UIImageView!
+    @IBOutlet weak var TimerIcon: UIImageView!
     
-    @IBOutlet var Back: UIButton!
-    
+    @IBOutlet weak var Back: UIButton!
+
     let scene = GameScene(fileNamed: "GameScene")
     var gameMode: String!
     
@@ -59,6 +59,7 @@ class GameViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        scene?.playAgain()
         if (gameMode == "Endless"){
             UIView.animate(withDuration: 0.7, delay: 0,
                            options: [.curveEaseOut],
@@ -70,10 +71,24 @@ class GameViewController: UIViewController {
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        scene?.gameEnd()
+        if (gameMode == "Endless"){
+            UIView.animate(withDuration: 0.7, delay: 0,
+                           options: [.curveEaseOut],
+                           animations: {
+                            self.Back.center.x -= self.view.bounds.width
+            },
+                           completion: nil
+            )
+        }
+    }
+    
     @objc func segueToGameOver(){
         performSegue(withIdentifier: "gameIsOver", sender: self)
         //self.view.removeFromSuperview()
         //self.view = nil
+        nullify()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -81,6 +96,7 @@ class GameViewController: UIViewController {
             yourVC.score = scene!.score
             yourVC.gameMode = scene!.gameMode
         }
+        
     }
 
     override var shouldAutorotate: Bool {
@@ -107,8 +123,7 @@ class GameViewController: UIViewController {
     @IBAction func unwindToGame(segue: UIStoryboardSegue) {
         scene?.playAgain()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
+    func nullify(){
         if (scene?.bubbleTimer != nil) {
             scene?.bubbleTimer.invalidate()
         }
@@ -124,6 +139,10 @@ class GameViewController: UIViewController {
         scene?.slowMoTimer = nil
         scene?.autoPopTimer = nil
         scene?.superPopTimer = nil
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        //nullify()
     }
     
     @IBAction func backPressed(_ sender: Any) {

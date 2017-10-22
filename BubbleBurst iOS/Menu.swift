@@ -11,29 +11,43 @@ import GoogleMobileAds
 
 var infoScreen = false
 var playScreen = false
+var endlessLocked = true
+var timedLocked = true
 
 class Menu: UIViewController, GADBannerViewDelegate {
     
-    @IBOutlet var Logo: UIImageView!
-    @IBOutlet var Play: UIButton!
-    @IBOutlet var Info: UIButton!
-    @IBOutlet var Back: UIButton!
+    @IBOutlet weak var Logo: UIImageView!
+    @IBOutlet weak var Play: UIButton!
+    @IBOutlet weak var Info: UIButton!
+    @IBOutlet weak var Back: UIButton!
+    @IBOutlet weak var Shop: UIButton!
     
-    @IBOutlet var Classic: UIButton!
-    @IBOutlet var Timed: UIButton!
-    @IBOutlet var Endless: UIButton!
+    @IBOutlet weak var Classic: UIButton!
+    @IBOutlet weak var Timed: UIButton!
+    @IBOutlet weak var Endless: UIButton!
     
-    @IBOutlet var Multiplayer: UIButton!
+    @IBOutlet weak var Multiplayer: UIButton!
     
+    @IBOutlet weak var unlockPopUp: UIImageView!
+    @IBOutlet weak var xButton: UIButton!
+    @IBOutlet weak var costLabel: UILabel!
+    @IBOutlet weak var unlockButton: UIButton!
+    @IBOutlet var blur: UIVisualEffectView!
     
-    @IBOutlet var TimedLock: UIImageView!
-    @IBOutlet var EndlessLock: UIImageView!
+    var endlessSelected = false
+    var timedSelected = false
     
-    @IBOutlet var bannerAd: GADBannerView!
-    @IBOutlet var Instructions: UIImageView!
+    var endlessCost = 75000
+    var timedCost = 50000
+
+    @IBOutlet weak var TimedLock: UIImageView!
+    @IBOutlet weak var EndlessLock: UIImageView!
     
-    @IBOutlet var pointsLabel: UILabel!
-    @IBOutlet var pointsIcon: UIImageView!
+    @IBOutlet weak var bannerAd: GADBannerView!
+    @IBOutlet weak var Instructions: UIImageView!
+    
+    @IBOutlet weak var pointsLabel: UILabel!
+    @IBOutlet weak var pointsIcon: UIImageView!
     
     var gameMode = "Classic"
     var points = 0
@@ -57,10 +71,13 @@ class Menu: UIViewController, GADBannerViewDelegate {
         Play.setImage(UIImage(named: "play"), for: .normal)
         Info.setImage(UIImage(named: "info"), for: .normal)
         Back.setImage(UIImage(named: "back"), for: .normal)
+        Shop.setImage(UIImage(named: "shop"), for: .normal)
+        xButton.setImage(UIImage(named: "xButton"), for: .normal)
+        unlockButton.setImage(UIImage(named: "unlockButton"), for: .normal)
         
-        Classic.setImage(UIImage(named: "classic3"), for: .normal)
-        Timed.setImage(UIImage(named: "timed3"), for: .normal)
-        Endless.setImage(UIImage(named: "endless3"), for: .normal)
+        Classic.setImage(UIImage(named: "classic"), for: .normal)
+        Timed.setImage(UIImage(named: "timed"), for: .normal)
+        Endless.setImage(UIImage(named: "endless"), for: .normal)
         
         Multiplayer.setImage(UIImage(named: "multiplayersoon"), for: .normal)
         
@@ -69,24 +86,48 @@ class Menu: UIViewController, GADBannerViewDelegate {
         Back.addTarget(self, action: #selector(self.buttonClicked), for: .touchUpInside)
         Classic.addTarget(self, action: #selector(self.buttonClicked), for: .touchUpInside)
         
-        self.Instructions.image = UIImage(named: "instructions3")
+        self.Instructions.image = UIImage(named: "instructions")
         
         let defaults = UserDefaults.standard
-        
+        defaults.set(125000, forKey: "Points")
         if (defaults.value(forKeyPath: "Points") == nil){
             points = 0
         }
         else {
             points = defaults.integer(forKey: "Points")
         }
-        pointsLabel.text = "\(points)"
+        
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        let formattedNumber = numberFormatter.string(from: NSNumber(value:points))
+        
+        pointsLabel.text = formattedNumber
+        
+        if (defaults.object(forKey: "EndlessLock") == nil){
+            endlessLocked = true
+        }
+        else if (defaults.bool(forKey: "EndlessLock") == false){
+            //endlessLocked = false
+        }
+        
+        if (defaults.object(forKey: "TimedLock") == nil){
+            timedLocked = true
+        }
+        else if (defaults.bool(forKey: "TimedLock") == false){
+            //timedLocked = false
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         Logo.center.y  -= view.bounds.height
         Play.center.y += view.bounds.height
         Info.center.y += view.bounds.height
+        Shop.center.y += view.bounds.height
+
         Back.center.x -= view.bounds.width
+        
         pointsIcon.center.x -= view.bounds.width
         pointsLabel.center.x -= view.bounds.width
         
@@ -95,14 +136,29 @@ class Menu: UIViewController, GADBannerViewDelegate {
         Classic.center.y += view.bounds.height
         Timed.center.y += view.bounds.height
         TimedLock.center.y += view.bounds.height
-        TimedLock.isHidden = true
+        if (timedLocked) {
+            TimedLock.isHidden = false
+        }
+        else {
+            TimedLock.isHidden = true
+        }
 
         Endless.center.y += view.bounds.height
         EndlessLock.center.y += view.bounds.height
-        EndlessLock.isHidden = true
+        if (endlessLocked) {
+            EndlessLock.isHidden = false
+        }
+        else {
+            EndlessLock.isHidden = true
+        }
 
         Multiplayer.center.y += view.bounds.height
-        
+
+        unlockPopUp.center.y += view.bounds.height
+        xButton.center.y += view.bounds.height
+        unlockButton.center.y += view.bounds.height
+        costLabel.center.y += view.bounds.height
+        blur.alpha = 0.0
         introIn()
     }
     
@@ -118,6 +174,8 @@ class Menu: UIViewController, GADBannerViewDelegate {
                         self.Logo.center.y -= self.view.bounds.height
                         self.Play.center.y += self.view.bounds.height
                         self.Info.center.y += self.view.bounds.height
+                        self.Shop.center.y += self.view.bounds.height
+
                         self.pointsIcon.center.x -= self.view.bounds.width
                         self.pointsLabel.center.x -= self.view.bounds.width
         },
@@ -145,6 +203,8 @@ class Menu: UIViewController, GADBannerViewDelegate {
                        animations: {
                         self.Play.center.y -= self.view.bounds.height
                         self.Info.center.y -= self.view.bounds.height
+                        self.Shop.center.y -= self.view.bounds.height
+
         },
                        completion: nil
         )
@@ -215,6 +275,53 @@ class Menu: UIViewController, GADBannerViewDelegate {
         })
     }
     
+    func unlockIn(){
+        UIView.animate(withDuration: 0.7, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.unlockPopUp.center.y -= self.view.bounds.height
+                        self.xButton.center.y -= self.view.bounds.height
+                        self.unlockButton.center.y -= self.view.bounds.height
+                        self.costLabel.center.y -= self.view.bounds.height
+                        self.Back.center.x -= self.view.bounds.width
+        },
+                       completion: nil
+        )
+        
+        UIView.animate(withDuration: 0.7, delay: 0.7,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.pointsIcon.center.x += self.view.bounds.width
+                        self.pointsLabel.center.x += self.view.bounds.width
+        },
+                       completion: nil
+        )
+        
+        // fade in
+        UIView.animate(withDuration: 1.0, animations: {
+            self.blur.alpha = 0.8
+        },
+                       completion: nil
+        )
+        
+    }
+    func unlockOut(){
+        UIView.animate(withDuration: 0.7, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.unlockPopUp.center.y += self.view.bounds.height
+                        self.xButton.center.y += self.view.bounds.height
+                        self.unlockButton.center.y += self.view.bounds.height
+                        self.costLabel.center.y += self.view.bounds.height
+                        self.pointsIcon.center.x -= self.view.bounds.width
+                        self.pointsLabel.center.x -= self.view.bounds.width
+                        self.Back.center.x += self.view.bounds.width
+                        self.blur.alpha = 0.0
+        },
+                       completion: nil
+        )
+    }
+    
     
     @objc func buttonClicked(_ sender: AnyObject?) {
         
@@ -256,12 +363,77 @@ class Menu: UIViewController, GADBannerViewDelegate {
     }
     
     @IBAction func timedPressed(_ sender: Any) {
-        gameMode = "Timed"
-        performSegue(withIdentifier: "startPlay", sender: self)
+        if (!timedLocked) {
+            gameMode = "Timed"
+            performSegue(withIdentifier: "startPlay", sender: self)
+        }
+        else {
+            if points < timedCost {
+                unlockButton.isHidden = true
+            }
+            else {
+                unlockButton.isHidden = false
+            }
+            timedSelected = true
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = NumberFormatter.Style.decimal
+            let formattedNumber = numberFormatter.string(from: NSNumber(value:timedCost))
+            costLabel.text = formattedNumber
+            unlockIn()
+        }
     }
     @IBAction func endlessPressed(_ sender: Any) {
-        gameMode = "Endless"
-        performSegue(withIdentifier: "startPlay", sender: self)
+        if (!endlessLocked) {
+            gameMode = "Endless"
+            performSegue(withIdentifier: "startPlay", sender: self)
+        }
+        else {
+            if points < endlessCost {
+                unlockButton.isHidden = true
+            }
+            else {
+                unlockButton.isHidden = false
+            }
+            endlessSelected = true
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = NumberFormatter.Style.decimal
+            let formattedNumber = numberFormatter.string(from: NSNumber(value:endlessCost))
+            costLabel.text = formattedNumber
+            unlockIn()
+        }
+    }
+    
+    @IBAction func xButtonPressed(_ sender: Any) {
+        unlockOut()
+        timedSelected = false
+        endlessSelected = false
+    }
+    
+    @IBAction func unlockPressed(_ sender: Any) {
+        let defaults = UserDefaults.standard
+        
+        if (endlessSelected && points >= endlessCost){
+            points -= endlessCost
+            defaults.set(points, forKey: "Points")
+            defaults.set(false, forKey: "EndlessLock")
+            endlessLocked = false
+            EndlessLock.isHidden = true
+            unlockOut()
+        }
+        else if (timedSelected && points >= timedCost){
+            points -= timedCost
+            defaults.set(points, forKey: "Points")
+            defaults.set(false, forKey: "TimedLock")
+            timedLocked = false
+            TimedLock.isHidden = true
+            unlockOut()
+        }
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        let formattedNumber = numberFormatter.string(from: NSNumber(value:points))
+        
+        pointsLabel.text = formattedNumber
     }
     
     @IBAction func multiplayerPressed(_ sender: Any) {
