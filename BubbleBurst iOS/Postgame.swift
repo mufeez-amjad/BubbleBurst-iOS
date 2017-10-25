@@ -26,8 +26,10 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     @IBOutlet weak var bannerAd: GADBannerView!
     
     var score: Int = 0
+    var time: Int = 0
     var highScore: Int = 0
     var gameMode: String!
+    var coins: Int = 0
     
     var lifeAd: GADRewardBasedVideoAd?
     var interstitial: GADInterstitial!
@@ -36,7 +38,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if (gameMode != "Classic") {
+        if (gameMode != "Classic" || gameMode != "Timed") {
             videoAdButton.isHidden = true
         }
         
@@ -67,33 +69,71 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         
         let defaults = UserDefaults.standard
         
-        if (defaults.value(forKeyPath: gameMode) == nil){
-            defaults.set(score, forKey: gameMode)
-            highScoreLabel.text = "New Best!"
-        }
-        else {
-            let readHighScore = defaults.integer(forKey: gameMode)
-            if readHighScore < score {
-                highScore = score
+        if (gameMode != "Timed"){
+            if (defaults.value(forKeyPath: gameMode) == nil){
                 defaults.set(score, forKey: gameMode)
                 highScoreLabel.text = "New Best!"
             }
             else {
-                highScore = readHighScore
-                highScoreLabel.text = "Best: \(highScore)"
+                let readHighScore = defaults.integer(forKey: gameMode)
+                if readHighScore < score {
+                    highScore = score
+                    defaults.set(score, forKey: gameMode)
+                    highScoreLabel.text = "New Best!"
+                }
+                else {
+                    highScore = readHighScore
+                    highScoreLabel.text = "Best: \(highScore)"
+                }
             }
         }
-        
-        if (defaults.value(forKeyPath: "Points") == nil) {
-            defaults.set(score, forKey: "Points")
+        else {
+            if (defaults.value(forKeyPath: gameMode) == nil){
+                defaults.set(time, forKey: gameMode)
+                highScoreLabel.text = "New Best!"
+            }
+            else {
+                let readHighScore = defaults.integer(forKey: gameMode)
+                if readHighScore < time {
+                    highScore = time
+                    defaults.set(time, forKey: gameMode)
+                    highScoreLabel.text = "New Best!"
+                }
+                else {
+                    highScore = readHighScore
+                    highScoreLabel.text = "Best: \(highScore)"
+                    let minutes = Int(highScore) / 60 % 60
+                    let seconds = Int(highScore) % 60
+                    highScoreLabel.text = "Best: \(String(format:"%02i:%02i", minutes, seconds))"
+                }
+            }
+        }
+            if (defaults.value(forKeyPath: "Points") == nil) {
+                defaults.set(score, forKey: "Points")
+            }
+            else {
+                let readPoints = defaults.integer(forKey: "Points")
+                let points = readPoints + score
+                defaults.set(points, forKey: "Points")
+            }
+
+        if (defaults.value(forKeyPath: "Coins") == nil) {
+            defaults.set(coins, forKey: "Coins")
         }
         else {
-            let readPoints = defaults.integer(forKey: "Points")
-            let points = readPoints + score
-            defaults.set(points, forKey: "Points")
+            let readCoins = defaults.integer(forKey: "Coins")
+            let newCoins = readCoins + coins
+            defaults.set(newCoins, forKey: "Coins")
         }
         
-        scoreLabel.text = "Score: \(score)"
+        if (gameMode != "Timed") {
+            scoreLabel.text = "Score: \(score)"
+        }
+        else {
+            let minutes = Int(time) / 60 % 60
+            let seconds = Int(time) % 60
+            scoreLabel.text = "Time: \(String(format:"%02i:%02i", minutes, seconds))"
+        }
         //scoreLabel.center.x = self.view.center.x
         
         highScoreLabel.center.x = self.view.center.x

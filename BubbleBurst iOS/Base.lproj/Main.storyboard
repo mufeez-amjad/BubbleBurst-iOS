@@ -41,7 +41,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Info"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1f6-TQ-Xxk">
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1f6-TQ-Xxk">
                                 <rect key="frame" x="246" y="397" width="70" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Shop"/>
@@ -97,24 +97,13 @@
                             </button>
                             <visualEffectView opaque="NO" alpha="0.65000000000000002" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OMS-zS-k5r" userLabel="Blur">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="eBr-sh-io0">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                                 <blurEffect style="dark"/>
                             </visualEffectView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Bubble" translatesAutoresizingMaskIntoConstraints="NO" id="AOU-fz-jjs">
-                                <rect key="frame" x="16" y="612" width="35" height="35"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k60-FV-Zk2">
-                                <rect key="frame" x="65" y="619" width="282" height="21"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d54-bM-EmV" customClass="GADBannerView">
                                 <rect key="frame" x="27" y="0.0" width="320" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -150,6 +139,28 @@
                                     <action selector="unlockPressed:" destination="e2B-Fl-lWH" eventType="touchDown" id="8G1-UZ-VeO"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gB2-GC-ou4">
+                                <rect key="frame" x="62" y="625" width="282" height="21"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k60-FV-Zk2">
+                                <rect key="frame" x="62" y="582" width="282" height="21"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="coin6" translatesAutoresizingMaskIntoConstraints="NO" id="Vx1-sb-AtH">
+                                <rect key="frame" x="12" y="618" width="35" height="35"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Bubble" translatesAutoresizingMaskIntoConstraints="NO" id="AOU-fz-jjs">
+                                <rect key="frame" x="12" y="575" width="35" height="35"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -173,6 +184,8 @@
                         <outlet property="TimedLock" destination="Cu7-QG-byV" id="SNN-dq-Fkz"/>
                         <outlet property="bannerAd" destination="d54-bM-EmV" id="If8-T1-TIw"/>
                         <outlet property="blur" destination="OMS-zS-k5r" id="C7e-2y-7NE"/>
+                        <outlet property="coinsIcon" destination="Vx1-sb-AtH" id="NOf-bK-8IF"/>
+                        <outlet property="coinsLabel" destination="gB2-GC-ou4" id="XDI-qy-HhS"/>
                         <outlet property="costLabel" destination="ctu-dn-uxU" id="dt5-S0-MMs"/>
                         <outlet property="pointsIcon" destination="AOU-fz-jjs" id="iqu-6y-Jos"/>
                         <outlet property="pointsLabel" destination="k60-FV-Zk2" id="RFz-PW-cCI"/>
@@ -214,6 +227,10 @@
                                     <action selector="backPressed:" destination="BV1-FR-VrT" eventType="touchDown" id="Ba7-vG-kaL"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="coin6" translatesAutoresizingMaskIntoConstraints="NO" id="pzq-ZI-0kS">
+                                <rect key="frame" x="16" y="128" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
@@ -223,6 +240,7 @@
                         <outlet property="BubbleIcon" destination="sf8-Mn-QGS" id="wtP-eC-eMy"/>
                         <outlet property="LivesIcon" destination="f9O-AW-jHr" id="gO6-OU-zKU"/>
                         <outlet property="TimerIcon" destination="4fY-jj-UTi" id="nC7-ws-qnR"/>
+                        <outlet property="coinsIcon" destination="pzq-ZI-0kS" id="6co-pP-fev"/>
                         <segue destination="NLy-4g-DwG" kind="modal" identifier="gameIsOver" id="FaO-yk-SI8"/>
                     </connections>
                 </viewController>
@@ -292,7 +310,7 @@
                                     <segue destination="e2B-Fl-lWH" kind="presentation" id="nb3-89-iZZ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EO3-SD-HuV">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EO3-SD-HuV">
                                 <rect key="frame" x="250" y="430" width="70" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -326,6 +344,7 @@
         <image name="Bubble" width="90" height="90"/>
         <image name="Lives" width="1018" height="1018"/>
         <image name="Score" width="1017" height="1018"/>
+        <image name="coin6" width="110" height="111"/>
         <image name="gameover" width="621" height="1104"/>
         <image name="locked" width="533" height="236"/>
         <image name="logo" width="264" height="168"/>

@@ -37,8 +37,8 @@ class Menu: UIViewController, GADBannerViewDelegate {
     var endlessSelected = false
     var timedSelected = false
     
-    var endlessCost = 75000
-    var timedCost = 50000
+    var endlessCost = 80000
+    var timedCost = 35000
 
     @IBOutlet weak var TimedLock: UIImageView!
     @IBOutlet weak var EndlessLock: UIImageView!
@@ -49,8 +49,12 @@ class Menu: UIViewController, GADBannerViewDelegate {
     @IBOutlet weak var pointsLabel: UILabel!
     @IBOutlet weak var pointsIcon: UIImageView!
     
+    @IBOutlet weak var coinsIcon: UIImageView!
+    @IBOutlet weak var coinsLabel: UILabel!
+    
     var gameMode = "Classic"
     var points = 0
+    var coins = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,7 +93,7 @@ class Menu: UIViewController, GADBannerViewDelegate {
         self.Instructions.image = UIImage(named: "instructions")
         
         let defaults = UserDefaults.standard
-        defaults.set(125000, forKey: "Points")
+        //defaults.set(100000, forKey: "Points")
         if (defaults.value(forKeyPath: "Points") == nil){
             points = 0
         }
@@ -97,6 +101,12 @@ class Menu: UIViewController, GADBannerViewDelegate {
             points = defaults.integer(forKey: "Points")
         }
         
+        if (defaults.value(forKeyPath: "Coins") == nil) {
+            coins = 0
+        }
+        else {
+            coins = defaults.integer(forKey: "Coins")
+        }
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = NumberFormatter.Style.decimal
@@ -104,18 +114,21 @@ class Menu: UIViewController, GADBannerViewDelegate {
         
         pointsLabel.text = formattedNumber
         
+        coinsLabel.text = "\(coins)"
+        
+        
         if (defaults.object(forKey: "EndlessLock") == nil){
             endlessLocked = true
         }
         else if (defaults.bool(forKey: "EndlessLock") == false){
-            //endlessLocked = false
+            endlessLocked = false
         }
         
         if (defaults.object(forKey: "TimedLock") == nil){
             timedLocked = true
         }
         else if (defaults.bool(forKey: "TimedLock") == false){
-            //timedLocked = false
+            timedLocked = false
         }
         
     }
@@ -130,6 +143,9 @@ class Menu: UIViewController, GADBannerViewDelegate {
         
         pointsIcon.center.x -= view.bounds.width
         pointsLabel.center.x -= view.bounds.width
+        
+        coinsIcon.center.x -= view.bounds.width
+        coinsLabel.center.x -= view.bounds.width
         
         Instructions.center.y -= view.bounds.height
         
@@ -178,6 +194,9 @@ class Menu: UIViewController, GADBannerViewDelegate {
 
                         self.pointsIcon.center.x -= self.view.bounds.width
                         self.pointsLabel.center.x -= self.view.bounds.width
+                        
+                        self.coinsIcon.center.x -= self.view.bounds.width
+                        self.coinsLabel.center.x -= self.view.bounds.width
         },
                        completion: { finished in
                         if (menu == 1) {
@@ -214,6 +233,8 @@ class Menu: UIViewController, GADBannerViewDelegate {
                        animations: {
                         self.pointsIcon.center.x += self.view.bounds.width
                         self.pointsLabel.center.x += self.view.bounds.width
+                        self.coinsIcon.center.x += self.view.bounds.width
+                        self.coinsLabel.center.x += self.view.bounds.width
         },
                        completion: nil
         )
@@ -293,6 +314,8 @@ class Menu: UIViewController, GADBannerViewDelegate {
                        animations: {
                         self.pointsIcon.center.x += self.view.bounds.width
                         self.pointsLabel.center.x += self.view.bounds.width
+                        self.coinsIcon.center.x += self.view.bounds.width
+                        self.coinsLabel.center.x += self.view.bounds.width
         },
                        completion: nil
         )
@@ -315,6 +338,8 @@ class Menu: UIViewController, GADBannerViewDelegate {
                         self.costLabel.center.y += self.view.bounds.height
                         self.pointsIcon.center.x -= self.view.bounds.width
                         self.pointsLabel.center.x -= self.view.bounds.width
+                        self.coinsIcon.center.x -= self.view.bounds.width
+                        self.coinsLabel.center.x -= self.view.bounds.width
                         self.Back.center.x += self.view.bounds.width
                         self.blur.alpha = 0.0
         },

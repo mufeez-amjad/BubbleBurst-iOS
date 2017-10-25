@@ -12,10 +12,10 @@ import GameplayKit
 
 class GameViewController: UIViewController {
     
-    @IBOutlet weak var LivesIcon: UIImageView!
     @IBOutlet weak var BubbleIcon: UIImageView!
-    
+    @IBOutlet weak var LivesIcon: UIImageView!
     @IBOutlet weak var TimerIcon: UIImageView!
+    @IBOutlet weak var coinsIcon: UIImageView!
     
     @IBOutlet weak var Back: UIButton!
 
@@ -30,6 +30,10 @@ class GameViewController: UIViewController {
         
         if (gameMode == "Timed" || gameMode == "Endless"){
             LivesIcon.isHidden = true
+        }
+        
+        if (gameMode == "Endless"){
+            coinsIcon.frame.origin.y = LivesIcon.frame.origin.y
         }
         
         if (gameMode != "Timed"){
@@ -94,7 +98,9 @@ class GameViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let yourVC = segue.destination as? Postgame {
             yourVC.score = scene!.score
+            yourVC.time = scene!.time
             yourVC.gameMode = scene!.gameMode
+            yourVC.coins = scene!.coinCount
         }
         
     }
