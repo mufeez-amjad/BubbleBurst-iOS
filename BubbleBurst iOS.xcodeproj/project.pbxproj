@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F0104E91FAA951900392E56 /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8F0104E81FAA951900392E56 /* coin.mp3 */; };
 		8F2EA0891F86C507009AC742 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2EA0881F86C507009AC742 /* Menu.swift */; };
 		8F525D8B1F87272500C2CD4F /* Postgame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F525D8A1F87272500C2CD4F /* Postgame.swift */; };
+		8F65F8E31FA4126200041FB0 /* bgMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8F65F8E21FA4126200041FB0 /* bgMusic.mp3 */; };
+		8F65F8E51FA4FC1300041FB0 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F65F8E41FA4FC1300041FB0 /* Shop.swift */; };
 		8F8EDF191F816EA300336BC2 /* Bubblegum.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F8EDF181F816E8D00336BC2 /* Bubblegum.ttf */; };
 		8F8EDF1C1F82E1CA00336BC2 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8F8EDF1A1F82E1CA00336BC2 /* MyParticle.sks */; };
 		8F8EDF1D1F82E1CA00336BC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F8EDF1B1F82E1CA00336BC2 /* Assets.xcassets */; };
@@ -26,10 +29,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8F0104E81FAA951900392E56 /* coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coin.mp3; sourceTree = "<group>"; };
 		8F2EA0881F86C507009AC742 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		8F35C9421F86E970004D8C5A /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = "../../../Downloads/GoogleMobileAdsSdkiOS-7.24.1/GoogleMobileAds.framework"; sourceTree = "<group>"; };
 		8F35C9441F86EB36004D8C5A /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		8F525D8A1F87272500C2CD4F /* Postgame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Postgame.swift; sourceTree = "<group>"; };
+		8F65F8E21FA4126200041FB0 /* bgMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgMusic.mp3; sourceTree = "<group>"; };
+		8F65F8E41FA4FC1300041FB0 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		8F8EDF181F816E8D00336BC2 /* Bubblegum.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bubblegum.ttf; sourceTree = "<group>"; };
 		8F8EDF1A1F82E1CA00336BC2 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
 		8F8EDF1B1F82E1CA00336BC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -103,6 +109,7 @@
 				8FA131FD1F8013DF00B6D3D8 /* GameViewController.swift */,
 				8FA131FF1F8013DF00B6D3D8 /* Main.storyboard */,
 				8F525D8A1F87272500C2CD4F /* Postgame.swift */,
+				8F65F8E41FA4FC1300041FB0 /* Shop.swift */,
 				8F2EA0881F86C507009AC742 /* Menu.swift */,
 				8FA132021F8013DF00B6D3D8 /* Assets.xcassets */,
 				8FA132041F8013DF00B6D3D8 /* LaunchScreen.storyboard */,
@@ -115,6 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				8FC7F5621F96AD6500BF24A3 /* pop.wav */,
+				8F65F8E21FA4126200041FB0 /* bgMusic.mp3 */,
+				8F0104E81FAA951900392E56 /* coin.mp3 */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -185,6 +194,8 @@
 				8FA132031F8013DF00B6D3D8 /* Assets.xcassets in Resources */,
 				8F8EDF1C1F82E1CA00336BC2 /* MyParticle.sks in Resources */,
 				8FA132061F8013DF00B6D3D8 /* LaunchScreen.storyboard in Resources */,
+				8F65F8E31FA4126200041FB0 /* bgMusic.mp3 in Resources */,
+				8F0104E91FAA951900392E56 /* coin.mp3 in Resources */,
 				8F8EDF1D1F82E1CA00336BC2 /* Assets.xcassets in Resources */,
 				8FA131FA1F8013DF00B6D3D8 /* Actions.sks in Resources */,
 			);
@@ -200,6 +211,7 @@
 				8FA131FC1F8013DF00B6D3D8 /* GameScene.swift in Sources */,
 				8FA131FE1F8013DF00B6D3D8 /* GameViewController.swift in Sources */,
 				8F525D8B1F87272500C2CD4F /* Postgame.swift in Sources */,
+				8F65F8E51FA4FC1300041FB0 /* Shop.swift in Sources */,
 				8F2EA0891F86C507009AC742 /* Menu.swift in Sources */,
 				8FA131F61F8013DF00B6D3D8 /* AppDelegate.swift in Sources */,
 			);

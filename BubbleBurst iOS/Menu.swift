@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMobileAds
+import AVFoundation
 
 var infoScreen = false
 var playScreen = false
@@ -15,7 +16,8 @@ var endlessLocked = true
 var timedLocked = true
 
 class Menu: UIViewController, GADBannerViewDelegate {
-    
+    let defaults = UserDefaults.standard
+
     @IBOutlet weak var Logo: UIImageView!
     @IBOutlet weak var Play: UIButton!
     @IBOutlet weak var Info: UIButton!
@@ -37,14 +39,22 @@ class Menu: UIViewController, GADBannerViewDelegate {
     var endlessSelected = false
     var timedSelected = false
     
-    var endlessCost = 80000
-    var timedCost = 35000
+    var endlessCost = 50000
+    var timedCost = 20000
 
     @IBOutlet weak var TimedLock: UIImageView!
     @IBOutlet weak var EndlessLock: UIImageView!
     
+    @IBOutlet weak var musicButton: UIButton!
+    
+    @IBOutlet weak var soundButton: UIButton!
+    @IBOutlet weak var colorButton: UIButton!
+    @IBOutlet weak var dropdown: UIImageView!
+    @IBOutlet weak var Settings: UIButton!
+    
     @IBOutlet weak var bannerAd: GADBannerView!
     @IBOutlet weak var Instructions: UIImageView!
+    
     
     @IBOutlet weak var pointsLabel: UILabel!
     @IBOutlet weak var pointsIcon: UIImageView!
@@ -56,7 +66,20 @@ class Menu: UIViewController, GADBannerViewDelegate {
     var points = 0
     var coins = 0
     
+    static var player: AVAudioPlayer?
+    
+    var musicImage: String!
+    var soundImage: String!
+    var colorImage: String!
+    
+    static var music = true
+    static var sound = true
+    static var color = true
+    
+    var settings = false
+    
     override func viewDidLoad() {
+        defaults.setValue(10000, forKey: "Coins")
         super.viewDidLoad()
         
         //Request
@@ -76,12 +99,52 @@ class Menu: UIViewController, GADBannerViewDelegate {
         Info.setImage(UIImage(named: "info"), for: .normal)
         Back.setImage(UIImage(named: "back"), for: .normal)
         Shop.setImage(UIImage(named: "shop"), for: .normal)
+        Settings.setImage(UIImage(named: "settings"), for: .normal)
         xButton.setImage(UIImage(named: "xButton"), for: .normal)
         unlockButton.setImage(UIImage(named: "unlockButton"), for: .normal)
         
         Classic.setImage(UIImage(named: "classic"), for: .normal)
         Timed.setImage(UIImage(named: "timed"), for: .normal)
         Endless.setImage(UIImage(named: "endless"), for: .normal)
+
+        if (defaults.value(forKeyPath: "music") == nil || defaults.string(forKey: "music") == "on"){
+            Menu.music = true
+        }
+        else {
+            Menu.music = false
+        }
+        if (Menu.music == true) {
+            musicButton.setImage(UIImage(named: "musicOn"), for: .normal)
+        }
+        else {
+            musicButton.setImage(UIImage(named: "musicOff"), for: .normal)
+        }
+        
+        if (defaults.value(forKeyPath: "sound") == nil || defaults.string(forKey: "sound") == "on"){
+            Menu.sound = true
+        }
+        else {
+            Menu.sound = false
+        }
+        if (Menu.sound == true) {
+            soundButton.setImage(UIImage(named: "soundOn"), for: .normal)
+        }
+        else {
+            soundButton.setImage(UIImage(named: "soundOff"), for: .normal)
+        }
+        
+        if (defaults.value(forKeyPath: "color") == nil || defaults.string(forKey: "color") == "off"){
+            Menu.color = false
+        }
+        else {
+            Menu.color = true
+        }
+        if (Menu.color == true) {
+            colorButton.setImage(UIImage(named: "colorOff"), for: .normal)
+        }
+        else {
+            colorButton.setImage(UIImage(named: "colorOn"), for: .normal)
+        }
         
         Multiplayer.setImage(UIImage(named: "multiplayersoon"), for: .normal)
         
@@ -90,9 +153,11 @@ class Menu: UIViewController, GADBannerViewDelegate {
         Back.addTarget(self, action: #selector(self.buttonClicked), for: .touchUpInside)
         Classic.addTarget(self, action: #selector(self.buttonClicked), for: .touchUpInside)
         
-        self.Instructions.image = UIImage(named: "instructions")
+        dropdown.isHidden = true
+        musicButton.isHidden = true
+        soundButton.isHidden = true
+        colorButton.isHidden = true
         
-        let defaults = UserDefaults.standard
         //defaults.set(100000, forKey: "Points")
         if (defaults.value(forKeyPath: "Points") == nil){
             points = 0
@@ -130,7 +195,16 @@ class Menu: UIViewController, GADBannerViewDelegate {
         else if (defaults.bool(forKey: "TimedLock") == false){
             timedLocked = false
         }
+        if (Menu.music) {
+            AppDelegate.playMusic()
+        }
         
+        if (!Menu.color) {
+            self.Instructions.image = UIImage(named: "instructions2")
+        }
+        else {
+            self.Instructions.image = UIImage(named: "instructions")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -138,6 +212,7 @@ class Menu: UIViewController, GADBannerViewDelegate {
         Play.center.y += view.bounds.height
         Info.center.y += view.bounds.height
         Shop.center.y += view.bounds.height
+        Settings.center.y += view.bounds.height
 
         Back.center.x -= view.bounds.width
         
@@ -191,6 +266,7 @@ class Menu: UIViewController, GADBannerViewDelegate {
                         self.Play.center.y += self.view.bounds.height
                         self.Info.center.y += self.view.bounds.height
                         self.Shop.center.y += self.view.bounds.height
+                        self.Settings.center.y += self.view.bounds.height
 
                         self.pointsIcon.center.x -= self.view.bounds.width
                         self.pointsLabel.center.x -= self.view.bounds.width
@@ -206,6 +282,8 @@ class Menu: UIViewController, GADBannerViewDelegate {
                             self.playIn()
                         }
         })
+        settings = false
+        hideSettings()
     }
     
     func introIn(){
@@ -223,7 +301,7 @@ class Menu: UIViewController, GADBannerViewDelegate {
                         self.Play.center.y -= self.view.bounds.height
                         self.Info.center.y -= self.view.bounds.height
                         self.Shop.center.y -= self.view.bounds.height
-
+                        self.Settings.center.y -= self.view.bounds.height
         },
                        completion: nil
         )
@@ -235,6 +313,32 @@ class Menu: UIViewController, GADBannerViewDelegate {
                         self.pointsLabel.center.x += self.view.bounds.width
                         self.coinsIcon.center.x += self.view.bounds.width
                         self.coinsLabel.center.x += self.view.bounds.width
+        },
+                       completion: nil
+        )
+    }
+    
+    func revealSettings(){
+        UIView.animate(withDuration: 1, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.dropdown.isHidden = false
+                        self.colorButton.isHidden = false
+                        self.soundButton.isHidden = false
+                        self.musicButton.isHidden = false
+        },
+                       completion: nil
+        )
+    }
+    
+    func hideSettings(){
+        UIView.animate(withDuration: 1, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.dropdown.isHidden = true
+                        self.colorButton.isHidden = true
+                        self.soundButton.isHidden = true
+                        self.musicButton.isHidden = true
         },
                        completion: nil
         )
@@ -464,6 +568,55 @@ class Menu: UIViewController, GADBannerViewDelegate {
     @IBAction func multiplayerPressed(_ sender: Any) {
     }
     
+    @IBAction func settingsPressed(_ sender: Any) {
+        settings = !settings
+        if (settings) {
+            revealSettings()
+        }
+        else {
+            hideSettings()
+        }
+    }
+    
+    @IBAction func musicPressed(_ sender: Any) {
+        Menu.music = !Menu.music
+        if (!Menu.music){
+            musicButton.setImage(UIImage(named: "musicOff"), for: .normal)
+            defaults.set("off", forKey: "music")
+            AppDelegate.player?.stop()
+        }
+        else {
+            musicButton.setImage(UIImage(named: "musicOn"), for: .normal)
+            defaults.set("on", forKey: "music")
+            AppDelegate.playMusic()
+        }
+    }
+    
+    @IBAction func soundPressed(_ sender: Any) {
+        Menu.sound = !Menu.sound
+        if (!Menu.sound){
+            soundButton.setImage(UIImage(named: "soundOff"), for: .normal)
+            defaults.set("off", forKey: "sound")
+        }
+        else {
+            soundButton.setImage(UIImage(named: "soundOn"), for: .normal)
+            defaults.set("on", forKey: "sound")
+        }
+    }
+    
+    @IBAction func colorPressed(_ sender: Any) {
+        Menu.color = !Menu.color
+        if (!Menu.color){
+            colorButton.setImage(UIImage(named: "colorOn"), for: .normal)
+            defaults.set("off", forKey: "color")
+            self.Instructions.image = UIImage(named: "instructions2")
+        }
+        else {
+            colorButton.setImage(UIImage(named: "colorOff"), for: .normal)
+            defaults.set("on", forKey: "color")
+            self.Instructions.image = UIImage(named: "instructions")
+        }
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let yourVC = segue.destination as? GameViewController {
             yourVC.gameMode = gameMode

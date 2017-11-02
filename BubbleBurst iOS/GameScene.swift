@@ -11,7 +11,8 @@ import GameplayKit
 import AVFoundation
 
 class GameScene: SKScene {
-    
+    let defaults = UserDefaults.standard
+
     var bubbles = [Bubble]()
     var bubbleTimer:Timer!
     
@@ -48,7 +49,7 @@ class GameScene: SKScene {
     var slowMo = 3
     var freeze = 5
     var superPop = 3
-    var autoPop = 10
+    var autoPop = 5
     
     var isOneUp = false
     var isSlowMo = false
@@ -90,9 +91,30 @@ class GameScene: SKScene {
     
     var startsIn = 3
     var gameMode: String!
-    var player: AVAudioPlayer?
+    
+    var previousLocation = CGPoint(x:-100,y: -100)
+    
+    var bubblePlayer: AVAudioPlayer?
+    var coinPlayer: AVAudioPlayer?
+    
+    var autoLevel = 0
+    var slowLevel = 1
+    var lifeLevel = 1
     
     override func sceneDidLoad() {
+        
+        if !(defaults.object(forKey: "AutoPop") == nil){
+           autoLevel = defaults.integer(forKey: "AutoPop")
+        }
+        
+        if !(defaults.object(forKey: "SlowMo") == nil){
+            slowLevel = defaults.integer(forKey: "SlowMo")
+        }
+        
+        if !(defaults.object(forKey: "Life") == nil){
+            lifeLevel = defaults.integer(forKey: "Life")
+        }
+        
         let bg = SKSpriteNode(imageNamed: "BG (750x1334)")
         
         bg.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
@@ -182,24 +204,10 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         Bubble.gameMode = gameMode
-        Bubble.isPaused = true
-        GameScene.gamePaused = true
-        /*bubbleTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(addBubble), userInfo: nil, repeats: true)
-        coinTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(addCoin), userInfo: nil, repeats: true)
-        oneUpTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(oneUpCountdown), userInfo: nil, repeats: true)
-        superPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(superPopCountdown), userInfo: nil, repeats: true)
-        slowMoTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(slowMoCountdown), userInfo: nil, repeats: true)
-        freezeTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(freezeCountdown), userInfo: nil, repeats: true)
-        autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(autoPopCountdown), userInfo: nil, repeats: true)
-        
-        bubbleTimer.invalidate()
-        bubbleTimer = nil
-        coinTimer.invalidate()
-        oneUpTimer.invalidate()
-        superPopTimer.invalidate()
-        slowMoTimer.invalidate()
-        freezeTimer.invalidate()
-        autoPopTimer.invalidate()*/
+        if (gameMode == "Timed"){
+            Bubble.isPaused = true
+            GameScene.gamePaused = true
+        }
         
         scoreLabel = SKLabelNode(fontNamed: "Bubblegum")
         scoreLabel.text = "\(score)"
@@ -282,11 +290,38 @@ class GameScene: SKScene {
             //player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
             
             /* iOS 10 and earlier require the following line:*/
-            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+            bubblePlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
             
-            guard let player = player else { return }
+            guard let bubblePlayer = bubblePlayer else { return }
             
-            player.play()
+            bubblePlayer.play()
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func playCoin() {
+        
+        guard let url = Bundle.main.url(forResource: "coin", withExtension: "mp3") else {
+            print("url not found")
+            return
+        }
+        
+        /*var backgroundaudio = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource( "seve", ofType: "mp3")!), error: nil)*/
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
+            //player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+            
+            /* iOS 10 and earlier require the following line:*/
+            coinPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+            
+            guard let coinPlayer = coinPlayer else { return }
+            
+            coinPlayer.play()
             
         } catch let error {
             print(error.localizedDescription)
@@ -325,11 +360,6 @@ class GameScene: SKScene {
             time += 1
             timeLabel.text = "\(time)"
         }
-        /*else {
-         gameOver = true
-         gameTimer.invalidate()
-         }*/
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -340,126 +370,15 @@ class GameScene: SKScene {
         }
         let touch = touches.first as! UITouch
         let touchLocation = touch.location(in: self)
+        previousLocation = touchLocation
         pathEmitter?.position = touchLocation
-        
-        if touch == touches.first {
-            
-            let touch = touches.first!
-            
-            for (i,coin) in coins.enumerated().reversed() {
-                if coin.contains(touch.location(in: self)) {
-                    coin.removeFromParent()
-                    coins.remove(at: i)
-                    coinCount += 1
-                }
-            }
-            
-            for (i,bubble) in bubbles.enumerated().reversed() {
-                if bubble.contains(touch.location(in: self)) {
-                    //playPop()
-                    if bubble.ifGreen() {
-                        if (gameMode == "Classic"){
-                            powerUp(bubble: bubble)
-                        }
-                        else if (gameMode == "Endless"){
-                            endlessPowerUp(bubble: bubble)
-                        }
-                        else {
-                            timedPowerUp(bubble: bubble)
-                        }
-                        if bubbles.count == 0 {
-                            break
-                        }
-                    }
-                    
-                    if bubble.ifRed() {
-                        if (gameMode == "Classic") {
-                            lives = 0
-                            gameOver = true
-                        }
-                        else {
-                            if (score > 5){
-                                score -= 6
-                            }
-                            else {
-                                score = 0
-                                gameOver = true
-                            }
-                        }
-                    }
-                    
-                    bubble.removeFromParent()
-                    bubbles.remove(at: i)
-                    score += 1
-                }
-            }
-            
-        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         let touch = touches.first as! UITouch
         let touchLocation = touch.location(in: self)
+        previousLocation = touchLocation
         pathEmitter?.position = touchLocation
-        
-        for touch in touches {
-            //let position = touch.location(in: view)
-            
-            for (i,coin) in coins.enumerated().reversed() {
-                if coin.contains(touch.location(in: self)) {
-                    coin.removeFromParent()
-                    coins.remove(at: i)
-                    coinCount += 1
-                }
-            }
-            
-            for (i,bubble) in bubbles.enumerated().reversed() {
-                if bubble.contains(touch.location(in: self)) {
-                    //playPop()
-                    if bubble.ifGreen() {
-                        if (gameMode == "Classic"){
-                            powerUp(bubble: bubble)
-                        }
-                        else if (gameMode == "Endless"){
-                            endlessPowerUp(bubble: bubble)
-                        }
-                        else {
-                            timedPowerUp(bubble: bubble)
-                        }
-                        if bubbles.count == 0 {
-                            break
-                        }
-                    }
-                    
-                    if bubble.ifRed() {
-                        if (gameMode == "Classic") {
-                            lives = 0
-                            gameOver = true
-                        }
-                        if (gameMode == "Timed"){
-                            gameOver = true
-                            gameTimer.invalidate()
-                            gameTimer = nil
-                        }
-                        else {
-                            if (score > 5){
-                                score -= 6
-                            }
-                            else {
-                                score = 0
-                                gameOver = true
-                            }
-                        }
-                    }
-                    bubble.removeFromParent()
-                    bubbles.remove(at: i)
-                    score += 1
-                    //playPop()
-                    
-                }
-            }
-        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -472,11 +391,17 @@ class GameScene: SKScene {
             GameScene.gamePaused = true
             if (bubbleTimer != nil){
                 bubbleTimer.invalidate()
+                bubbleTimer = nil
             }
-            gameTimer.invalidate()
-            gameTimer = nil
-            coinTimer.invalidate()
-            coinTimer = nil
+            if (gameTimer != nil){
+                gameTimer.invalidate()
+                gameTimer = nil
+            }
+            if (coinTimer != nil){
+                coinTimer.invalidate()
+                coinTimer = nil
+            }
+            
             Bubble.isPaused = true
         }
         if (gameMode == "Timed" && startsIn <= -1){
@@ -484,58 +409,37 @@ class GameScene: SKScene {
             if (bubbleTimer != nil){
                 bubbleTimer.invalidate()
             }
-            gameTimer.invalidate()
-            coinTimer.invalidate()
-            Bubble.isPaused = true
-        }
-        
-    }
-    func timedPowerUp(bubble: Bubble){
-        let powerUp = Int(arc4random_uniform(10))
-        
-        if powerUp <= 1 {
-            isAutoPop = true
-            autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(autoPopCountdown), userInfo: nil, repeats: true)
-            powerUpLabel.text = "Auto Pop"
-            powerUpLabel.run(reveal)
-        }
-            
-        else if powerUp < 8 {
-            
-            freezeTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(freezeCountdown), userInfo: nil, repeats: true)
-            isFreeze = true
-            Bubble.frozen = true
-            beforeFreezeSpeed = Bubble.riseSpeed
-            Bubble.riseSpeed = 0.0
-            powerUpLabel.text = "Freeze"
-            powerUpLabel.run(reveal)
-            if (gameMode == "Timed") {
+            if (gameTimer != nil){
                 gameTimer.invalidate()
+                gameTimer = nil
             }
-            
-        }
-        else if powerUp < 10 {
-            superPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(superPopCountdown), userInfo: nil, repeats: true)
-            isSuperPop = true
-            score += bubbles.capacity
-            for bubble in bubbles {
-                bubble.removeFromParent()
+            if (coinTimer != nil){
+                coinTimer.invalidate()
+                coinTimer = nil
             }
-            bubbles.removeAll()
-            powerUpLabel.text = "Super Pop"
-            powerUpLabel.run(reveal)
-            //break
+            Bubble.isPaused = true
         }
         
     }
     
     func endlessPowerUp(bubble: Bubble){
-        let powerUp: Int!
+        var powerUp: Int!
         if (Bubble.riseSpeed > 5){
             powerUp = Int(arc4random_uniform(30))
-            
+            if (autoLevel == 0) {
+                powerUp = Int(arc4random_uniform(27)) + 3
+            }
             if powerUp <= 3 {
                 isAutoPop = true
+                if (autoLevel == 1){
+                    autoPop = 5
+                }
+                else if (autoLevel == 2){
+                    autoPop = 10
+                }
+                else if (autoLevel == 3){
+                    autoPop = 15
+                }
                 autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(autoPopCountdown), userInfo: nil, repeats: true)
                 powerUpLabel.text = "Auto Pop"
                 powerUpLabel.run(reveal)
@@ -554,7 +458,20 @@ class GameScene: SKScene {
                 else {
                     slowMoTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(slowMoCountdown), userInfo: nil, repeats: true)
                     isSlowMo = true
-                    Bubble.riseSpeed = Bubble.riseSpeed / 2.0
+                    var amount = 2.0
+                    if (slowLevel == 2) {
+                        amount = 2.25
+                    }
+                    else if (slowLevel == 3) {
+                        amount = 2.5
+                    }
+                    else if (slowLevel == 4) {
+                        amount = 2.75
+                    }
+                    else if (slowLevel == 5) {
+                        amount = 3
+                    }
+                    Bubble.riseSpeed = Bubble.riseSpeed / amount
                     powerUpLabel.text = "Slow-mo"
                     powerUpLabel.run(reveal)
                 }
@@ -575,7 +492,20 @@ class GameScene: SKScene {
             else if powerUp <= 30 {
                 slowMoTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(slowMoCountdown), userInfo: nil, repeats: true)
                 isSlowMo = true
-                Bubble.riseSpeed = Bubble.riseSpeed / 2.0
+                var amount = 2.0
+                if (slowLevel == 2) {
+                    amount = 2.25
+                }
+                else if (slowLevel == 3) {
+                    amount = 2.5
+                }
+                else if (slowLevel == 4) {
+                    amount = 2.75
+                }
+                else if (slowLevel == 5) {
+                    amount = 3
+                }
+                Bubble.riseSpeed = Bubble.riseSpeed / amount
                 powerUpLabel.text = "Slow-mo"
                 powerUpLabel.run(reveal)
             }
@@ -598,12 +528,23 @@ class GameScene: SKScene {
     }
     
     func powerUp(bubble: Bubble){
-        let powerUp: Int!
+        var powerUp: Int!
         if (Bubble.riseSpeed > 5){
             powerUp = Int(arc4random_uniform(33))
-            
+            if (autoLevel == 0) {
+                powerUp = Int(arc4random_uniform(30)) + 3
+            }
             if powerUp <= 3 {
                 isAutoPop = true
+                if (autoLevel == 1){
+                    autoPop = 5
+                }
+                else if (autoLevel == 2){
+                    autoPop = 10
+                }
+                else if (autoLevel == 3){
+                    autoPop = 15
+                }
                 autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(autoPopCountdown), userInfo: nil, repeats: true)
                 powerUpLabel.text = "Auto Pop"
                 powerUpLabel.run(reveal)
@@ -622,7 +563,20 @@ class GameScene: SKScene {
                 else {
                     slowMoTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(slowMoCountdown), userInfo: nil, repeats: true)
                     isSlowMo = true
-                    Bubble.riseSpeed = Bubble.riseSpeed / 2.0
+                    var amount = 2.0
+                    if (slowLevel == 2) {
+                        amount = 2.25
+                    }
+                    else if (slowLevel == 3) {
+                        amount = 2.5
+                    }
+                    else if (slowLevel == 4) {
+                        amount = 2.75
+                    }
+                    else if (slowLevel == 5) {
+                        amount = 3
+                    }
+                    Bubble.riseSpeed = Bubble.riseSpeed / amount
                     powerUpLabel.text = "Slow-mo"
                     powerUpLabel.run(reveal)
                 }
@@ -643,16 +597,34 @@ class GameScene: SKScene {
             else if powerUp < 30 {
                 slowMoTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(slowMoCountdown), userInfo: nil, repeats: true)
                 isSlowMo = true
-                Bubble.riseSpeed = Bubble.riseSpeed / 2.0
+                var amount = 2.0
+                if (slowLevel == 2) {
+                    amount = 2.25
+                }
+                else if (slowLevel == 3) {
+                    amount = 2.5
+                }
+                else if (slowLevel == 4) {
+                    amount = 2.75
+                }
+                else if (slowLevel == 5) {
+                    amount = 3
+                }
+                Bubble.riseSpeed = Bubble.riseSpeed / amount
                 powerUpLabel.text = "Slow-mo"
                 powerUpLabel.run(reveal)
             }
                 
             else if powerUp <= 33 {
-                lives += 1
+                lives += lifeLevel
                 oneUpTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(oneUpCountdown), userInfo: nil, repeats: true)
                 isOneUp = true
-                powerUpLabel.text = "1 Up"
+                if (lifeLevel > 1){
+                    powerUpLabel.text = "\(lifeLevel) Lives"
+                }
+                else {
+                    powerUpLabel.text = "Life"
+                }
                 powerUpLabel.run(reveal)
             }
         }
@@ -660,10 +632,15 @@ class GameScene: SKScene {
         else {
             let powerUp = Int(arc4random_uniform(10))
             if powerUp == 0 {
-                lives += 1
+                lives += lifeLevel
                 oneUpTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(oneUpCountdown), userInfo: nil, repeats: true)
                 isOneUp = true
-                powerUpLabel.text = "1 Up"
+                if (lifeLevel > 1){
+                    powerUpLabel.text = "\(lifeLevel) Lives"
+                }
+                else {
+                    powerUpLabel.text = "1 Life"
+                }
                 powerUpLabel.run(reveal)
             }
             else if powerUp <= 10 {
@@ -689,9 +666,8 @@ class GameScene: SKScene {
             isOneUp = false
             oneUp = 3
             if (oneUpTimer != nil){
-                if oneUpTimer.isValid {
-                    oneUpTimer.invalidate()
-                }
+                oneUpTimer.invalidate()
+                oneUpTimer = nil
             }
         }
     }
@@ -704,9 +680,8 @@ class GameScene: SKScene {
             isSlowMo = false
             slowMo = 3
             if (slowMoTimer != nil){
-                if slowMoTimer.isValid {
-                    slowMoTimer.invalidate()
-                }
+                slowMoTimer.invalidate()
+                slowMoTimer = nil
             }
         }
     }
@@ -722,9 +697,8 @@ class GameScene: SKScene {
             startBubbles()
             freeze = 5
             if (freezeTimer != nil){
-                if freezeTimer.isValid {
-                    freezeTimer.invalidate()
-                }
+                freezeTimer.invalidate()
+                freezeTimer = nil
             }
             if (gameMode == "Timed") {
                 gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(stopWatch), userInfo: nil, repeats: true)
@@ -755,12 +729,18 @@ class GameScene: SKScene {
         
         if (autoPop == 0) {
             isAutoPop = false
-            autoPop = 10
+            if (autoLevel == 1){
+                autoPop = 5
+            }
+            else if (autoLevel == 2){
+                autoPop = 10
+            }
+            else if (autoLevel == 3){
+                autoPop = 15
+            }
             if (autoPopTimer != nil){
-                if autoPopTimer.isValid {
-                    autoPopTimer.invalidate()
-                    autoPopTimer = nil
-                }
+                autoPopTimer.invalidate()
+                autoPopTimer = nil
             }
         }
     }
@@ -775,7 +755,11 @@ class GameScene: SKScene {
             coinTimer.invalidate()
             coinTimer = nil
         }
-        startsIn = 3
+        if gameMode == "Timed" {
+            GameScene.gamePaused = true
+            Bubble.isPaused = true
+        }
+            startsIn = 3
         scoreLabel.text = ""
         coinsLabel.text = ""
         livesLabel.text = "10"
@@ -810,8 +794,11 @@ class GameScene: SKScene {
         lives = 10
         score = 0
         time = 0
-        Bubble.isPaused = false
-        GameScene.gamePaused = false
+        if (gameMode == "Timed") {
+            Bubble.isPaused = true
+            GameScene.gamePaused = true
+            fingerDown = false
+        }
         for (i,bubble) in bubbles.enumerated().reversed() {
             bubbles.remove(at: i)
             bubble.removeFromParent()
@@ -829,30 +816,8 @@ class GameScene: SKScene {
         score = prevScore
     }
     
-    func reset(){
-        if (gameMode == "Timed") {
-            gameTimer.invalidate()
-            gameTimer = nil
-        }
-        coinTimer.invalidate()
-        coinTimer = nil
-        bubbleTimer.invalidate()
-        bubbleTimer = nil
-        slowMoTimer?.invalidate()
-        slowMoTimer = nil
-        freezeTimer?.invalidate()
-        freezeTimer = nil
-        autoPopTimer?.invalidate()
-        autoPopTimer = nil
-        superPopTimer?.invalidate()
-        superPopTimer = nil
-        oneUpTimer?.invalidate()
-        oneUpTimer = nil
-    }
-    
     func endGame(){
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "seguetoGameOver"), object: nil)
-        //reset()
     }
     
     @objc func addBubble() {
@@ -875,7 +840,7 @@ class GameScene: SKScene {
         var timeInterval: Double!
         
         if gameMode == "Timed" {
-            timeInterval = 0.4
+            timeInterval = 0.25
         }
         else {
             timeInterval = 0.5
@@ -901,6 +866,65 @@ class GameScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        
+        for (i,coin) in coins.enumerated().reversed() {
+            if coin.contains(previousLocation) {
+                if (Menu.sound) {
+                    playCoin()
+                }
+                coin.removeFromParent()
+                coins.remove(at: i)
+                coinCount += 1
+            }
+        }
+        
+        for (i,bubble) in bubbles.enumerated().reversed() {
+            if bubble.contains(previousLocation) {
+                if (Menu.sound) {
+                    playPop()
+                }
+                
+                if bubble.ifGreen() {
+                    if (gameMode == "Classic"){
+                        powerUp(bubble: bubble)
+                    }
+                    else if (gameMode == "Endless"){
+                        endlessPowerUp(bubble: bubble)
+                    }
+                    if bubbles.count == 0 {
+                        break
+                    }
+                }
+                
+                if bubble.ifRed() {
+                    if (gameMode == "Classic") {
+                        lives = 0
+                        gameOver = true
+                    }
+                    if (gameMode == "Timed"){
+                        gameOver = true
+                        if (gameTimer != nil){
+                            gameTimer.invalidate()
+                            gameTimer = nil
+                        }
+                    }
+                    else {
+                        if (score > 5){
+                            score -= 6
+                        }
+                        else {
+                            score = 0
+                            gameOver = true
+                        }
+                    }
+                }
+                bubble.removeFromParent()
+                bubbles.remove(at: i)
+                score += 1
+                
+            }
+        }
+        
         if (gameMode == "Timed") {
             if (!fingerDown && startsIn > -1){
                 GameScene.gamePaused = true
@@ -1020,7 +1044,9 @@ class GameScene: SKScene {
             timerLabel.text = "\(autoPop)"
             for (i,bubble) in bubbles.enumerated().reversed() {
                 if (bubble.getY() >= self.frame.height / 2 && bubble.ifBlue()){
-                    //playPop()
+                    if (Menu.sound) {
+                        playPop()
+                    }
                     bubbles.remove(at: i)
                     bubble.removeFromParent()
                     score += 1
@@ -1074,19 +1100,39 @@ class Bubble: SKSpriteNode {
         else if (type <= 90) {
             green = true
             if (bubbleSize == 0) {
-                texture = SKTexture(imageNamed: "BubbleG")
+                if (Menu.color) {
+                    texture = SKTexture(imageNamed: "BubbleG")
+                }
+                else {
+                    texture = SKTexture(imageNamed: "BubbleY")
+                }
             }
                 
             else if (bubbleSize == 1) {
-                texture = SKTexture(imageNamed: "BubbleG2")
+                if (Menu.color) {
+                    texture = SKTexture(imageNamed: "BubbleG2")
+                }
+                else {
+                    texture = SKTexture(imageNamed: "BubbleY2")
+                }
             }
                 
             else if (bubbleSize == 2) {
-                texture = SKTexture(imageNamed: "BubbleG3")
+                if (Menu.color) {
+                    texture = SKTexture(imageNamed: "BubbleG3")
+                }
+                else {
+                    texture = SKTexture(imageNamed: "BubbleY3")
+                }
             }
                 
             else if (bubbleSize == 3) {
-                texture = SKTexture(imageNamed: "BubbleG4")
+                if (Menu.color) {
+                    texture = SKTexture(imageNamed: "BubbleG4")
+                }
+                else {
+                    texture = SKTexture(imageNamed: "BubbleY4")
+                }
             }
         }
             
@@ -1109,7 +1155,7 @@ class Bubble: SKSpriteNode {
             }
         }
         
-        let randomBubbleX = GKRandomDistribution(lowestValue:Int(texture.size().width/2), highestValue: 750 - Int(texture.size().width/2))
+        let randomBubbleX = GKRandomDistribution(lowestValue:Int(texture.size().width/2), highestValue: 750 - Int(texture.size().width)/2)
         x = randomBubbleX.nextInt()
         super.init(texture: texture, color: UIColor.clear, size: texture.size())
         
@@ -1150,11 +1196,17 @@ class Bubble: SKSpriteNode {
                 }
             }
             else {
-                if (Bubble.riseSpeed < 17) {
-                    Bubble.riseSpeed *= 1.001
+                if (Bubble.riseSpeed < 15) {
+                    Bubble.riseSpeed *= 1.0005
                 }
                 else if (Bubble.riseSpeed < 20){
-                    Bubble.riseSpeed += 0.01
+                    Bubble.riseSpeed *= 1.0008
+                }
+                else if (Bubble.riseSpeed < 25){
+                    Bubble.riseSpeed *= 1.001
+                }
+                else if (Bubble.riseSpeed < 30){
+                    Bubble.riseSpeed *= 1.005
                 }
             }
             y += Int(Bubble.riseSpeed)

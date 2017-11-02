@@ -33,7 +33,7 @@
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kla-zm-uT2">
                                 <rect key="frame" x="153" y="397" width="70" height="70"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Play"/>
                             </button>
                             <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8bM-Oc-O1k">
@@ -45,6 +45,9 @@
                                 <rect key="frame" x="246" y="397" width="70" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Shop"/>
+                                <connections>
+                                    <segue destination="tEV-bx-FZj" kind="presentation" id="AGv-3y-FbJ"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ExG-9a-C83">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -139,14 +142,14 @@
                                     <action selector="unlockPressed:" destination="e2B-Fl-lWH" eventType="touchDown" id="8G1-UZ-VeO"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gB2-GC-ou4">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gB2-GC-ou4">
                                 <rect key="frame" x="62" y="625" width="282" height="21"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k60-FV-Zk2">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k60-FV-Zk2">
                                 <rect key="frame" x="62" y="582" width="282" height="21"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="17"/>
@@ -161,6 +164,42 @@
                                 <rect key="frame" x="12" y="575" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dropdown" translatesAutoresizingMaskIntoConstraints="NO" id="dpl-1k-X8v">
+                                <rect key="frame" x="310" y="501" width="41" height="127"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bkq-rx-fyP">
+                                <rect key="frame" x="317" y="513" width="25" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="M"/>
+                                <connections>
+                                    <action selector="musicPressed:" destination="e2B-Fl-lWH" eventType="touchDown" id="cQE-2m-nxC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bY-XC-hCL">
+                                <rect key="frame" x="317" y="546" width="26" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="S"/>
+                                <connections>
+                                    <action selector="soundPressed:" destination="e2B-Fl-lWH" eventType="touchDown" id="BfF-Qb-scp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJV-YN-kka">
+                                <rect key="frame" x="317" y="573" width="26" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="C"/>
+                                <connections>
+                                    <action selector="colorPressed:" destination="e2B-Fl-lWH" eventType="touchDown" id="Dlm-LS-RM5"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zmF-YJ-KP3">
+                                <rect key="frame" x="307" y="600" width="47" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="settingsPressed:" destination="e2B-Fl-lWH" eventType="touchDown" id="HUj-oX-MLz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -179,6 +218,7 @@
                         <outlet property="Logo" destination="Iqh-w1-aTZ" id="Av9-CK-j8F"/>
                         <outlet property="Multiplayer" destination="KCN-bm-fPg" id="lZF-xm-6OO"/>
                         <outlet property="Play" destination="Kla-zm-uT2" id="f22-Un-bTC"/>
+                        <outlet property="Settings" destination="zmF-YJ-KP3" id="SNX-x5-J5m"/>
                         <outlet property="Shop" destination="1f6-TQ-Xxk" id="cqI-lm-drQ"/>
                         <outlet property="Timed" destination="JyC-co-DDK" id="n7c-xs-zCt"/>
                         <outlet property="TimedLock" destination="Cu7-QG-byV" id="SNN-dq-Fkz"/>
@@ -186,9 +226,13 @@
                         <outlet property="blur" destination="OMS-zS-k5r" id="C7e-2y-7NE"/>
                         <outlet property="coinsIcon" destination="Vx1-sb-AtH" id="NOf-bK-8IF"/>
                         <outlet property="coinsLabel" destination="gB2-GC-ou4" id="XDI-qy-HhS"/>
+                        <outlet property="colorButton" destination="BJV-YN-kka" id="hHd-WE-QzK"/>
                         <outlet property="costLabel" destination="ctu-dn-uxU" id="dt5-S0-MMs"/>
+                        <outlet property="dropdown" destination="dpl-1k-X8v" id="qc6-ow-XDY"/>
+                        <outlet property="musicButton" destination="bkq-rx-fyP" id="EvD-zF-f9B"/>
                         <outlet property="pointsIcon" destination="AOU-fz-jjs" id="iqu-6y-Jos"/>
                         <outlet property="pointsLabel" destination="k60-FV-Zk2" id="RFz-PW-cCI"/>
+                        <outlet property="soundButton" destination="5bY-XC-hCL" id="x88-Lc-1eL"/>
                         <outlet property="unlockButton" destination="ZzJ-4i-7nA" id="mHE-Ai-0XW"/>
                         <outlet property="unlockPopUp" destination="o4h-MX-Kps" id="fG9-4b-PbZ"/>
                         <outlet property="xButton" destination="SGk-Ls-gPQ" id="Vrz-CI-Xmr"/>
@@ -198,6 +242,222 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tA4-q4-x3N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-546.39999999999998" y="133.5832083958021"/>
+        </scene>
+        <!--Shop-->
+        <scene sceneID="dEB-GL-CUe">
+            <objects>
+                <viewController title="Shop" id="tEV-bx-FZj" customClass="Shop" customModule="BubbleBurst_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WX3-WF-j6V">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="BG" translatesAutoresizingMaskIntoConstraints="NO" id="xhG-TU-IE3">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="powerUpMenu" translatesAutoresizingMaskIntoConstraints="NO" id="heo-Y4-1yZ">
+                                <rect key="frame" x="32" y="51" width="311" height="452"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sqQ-IQ-e2K" customClass="GADBannerView">
+                                <rect key="frame" x="27" y="0.0" width="320" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="3zJ-jY-W4z"/>
+                                    <constraint firstAttribute="height" constant="50" id="G9V-Iu-WK1"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cH7-MF-qAo">
+                                <rect key="frame" x="9" y="587" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <action selector="backPressed:" destination="BV1-FR-VrT" eventType="touchDown" id="2Qg-8F-ls3"/>
+                                    <action selector="backPressed:" destination="tEV-bx-FZj" eventType="touchDown" id="SO6-P4-ak3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SBz-xD-c0a" userLabel="Powerup">
+                                <rect key="frame" x="71" y="53" width="114" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AUE-op-72b" userLabel="Customize">
+                                <rect key="frame" x="193" y="53" width="114" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="16e-o3-scE" userLabel="autoUpgrade">
+                                <rect key="frame" x="261" y="155" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="14"/>
+                                <state key="normal" title="150"/>
+                                <connections>
+                                    <action selector="autoPopUpgrade:" destination="tEV-bx-FZj" eventType="touchDown" id="ydh-kZ-TDm"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Current Level: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z95-74-NA2" userLabel="autoCurrent">
+                                <rect key="frame" x="129" y="131" width="132" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="next Level: 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oDS-j8-LWu" userLabel="autoNext">
+                                <rect key="frame" x="129" y="155" width="132" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="12"/>
+                                <color key="textColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Unlock" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zzE-Jm-uGG" userLabel="autoDetails">
+                                <rect key="frame" x="129" y="170" width="132" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="12"/>
+                                <color key="textColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ib2-wb-yqR" userLabel="slowUpgrade">
+                                <rect key="frame" x="260" y="287" width="51" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="14"/>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="1" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="150"/>
+                                <connections>
+                                    <action selector="slowMoUpgrade:" destination="tEV-bx-FZj" eventType="touchDown" id="mtd-aN-87u"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Current Level: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHx-wb-8Gg" userLabel="slowCurrent">
+                                <rect key="frame" x="129" y="262" width="132" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="next Level: 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xJf-O2-6s1" userLabel="slowNext">
+                                <rect key="frame" x="129" y="286" width="132" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="12"/>
+                                <color key="textColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Unlock" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="POh-eu-PPS" userLabel="slowDetails">
+                                <rect key="frame" x="129" y="301" width="132" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="12"/>
+                                <color key="textColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9CV-Y5-bK4" userLabel="lifeUpgrade">
+                                <rect key="frame" x="261" y="421" width="51" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="14"/>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="2" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="150"/>
+                                <connections>
+                                    <action selector="lifeUpgrade:" destination="tEV-bx-FZj" eventType="touchDown" id="1a0-Tg-x4m"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Current Level: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LXE-pI-Vqk" userLabel="lifeCurrent">
+                                <rect key="frame" x="129" y="397" width="132" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="next Level: 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UYI-cb-4Lg" userLabel="lifeNext">
+                                <rect key="frame" x="129" y="421" width="132" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="12"/>
+                                <color key="textColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Unlock" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KHo-ZH-aNK" userLabel="lifeDetails">
+                                <rect key="frame" x="129" y="436" width="132" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="12"/>
+                                <color key="textColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jyT-a1-Xhu">
+                                <rect key="frame" x="32" y="511" width="150" height="45"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="ad"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ej-EV-7x6">
+                                <rect key="frame" x="191" y="511" width="150" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="buy"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Nd-ov-QRJ">
+                                <rect key="frame" x="65" y="560" width="117" height="36"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="no ads"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YIM-8U-eey">
+                                <rect key="frame" x="190" y="560" width="117" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="restore"/>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="1jE-uV-dfd" userLabel="autoProgress">
+                                <rect key="frame" x="62" y="193" width="256" height="15"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="bX4-OK-7wW" userLabel="slowProgress">
+                                <rect key="frame" x="62" y="323" width="256" height="15"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="0Ej-8c-gV6" userLabel="lifeProgress">
+                                <rect key="frame" x="62" y="457" width="256" height="15"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="coin6" translatesAutoresizingMaskIntoConstraints="NO" id="B3v-EY-GPO">
+                                <rect key="frame" x="132" y="606" width="41" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEz-3x-L8v">
+                                <rect key="frame" x="189" y="610" width="108" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="28"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="sqQ-IQ-e2K" firstAttribute="centerX" secondItem="WX3-WF-j6V" secondAttribute="centerX" id="7h4-89-rmM"/>
+                            <constraint firstItem="sqQ-IQ-e2K" firstAttribute="top" secondItem="WX3-WF-j6V" secondAttribute="top" id="rqL-SD-MZG"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="D7y-As-Bo2"/>
+                    </view>
+                    <connections>
+                        <outlet property="Back" destination="cH7-MF-qAo" id="KXr-bM-6co"/>
+                        <outlet property="Customize" destination="AUE-op-72b" id="uDO-zD-B06"/>
+                        <outlet property="PowerUp" destination="SBz-xD-c0a" id="q8H-gR-AbZ"/>
+                        <outlet property="autoCurrent" destination="Z95-74-NA2" id="cYS-Vi-fsg"/>
+                        <outlet property="autoDetails" destination="zzE-Jm-uGG" id="WRr-kG-bGa"/>
+                        <outlet property="autoNext" destination="oDS-j8-LWu" id="n9d-ag-JCP"/>
+                        <outlet property="autoProgress" destination="1jE-uV-dfd" id="fA0-jc-N2L"/>
+                        <outlet property="autoUpgrade" destination="16e-o3-scE" id="nq4-Ot-RnS"/>
+                        <outlet property="bannerAd" destination="sqQ-IQ-e2K" id="MxG-ML-s26"/>
+                        <outlet property="buyCoins" destination="6Ej-EV-7x6" id="rWm-F9-0iA"/>
+                        <outlet property="coinAd" destination="jyT-a1-Xhu" id="jEm-hh-vZO"/>
+                        <outlet property="coinIcon" destination="B3v-EY-GPO" id="3lp-xT-5jI"/>
+                        <outlet property="coinsLabel" destination="vEz-3x-L8v" id="zbu-VG-Fkl"/>
+                        <outlet property="lifeCurrent" destination="LXE-pI-Vqk" id="dNp-tk-zNl"/>
+                        <outlet property="lifeDetails" destination="KHo-ZH-aNK" id="EWU-Iq-RaV"/>
+                        <outlet property="lifeNext" destination="UYI-cb-4Lg" id="cjO-TP-xV4"/>
+                        <outlet property="lifeProgress" destination="0Ej-8c-gV6" id="19Z-S7-AKa"/>
+                        <outlet property="lifeUpgrade" destination="9CV-Y5-bK4" id="fNN-6s-Gp7"/>
+                        <outlet property="noAds" destination="9Nd-ov-QRJ" id="EyJ-0w-Lg8"/>
+                        <outlet property="restorePurchases" destination="YIM-8U-eey" id="vCn-c0-b1K"/>
+                        <outlet property="slowCurrent" destination="JHx-wb-8Gg" id="IQ9-Qz-2BX"/>
+                        <outlet property="slowDetails" destination="POh-eu-PPS" id="VH1-tu-XRo"/>
+                        <outlet property="slowNext" destination="xJf-O2-6s1" id="ffp-uZ-0D2"/>
+                        <outlet property="slowProgress" destination="bX4-OK-7wW" id="tab-T6-W78"/>
+                        <outlet property="slowUpgrade" destination="Ib2-wb-yqR" id="dAZ-3N-UIi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WEk-hG-pCr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-554.39999999999998" y="791.15442278860576"/>
         </scene>
         <!--Game-->
         <scene sceneID="tXr-a1-R10">
@@ -266,12 +526,12 @@
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Best: 102" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZYC-5A-YiO" userLabel="HighScoreLabel">
                                 <rect key="frame" x="131" y="305" width="113" height="18"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E21-iL-F9r" customClass="GADBannerView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E21-iL-F9r" customClass="GADBannerView">
                                 <rect key="frame" x="27.5" y="0.0" width="320" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -279,21 +539,13 @@
                                     <constraint firstAttribute="height" constant="50" id="iaH-yu-cxr"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 102" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fxH-pJ-Xv5" userLabel="ScoreLabel">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 102" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fxH-pJ-Xv5" userLabel="ScoreLabel">
                                 <rect key="frame" x="117" y="276" width="141" height="21"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8rC-43-nUr">
-                                <rect key="frame" x="70" y="541" width="234" height="68"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Video Ad"/>
-                                <connections>
-                                    <action selector="watchVideo:" destination="NLy-4g-DwG" eventType="touchDown" id="KMO-3z-q7d"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEH-LD-GWW">
                                 <rect key="frame" x="55" y="430" width="70" height="70"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
@@ -304,7 +556,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Ba-yx-qLN">
                                 <rect key="frame" x="152" y="430" width="70" height="70"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Home"/>
                                 <connections>
                                     <segue destination="e2B-Fl-lWH" kind="presentation" id="nb3-89-iZZ"/>
@@ -316,10 +568,19 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Leaderboard"/>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8rC-43-nUr">
+                                <rect key="frame" x="56" y="520" width="264" height="80"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Video Ad"/>
+                                <connections>
+                                    <action selector="watchVideo:" destination="NLy-4g-DwG" eventType="touchDown" id="KMO-3z-q7d"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="E21-iL-F9r" firstAttribute="centerX" secondItem="EnT-Hj-bLg" secondAttribute="centerX" id="9Fu-X8-UUU"/>
+                            <constraint firstItem="E21-iL-F9r" firstAttribute="top" secondItem="EnT-Hj-bLg" secondAttribute="top" id="yOF-e7-SEa"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="HBc-g5-CKc"/>
                     </view>
@@ -340,14 +601,17 @@
         </scene>
     </scenes>
     <resources>
+        <image name="1" width="1442" height="83"/>
         <image name="BG" width="621" height="1104"/>
         <image name="Bubble" width="90" height="90"/>
         <image name="Lives" width="1018" height="1018"/>
         <image name="Score" width="1017" height="1018"/>
         <image name="coin6" width="110" height="111"/>
+        <image name="dropdown" width="379" height="1055"/>
         <image name="gameover" width="621" height="1104"/>
         <image name="locked" width="533" height="236"/>
         <image name="logo" width="264" height="168"/>
+        <image name="powerUpMenu" width="842" height="1223"/>
         <image name="timer" width="1018" height="1017"/>
         <image name="unlock" width="511" height="384"/>
     </resources>

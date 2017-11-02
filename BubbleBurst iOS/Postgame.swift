@@ -10,6 +10,7 @@ import UIKit
 import SpriteKit
 import GameplayKit
 import GoogleMobileAds
+import StoreKit
 
 class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelegate, GADInterstitialDelegate {
     
@@ -38,7 +39,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if (gameMode != "Classic" || gameMode != "Timed") {
+        if (gameMode == "Endless") {
             videoAdButton.isHidden = true
         }
         
@@ -58,8 +59,8 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         lifeAd?.delegate = self
         
         lifeAd?.load(GADRequest(),
-                     withAdUnitID: "ca-app-pub-3940256099942544/1712485313")
-        //ca-app-pub-4669355053831786/4776540656
+                     withAdUnitID: "ca-app-pub-4669355053831786/4776540656")
+        // ca-app-pub-3940256099942544/1712485313
         interstitial = createAndLoadInterstitial()
         
         Retry.setImage(UIImage(named: "restart"), for: .normal)
@@ -140,16 +141,38 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         interstitial.present(fromRootViewController: self)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if #available(iOS 10.3, *) {
+            //SKStoreReviewController.requestReview()
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
     func createAndLoadInterstitial() -> GADInterstitial {
-        var interstitial = GADInterstitial(adUnitID: "ca-app-pub-4669355053831786/7207262873")
-        
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-4669355053831786/7207262873")
+        //interstitial = GADInterstitial(adUnitID: "ca-app-pub-4669355053831786/7207262873")
+
+        let request = GADRequest()
+        request.testDevices = [kGADSimulatorID]
+        interstitial.load(request)
         interstitial.delegate = self
-        interstitial.load(GADRequest())
+
         return interstitial
+        
+    }
+    
+    func interstitialDidReceiveAd(_ ad: GADInterstitial) {
+        print("ad loaded")
+        ad.present(fromRootViewController: self)
+    }
+    
+    func interstitialDidFail(toPresentScreen ad: GADInterstitial) {
+        print("failed")
     }
     
     func interstitialDidDismissScreen(_ ad: GADInterstitial) {
-        interstitial = createAndLoadInterstitial()
+        //interstitial = createAndLoadInterstitial()
     }
     
     @IBAction func watchVideo(_ sender: Any) {
@@ -160,12 +183,11 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     
     func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
                             didRewardUserWith reward: GADAdReward) {
-        print("Reward received with currency: \(reward.type), amount \(reward.amount).")
         if let presenter = presentingViewController as? GameViewController {
             presenter.scene?.oneLife()
         }
-        NSLog("REWARDED.");
         backPressed(self)
+        print("Reward received with currency: \(reward.type), amount \(reward.amount).")
     }
     
     func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
@@ -183,11 +205,13 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     
     func rewardBasedVideoAdDidStartPlaying(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
         print("Reward based video ad started playing.")
+        AppDelegate.player?.pause()
     }
     
     func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
         print("Reward based video ad is closed.")
         NSLog("REWARDED.");
+        AppDelegate.player?.play()
     }
     
     func rewardBasedVideoAdWillLeaveApplication(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
