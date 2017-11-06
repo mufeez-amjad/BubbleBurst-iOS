@@ -17,16 +17,26 @@ class GameViewController: UIViewController {
     @IBOutlet weak var TimerIcon: UIImageView!
     @IBOutlet weak var coinsIcon: UIImageView!
     
+    @IBOutlet weak var blurOverlay: UIVisualEffectView!
+    @IBOutlet weak var pausesLeft: UILabel!
+    @IBOutlet weak var pausedOverlay: UIImageView!
     @IBOutlet weak var Back: UIButton!
 
+    @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var livesTimeLabel: UILabel!
+    @IBOutlet weak var coinsLabel: UILabel!
+    @IBOutlet weak var instructionsLabel: UILabel!
+    
     let scene = GameScene(fileNamed: "GameScene")
     var gameMode: String!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         Back.setImage(UIImage(named: "back"), for: .normal)
         Back.center.x -= view.bounds.width
+        instructionsLabel.center.y -= view.bounds.height
         
         if (gameMode == "Timed" || gameMode == "Endless"){
             LivesIcon.isHidden = true
@@ -58,11 +68,36 @@ class GameViewController: UIViewController {
             //view.showsFPS = true
             //view.showsNodeCount = true
         }
-        
-        
+        scene?.viewController = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        
+        scoreLabel.text = "0"
+        if (gameMode == "Timed") {
+            livesTimeLabel.text = "0"
+            instructionsLabel.text = "Keep your finger \n on the screen!"
+        }
+        if (gameMode == "Classic"){
+            livesTimeLabel.text = "10"
+            instructionsLabel.text = "Swipe or tap the bubbles \n to pop them!"
+        }
+        if (gameMode == "Endless"){
+            livesTimeLabel.isHidden = true
+            coinsLabel.frame.origin.y = livesTimeLabel.frame.origin.y
+            instructionsLabel.text = "Swipe or tap the bubbles \n to pop them!"
+        }
+        coinsLabel.text = "0"
+        
+        UIView.animate(withDuration: 0.7, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.instructionsLabel.center.y += self.view.bounds.height
+        },
+                       completion: nil
+        )
+        
         scene?.playAgain()
         if (gameMode == "Endless"){
             UIView.animate(withDuration: 0.7, delay: 0,
@@ -73,6 +108,26 @@ class GameViewController: UIViewController {
                            completion: nil
             )
         }
+        
+        if (gameMode == "Timed"){
+            UIView.animate(withDuration: 0.7, delay: 0,
+                           options: [.curveEaseOut],
+                           animations: {
+                            self.blurOverlay.alpha = 1
+                            self.pausedOverlay.alpha = 1
+                            self.pausesLeft.alpha = 1
+            },
+                           completion: nil
+            )
+        }
+        
+        UIView.animate(withDuration: 1, delay: 5,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.instructionsLabel.center.y -= self.view.bounds.height
+        },
+                       completion: nil
+        )
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -86,6 +141,30 @@ class GameViewController: UIViewController {
                            completion: nil
             )
         }
+    }
+    
+    func hidePause(){
+        UIView.animate(withDuration: 0.7, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.blurOverlay.alpha = 0
+                        self.pausedOverlay.alpha = 0
+                        self.pausesLeft.alpha = 0
+        },
+                       completion: nil
+        )
+    }
+    
+    func showPause(){
+        UIView.animate(withDuration: 0.7, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.blurOverlay.alpha = 1
+                        self.pausedOverlay.alpha = 1
+                        self.pausesLeft.alpha = 1
+        },
+                       completion: nil
+        )
     }
     
     @objc func segueToGameOver(){
@@ -129,6 +208,7 @@ class GameViewController: UIViewController {
     @IBAction func unwindToGame(segue: UIStoryboardSegue) {
         scene?.playAgain()
     }
+    
     func nullify(){
         if (scene?.bubbleTimer != nil) {
             scene?.bubbleTimer.invalidate()

@@ -74,12 +74,15 @@ class Menu: UIViewController, GADBannerViewDelegate {
     
     static var music = true
     static var sound = true
-    static var color = true
+    static var color = false
     
     var settings = false
     
     override func viewDidLoad() {
-        defaults.setValue(10000, forKey: "Coins")
+        /*defaults.setValue(1500, forKey: "Coins")
+        defaults.setValue(100000, forKey: "Points")
+        defaults.setValue(false, forKey: "TimedLock")
+        defaults.setValue(false, forKey: "EndlessLock")*/
         super.viewDidLoad()
         
         //Request
@@ -140,10 +143,10 @@ class Menu: UIViewController, GADBannerViewDelegate {
             Menu.color = true
         }
         if (Menu.color == true) {
-            colorButton.setImage(UIImage(named: "colorOff"), for: .normal)
+            colorButton.setImage(UIImage(named: "colorOn"), for: .normal)
         }
         else {
-            colorButton.setImage(UIImage(named: "colorOn"), for: .normal)
+            colorButton.setImage(UIImage(named: "colorOff"), for: .normal)
         }
         
         Multiplayer.setImage(UIImage(named: "multiplayersoon"), for: .normal)
@@ -199,21 +202,19 @@ class Menu: UIViewController, GADBannerViewDelegate {
             AppDelegate.playMusic()
         }
         
-        if (!Menu.color) {
+        if (Menu.color) {
             self.Instructions.image = UIImage(named: "instructions2")
         }
         else {
             self.Instructions.image = UIImage(named: "instructions")
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
+        
         Logo.center.y  -= view.bounds.height
         Play.center.y += view.bounds.height
         Info.center.y += view.bounds.height
         Shop.center.y += view.bounds.height
         Settings.center.y += view.bounds.height
-
+        
         Back.center.x -= view.bounds.width
         
         pointsIcon.center.x -= view.bounds.width
@@ -227,6 +228,48 @@ class Menu: UIViewController, GADBannerViewDelegate {
         Classic.center.y += view.bounds.height
         Timed.center.y += view.bounds.height
         TimedLock.center.y += view.bounds.height
+        
+        Endless.center.y += view.bounds.height
+        EndlessLock.center.y += view.bounds.height
+        
+        Multiplayer.center.y += view.bounds.height
+        
+        unlockPopUp.center.y += view.bounds.height
+        xButton.center.y += view.bounds.height
+        unlockButton.center.y += view.bounds.height
+        costLabel.center.y += view.bounds.height
+        blur.alpha = 0.0
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        if (infoScreen){
+            instructionsOut()
+        }
+        if (playScreen){
+            playOut()
+        }
+        
+        else { //main menu
+            Logo.center.y  -= view.bounds.height
+            Play.center.y += view.bounds.height
+            Info.center.y += view.bounds.height
+            Shop.center.y += view.bounds.height
+            Settings.center.y += view.bounds.height
+            
+            pointsIcon.center.x -= view.bounds.width
+            pointsLabel.center.x -= view.bounds.width
+            
+            coinsIcon.center.x -= view.bounds.width
+            coinsLabel.center.x -= view.bounds.width
+            
+            if (settings){
+                hideSettings()
+            }
+        }
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
         if (timedLocked) {
             TimedLock.isHidden = false
         }
@@ -234,24 +277,14 @@ class Menu: UIViewController, GADBannerViewDelegate {
             TimedLock.isHidden = true
         }
 
-        Endless.center.y += view.bounds.height
-        EndlessLock.center.y += view.bounds.height
         if (endlessLocked) {
             EndlessLock.isHidden = false
         }
         else {
             EndlessLock.isHidden = true
         }
-
-        Multiplayer.center.y += view.bounds.height
-
-        unlockPopUp.center.y += view.bounds.height
-        xButton.center.y += view.bounds.height
-        unlockButton.center.y += view.bounds.height
-        costLabel.center.y += view.bounds.height
-        blur.alpha = 0.0
         introIn()
-    }
+   }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
