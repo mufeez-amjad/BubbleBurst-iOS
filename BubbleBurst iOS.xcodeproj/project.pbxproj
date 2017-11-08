@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8F0104E91FAA951900392E56 /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8F0104E81FAA951900392E56 /* coin.mp3 */; };
+		8F26EA1B1FB256E800CC38D4 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26EA1A1FB256E800CC38D4 /* GameKit.framework */; };
+		8F26EA1D1FB256FB00CC38D4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26EA1C1FB256FB00CC38D4 /* StoreKit.framework */; };
 		8F2EA0891F86C507009AC742 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2EA0881F86C507009AC742 /* Menu.swift */; };
 		8F525D8B1F87272500C2CD4F /* Postgame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F525D8A1F87272500C2CD4F /* Postgame.swift */; };
 		8F65F8E31FA4126200041FB0 /* bgMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8F65F8E21FA4126200041FB0 /* bgMusic.mp3 */; };
@@ -30,6 +32,9 @@
 
 /* Begin PBXFileReference section */
 		8F0104E81FAA951900392E56 /* coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coin.mp3; sourceTree = "<group>"; };
+		8F26EA1A1FB256E800CC38D4 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		8F26EA1C1FB256FB00CC38D4 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		8F26EA1E1FB2570C00CC38D4 /* BubbleBurst iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BubbleBurst iOS.entitlements"; sourceTree = "<group>"; };
 		8F2EA0881F86C507009AC742 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		8F35C9421F86E970004D8C5A /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = "../../../Downloads/GoogleMobileAdsSdkiOS-7.24.1/GoogleMobileAds.framework"; sourceTree = "<group>"; };
 		8F35C9441F86EB36004D8C5A /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
@@ -59,8 +64,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F26EA1B1FB256E800CC38D4 /* GameKit.framework in Frameworks */,
 				8FF354111F96A76100F74F00 /* AVFoundation.framework in Frameworks */,
 				8FDAFF081F86FF0E00F5C852 /* GoogleMobileAds.framework in Frameworks */,
+				8F26EA1D1FB256FB00CC38D4 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +77,8 @@
 		8F35C9411F86E970004D8C5A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8F26EA1C1FB256FB00CC38D4 /* StoreKit.framework */,
+				8F26EA1A1FB256E800CC38D4 /* GameKit.framework */,
 				8FF354101F96A76100F74F00 /* AVFoundation.framework */,
 				8FDAFF071F86FF0E00F5C852 /* GoogleMobileAds.framework */,
 				8F35C9421F86E970004D8C5A /* GoogleMobileAds.framework */,
@@ -98,6 +107,7 @@
 		8FA131F41F8013DF00B6D3D8 /* BubbleBurst iOS */ = {
 			isa = PBXGroup;
 			children = (
+				8F26EA1E1FB2570C00CC38D4 /* BubbleBurst iOS.entitlements */,
 				8FC7F5611F96AD3300BF24A3 /* Sounds */,
 				8F35C9441F86EB36004D8C5A /* GoogleMobileAds.framework */,
 				8F8EDF1A1F82E1CA00336BC2 /* MyParticle.sks */,
@@ -161,6 +171,17 @@
 					8FA131F11F8013DF00B6D3D8 = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -354,6 +375,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "BubbleBurst iOS/BubbleBurst iOS.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CYF2GV4SQ2;
 				ENABLE_BITCODE = NO;
@@ -363,6 +386,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Mufeez-Amjad.BubbleBurst-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -372,6 +396,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "BubbleBurst iOS/BubbleBurst iOS.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CYF2GV4SQ2;
 				ENABLE_BITCODE = NO;
@@ -381,6 +407,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Mufeez-Amjad.BubbleBurst-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

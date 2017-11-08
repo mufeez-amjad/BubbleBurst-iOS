@@ -11,8 +11,10 @@ import SpriteKit
 import GameplayKit
 import GoogleMobileAds
 import StoreKit
+import GameKit
 
-class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelegate, GADInterstitialDelegate {
+
+class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelegate, GADInterstitialDelegate, GKGameCenterControllerDelegate {
     
     @IBOutlet weak var gameOverOverlay: UIImageView!
     
@@ -34,8 +36,14 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     
     var lifeAd: GADRewardBasedVideoAd?
     var interstitial: GADInterstitial!
-
     
+    /* Variables */
+    var gcEnabled = Bool() // Check if the user has Game Center enabled
+    var gcDefaultLeaderBoard = String() // Check the default leaderboardID
+    
+    // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect)
+    var LEADERBOARD_ID: String!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,6 +51,8 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             videoAdButton.isHidden = true
         }
         
+        LEADERBOARD_ID = "201710_" + gameMode
+
         //Request
         let request = GADRequest()
         request.testDevices = [kGADSimulatorID]
@@ -72,8 +82,13 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         
         if (gameMode != "Timed"){
             if (defaults.value(forKeyPath: gameMode) == nil){
-                defaults.set(score, forKey: gameMode)
-                highScoreLabel.text = "New Best!"
+                if (score > 0) {
+                    defaults.set(score, forKey: gameMode)
+                    highScoreLabel.text = "New Best!"
+                }
+                else {
+                    highScoreLabel.text = "Best: "
+                }
             }
             else {
                 let readHighScore = defaults.integer(forKey: gameMode)
@@ -81,6 +96,16 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
                     highScore = score
                     defaults.set(score, forKey: gameMode)
                     highScoreLabel.text = "New Best!"
+                    
+                    let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
+                    bestScoreInt.value = Int64(highScore)
+                    GKScore.report([bestScoreInt]) { (error) in
+                        if error != nil {
+                            print(error!.localizedDescription)
+                        } else {
+                            print("Best Score submitted to your Leaderboard!")
+                        }
+                    }
                 }
                 else {
                     highScore = readHighScore
@@ -99,6 +124,16 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
                     highScore = time
                     defaults.set(time, forKey: gameMode)
                     highScoreLabel.text = "New Best!"
+                    
+                    let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
+                    bestScoreInt.value = Int64(highScore)
+                    GKScore.report([bestScoreInt]) { (error) in
+                        if error != nil {
+                            print(error!.localizedDescription)
+                        } else {
+                            print("Best Score submitted to your Leaderboard!")
+                        }
+                    }
                 }
                 else {
                     highScore = readHighScore
@@ -245,5 +280,17 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         // Dispose of any resources that can be recreated.
     }
     
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func leaderboardPressed(_ sender: Any) {
+        
+        let gcVC = GKGameCenterViewController()
+        gcVC.gameCenterDelegate = self
+        gcVC.viewState = .leaderboards
+        gcVC.leaderboardIdentifier = LEADERBOARD_ID
+        present(gcVC, animated: true, completion: nil)
+    }
 }
 

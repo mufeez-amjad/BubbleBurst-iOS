@@ -9,13 +9,15 @@
 import UIKit
 import GoogleMobileAds
 import AVFoundation
+import GameKit
 
 var infoScreen = false
 var playScreen = false
 var endlessLocked = true
 var timedLocked = true
 
-class Menu: UIViewController, GADBannerViewDelegate {
+class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDelegate {
+    
     let defaults = UserDefaults.standard
 
     @IBOutlet weak var Logo: UIImageView!
@@ -36,11 +38,16 @@ class Menu: UIViewController, GADBannerViewDelegate {
     @IBOutlet weak var unlockButton: UIButton!
     @IBOutlet var blur: UIVisualEffectView!
     
+    var gcEnabled = Bool() // Check if the user has Game Center enabled
+    var gcDefaultLeaderBoard = String() // Check the default leaderboardID
+    
     var endlessSelected = false
     var timedSelected = false
     
-    var endlessCost = 50000
-    var timedCost = 20000
+    //var endlessCost = 50000
+    var endlessCost = 100
+    var timedCost = 50
+    //var timedCost = 20000
 
     @IBOutlet weak var TimedLock: UIImageView!
     @IBOutlet weak var EndlessLock: UIImageView!
@@ -136,17 +143,12 @@ class Menu: UIViewController, GADBannerViewDelegate {
             soundButton.setImage(UIImage(named: "soundOff"), for: .normal)
         }
         
-        if (defaults.value(forKeyPath: "color") == nil || defaults.string(forKey: "color") == "off"){
-            Menu.color = false
-        }
-        else {
+        colorButton.setImage(UIImage(named: "colorOff"), for: .normal)
+        
+        if defaults.string(forKey: "color") == "on" {
             Menu.color = true
-        }
-        if (Menu.color == true) {
             colorButton.setImage(UIImage(named: "colorOn"), for: .normal)
-        }
-        else {
-            colorButton.setImage(UIImage(named: "colorOff"), for: .normal)
+            
         }
         
         Multiplayer.setImage(UIImage(named: "multiplayersoon"), for: .normal)
@@ -239,6 +241,8 @@ class Menu: UIViewController, GADBannerViewDelegate {
         unlockButton.center.y += view.bounds.height
         costLabel.center.y += view.bounds.height
         blur.alpha = 0.0
+        
+        authenticateLocalPlayer()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -636,24 +640,56 @@ class Menu: UIViewController, GADBannerViewDelegate {
             defaults.set("on", forKey: "sound")
         }
     }
-    
+   
     @IBAction func colorPressed(_ sender: Any) {
         Menu.color = !Menu.color
         if (!Menu.color){
-            colorButton.setImage(UIImage(named: "colorOn"), for: .normal)
-            defaults.set("off", forKey: "color")
-            self.Instructions.image = UIImage(named: "instructions2")
-        }
-        else {
             colorButton.setImage(UIImage(named: "colorOff"), for: .normal)
-            defaults.set("on", forKey: "color")
+            defaults.set("off", forKey: "color")
             self.Instructions.image = UIImage(named: "instructions")
         }
+        else {
+            colorButton.setImage(UIImage(named: "colorOn"), for: .normal)
+            defaults.set("on", forKey: "color")
+            self.Instructions.image = UIImage(named: "instructions2")
+        }
+        print(defaults.value(forKey: "color"))
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let yourVC = segue.destination as? GameViewController {
             yourVC.gameMode = gameMode
         }
+    }
+    
+    func authenticateLocalPlayer() {
+        let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
+        
+        localPlayer.authenticateHandler = {(ViewController, error) -> Void in
+            if((ViewController) != nil) {
+                // 1. Show login if player is not logged in
+                self.present(ViewController!, animated: true, completion: nil)
+            } else if (localPlayer.isAuthenticated) {
+                // 2. Player is already authenticated & logged in, load game center
+                self.gcEnabled = true
+                
+                // Get the default leaderboard ID
+                localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
+                    if error != nil { print(error)
+                    } else { self.gcDefaultLeaderBoard = leaderboardIdentifer! }
+                })
+                
+            } else {
+                // 3. Game center is not enabled on the users device
+                self.gcEnabled = false
+                print("Local player could not be authenticated!")
+                print(error)
+            }
+        }
+    }
+    
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
     }
 }
 

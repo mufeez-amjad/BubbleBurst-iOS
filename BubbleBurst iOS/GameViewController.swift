@@ -21,7 +21,8 @@ class GameViewController: UIViewController {
     @IBOutlet weak var pausesLeft: UILabel!
     @IBOutlet weak var pausedOverlay: UIImageView!
     @IBOutlet weak var Back: UIButton!
-
+    @IBOutlet weak var Home: UIButton!
+    
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var livesTimeLabel: UILabel!
     @IBOutlet weak var coinsLabel: UILabel!
@@ -35,6 +36,9 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         
         Back.setImage(UIImage(named: "back"), for: .normal)
+        Home.setImage(UIImage(named: "end"), for: .normal)
+        Home.isHidden = true
+        Home.alpha = 0
         Back.center.x -= view.bounds.width
         instructionsLabel.center.y -= view.bounds.height
         
@@ -144,24 +148,28 @@ class GameViewController: UIViewController {
     }
     
     func hidePause(){
+        Home.isHidden = true
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
                         self.blurOverlay.alpha = 0
                         self.pausedOverlay.alpha = 0
                         self.pausesLeft.alpha = 0
+                        self.Home.alpha = 0
         },
                        completion: nil
         )
     }
     
     func showPause(){
+        Home.isHidden = false
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
                         self.blurOverlay.alpha = 1
                         self.pausedOverlay.alpha = 1
                         self.pausesLeft.alpha = 1
+                        self.Home.alpha = 1
         },
                        completion: nil
         )
@@ -207,6 +215,10 @@ class GameViewController: UIViewController {
     
     @IBAction func unwindToGame(segue: UIStoryboardSegue) {
         scene?.playAgain()
+    }
+    
+    @IBAction func homePressed(_ sender: Any) {
+       segueToGameOver()
     }
     
     func nullify(){

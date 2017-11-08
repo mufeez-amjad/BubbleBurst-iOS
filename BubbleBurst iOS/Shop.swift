@@ -27,21 +27,25 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     @IBOutlet weak var autoNext: UILabel!
     @IBOutlet weak var autoDetails: UILabel!
     @IBOutlet weak var autoProgress: UIImageView!
-
+    
     @IBOutlet weak var slowCurrent: UILabel!
     @IBOutlet weak var slowNext: UILabel!
     @IBOutlet weak var slowDetails: UILabel!
     @IBOutlet weak var slowProgress: UIImageView!
-
+    
     @IBOutlet weak var lifeCurrent: UILabel!
     @IBOutlet weak var lifeNext: UILabel!
     @IBOutlet weak var lifeDetails: UILabel!
     @IBOutlet weak var lifeProgress: UIImageView!
-
+    
     @IBOutlet weak var coinAd: UIButton!
     @IBOutlet weak var buyCoins: UIButton!
     @IBOutlet weak var noAds: UIButton!
     @IBOutlet weak var restorePurchases: UIButton!
+    
+    @IBOutlet weak var Menu: UIImageView!
+    
+    var menu = "PowerUp"
     
     var autoCost = 0
     var lifeCost = 0
@@ -66,6 +70,8 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         noAds.setImage(UIImage(named: "noAds"), for: .normal)
         restorePurchases.setImage(UIImage(named: "restore"), for: .normal)
         
+        Menu.image = UIImage(named: "powerUpMenu")
+        
         //Request
         let request = GADRequest()
         request.testDevices = [kGADSimulatorID]
@@ -82,7 +88,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         coinRewardAd?.delegate = self
         
         coinRewardAd?.load(GADRequest(),
-                     withAdUnitID: "ca-app-pub-4669355053831786/3619020008")
+                           withAdUnitID: "ca-app-pub-4669355053831786/3619020008")
         
         /*
          if lifeAd?.isReady == true {
@@ -328,5 +334,58 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         
     }
     
+    @IBAction func customizePressed(_ sender: Any) {
+        menu = "Customize"
+        changeMenu()
+    }
+    
+    @IBAction func powerUpPressed(_ sender: Any) {
+        menu = "PowerUp"
+        changeMenu()
+    }
+    
+    func changeMenu(){
+        if (menu == "Customize"){
+            Menu.image = UIImage(named: "customizeMenu")
+            slowUpgrade.isHidden = true
+            autoUpgrade.isHidden = true
+            lifeUpgrade.isHidden = true
+            autoCurrent.isHidden = true
+            autoNext.isHidden = true
+            autoDetails.isHidden = true
+            autoProgress.isHidden = true
+            slowCurrent.isHidden = true
+            slowNext.isHidden = true
+            slowDetails.isHidden = true
+            slowProgress.isHidden = true
+            lifeCurrent.isHidden = true
+            lifeNext.isHidden = true
+            lifeDetails.isHidden = true
+            lifeProgress.isHidden = true
+            
+            
+        }
+        else if (menu == "PowerUp"){
+            Menu.image = UIImage(named: "powerUpMenu")
+            
+            
+            
+            slowUpgrade.isHidden = false
+            autoUpgrade.isHidden = false
+            lifeUpgrade.isHidden = false
+            autoCurrent.isHidden = false
+            autoNext.isHidden = false
+            autoDetails.isHidden = false
+            autoProgress.isHidden = false
+            slowCurrent.isHidden = false
+            slowNext.isHidden = false
+            slowDetails.isHidden = false
+            slowProgress.isHidden = false
+            lifeCurrent.isHidden = false
+            lifeNext.isHidden = false
+            lifeDetails.isHidden = false
+            lifeProgress.isHidden = false
+        }
+    }
     
 }
