@@ -11,15 +11,16 @@ import GoogleMobileAds
 import AVFoundation
 import GameKit
 
-var infoScreen = false
-var playScreen = false
-var endlessLocked = true
-var timedLocked = true
-
 class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDelegate {
     
     let defaults = UserDefaults.standard
-
+    var gameSegue = false
+    var transitionOut = false
+    
+    var infoScreen = false
+    var playScreen = false
+    var endlessLocked = true
+    var timedLocked = true
     @IBOutlet weak var Logo: UIImageView!
     @IBOutlet weak var Play: UIButton!
     @IBOutlet weak var Info: UIButton!
@@ -84,6 +85,8 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     static var color = false
     
     var settings = false
+    
+    @IBOutlet weak var fade: UIImageView!
     
     override func viewDidLoad() {
         /*defaults.setValue(1500, forKey: "Coins")
@@ -163,30 +166,6 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         soundButton.isHidden = true
         colorButton.isHidden = true
         
-        //defaults.set(100000, forKey: "Points")
-        if (defaults.value(forKeyPath: "Points") == nil){
-            points = 0
-        }
-        else {
-            points = defaults.integer(forKey: "Points")
-        }
-        
-        if (defaults.value(forKeyPath: "Coins") == nil) {
-            coins = 0
-        }
-        else {
-            coins = defaults.integer(forKey: "Coins")
-        }
-        
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = NumberFormatter.Style.decimal
-        let formattedNumber = numberFormatter.string(from: NSNumber(value:points))
-        
-        pointsLabel.text = formattedNumber
-        
-        coinsLabel.text = "\(coins)"
-        
-        
         if (defaults.object(forKey: "EndlessLock") == nil){
             endlessLocked = true
         }
@@ -245,16 +224,62 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         authenticateLocalPlayer()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        if (defaults.value(forKeyPath: "Points") == nil){
+            points = 0
+        }
+        else {
+            points = defaults.integer(forKey: "Points")
+        }
+        
+        if (defaults.value(forKeyPath: "Coins") == nil) {
+            coins = 0
+        }
+        else {
+            coins = defaults.integer(forKey: "Coins")
+        }
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        let formattedNumber = numberFormatter.string(from: NSNumber(value:points))
+        
+        pointsLabel.text = formattedNumber
+        
+        coinsLabel.text = "\(coins)"
+        
+        fadeIn()
+        introIn()
+    }
+    
+    func fadeIn(){
+        UIView.animate(withDuration: 1, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.fade.alpha = 0
+        },
+                       completion: nil
+        )
+    }
+    
+    func fadeOut(){
+        UIView.animate(withDuration: 1, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.fade.alpha = 1
+        },
+                       completion: nil
+        )
+    }
     override func viewDidDisappear(_ animated: Bool) {
         if (infoScreen){
-            instructionsOut()
+            //instructionsOut()
         }
         if (playScreen){
-            playOut()
+            //playOut()
         }
         
         else { //main menu
-            Logo.center.y  -= view.bounds.height
+            /*Logo.center.y  -= view.bounds.height
             Play.center.y += view.bounds.height
             Info.center.y += view.bounds.height
             Shop.center.y += view.bounds.height
@@ -268,7 +293,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             
             if (settings){
                 hideSettings()
-            }
+            }*/
         }
     }
     
@@ -287,7 +312,6 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         else {
             EndlessLock.isHidden = true
         }
-        introIn()
    }
     
     override func didReceiveMemoryWarning() {
@@ -314,6 +338,9 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
                        completion: { finished in
                         if (menu == 1) {
                             self.instructionsIn()
+                        }
+                        else if (menu == 2){
+                            self.performSegue(withIdentifier: "toShop", sender: self)
                         }
                         else {
                             self.playIn()
@@ -402,6 +429,25 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
                        completion: { finished in
                         self.introIn()
         })
+    }
+    
+    func toGame(){
+        UIView.animate(withDuration: 0.7, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.Classic.center.y += self.view.bounds.height
+                        self.Timed.center.y += self.view.bounds.height
+                        self.TimedLock.center.y += self.view.bounds.height
+                        self.Endless.center.y += self.view.bounds.height
+                        self.EndlessLock.center.y += self.view.bounds.height
+                        self.Multiplayer.center.y += self.view.bounds.height
+                        self.Back.center.x -= self.view.bounds.width
+        },
+                       completion: { finished in
+                        self.performSegue(withIdentifier: "startPlay", sender: self)
+        })
+        
+        fadeOut()
     }
     
     func playIn(){
@@ -498,7 +544,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             
         else if sender === Play {
             playScreen = true
-            introOut(menu: 2)
+            introOut(menu: 3)
         }
             
         else if sender === Back {
@@ -525,13 +571,15 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     @IBAction func classicPressed(_ sender: Any) {
         gameMode = "Classic"
-        performSegue(withIdentifier: "startPlay", sender: self)
+        toGame()
+        //performSegue(withIdentifier: "startPlay", sender: self)
     }
     
     @IBAction func timedPressed(_ sender: Any) {
         if (!timedLocked) {
             gameMode = "Timed"
-            performSegue(withIdentifier: "startPlay", sender: self)
+            toGame()
+            //performSegue(withIdentifier: "startPlay", sender: self)
         }
         else {
             if points < timedCost {
@@ -548,10 +596,12 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             unlockIn()
         }
     }
+    
     @IBAction func endlessPressed(_ sender: Any) {
         if (!endlessLocked) {
             gameMode = "Endless"
-            performSegue(withIdentifier: "startPlay", sender: self)
+            toGame()
+            //performSegue(withIdentifier: "startPlay", sender: self)
         }
         else {
             if points < endlessCost {
@@ -659,6 +709,18 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let yourVC = segue.destination as? GameViewController {
             yourVC.gameMode = gameMode
+            gameSegue = true
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if gameSegue {
+            /*if let nav = self.navigationController {
+                var stack = nav.viewControllers
+                stack.remove(at: 0)
+                nav.setViewControllers(stack, animated: true)
+            }*/
+            gameSegue = false
         }
     }
     
@@ -688,6 +750,9 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         }
     }
     
+    @IBAction func shopPressed(_ sender: Any) {
+        introOut(menu: 2)
+    }
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }

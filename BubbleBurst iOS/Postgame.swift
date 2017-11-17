@@ -43,7 +43,9 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     
     // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect)
     var LEADERBOARD_ID: String!
-
+    
+    @IBOutlet weak var fade: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,8 +53,8 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             videoAdButton.isHidden = true
         }
         
-        LEADERBOARD_ID = "201710_" + gameMode
-
+        
+        
         //Request
         let request = GADRequest()
         request.testDevices = [kGADSimulatorID]
@@ -80,6 +82,62 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         
         let defaults = UserDefaults.standard
         
+        if (defaults.string(forKey: "failedGameCenter") == "Y") { //uploads score to GameCenter if previously offline
+            if (defaults.string(forKey: "failedClassic") != "" && defaults.string(forKey: "failedClassic") != nil){
+                let readHighScore = defaults.integer(forKey: "Classic")
+                if Reachability.isConnectedToNetwork(){
+                    LEADERBOARD_ID = "201710_Classic"
+                    let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
+                    bestScoreInt.value = Int64(highScore)
+                    GKScore.report([bestScoreInt]) { (error) in
+                        if error != nil {
+                            print(error!.localizedDescription)
+                        } else {
+                            print("Best Score submitted to your Leaderboard!")
+                        }
+                    }
+                    defaults.set("", forKey: "failedClassic")
+                }
+            }
+            
+            if (defaults.string(forKey: "failedTimed") != "" && defaults.string(forKey: "failedTimed") != nil){
+                let readHighScore = defaults.integer(forKey: "Timed")
+                if Reachability.isConnectedToNetwork(){
+                    LEADERBOARD_ID = "201710_Timed"
+                    let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
+                    bestScoreInt.value = Int64(highScore)
+                    GKScore.report([bestScoreInt]) { (error) in
+                        if error != nil {
+                            print(error!.localizedDescription)
+                        } else {
+                            print("Best Score submitted to your Leaderboard!")
+                        }
+                    }
+                    defaults.set("", forKey: "failedTimed")
+                }
+            }
+            
+            if (defaults.string(forKey: "failedEndless") != "" && defaults.string(forKey: "failedEndless") != nil){
+                let readHighScore = defaults.integer(forKey: "Endless")
+                if Reachability.isConnectedToNetwork(){
+                    LEADERBOARD_ID = "201710_Endless"
+                    let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
+                    bestScoreInt.value = Int64(highScore)
+                    GKScore.report([bestScoreInt]) { (error) in
+                        if error != nil {
+                            print(error!.localizedDescription)
+                        } else {
+                            print("Best Score submitted to your Leaderboard!")
+                        }
+                    }
+                    defaults.set("", forKey: "failedEndless")
+                }
+            }
+            defaults.set("N", forKey: "failedGameCenter")
+        }
+        
+        LEADERBOARD_ID = "201710_" + gameMode
+        
         if (gameMode != "Timed"){
             if (defaults.value(forKeyPath: gameMode) == nil){
                 if (score > 0) {
@@ -96,15 +154,19 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
                     highScore = score
                     defaults.set(score, forKey: gameMode)
                     highScoreLabel.text = "New Best!"
-                    
-                    let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
-                    bestScoreInt.value = Int64(highScore)
-                    GKScore.report([bestScoreInt]) { (error) in
-                        if error != nil {
-                            print(error!.localizedDescription)
-                        } else {
-                            print("Best Score submitted to your Leaderboard!")
+                    if Reachability.isConnectedToNetwork(){
+                        let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
+                        bestScoreInt.value = Int64(highScore)
+                        GKScore.report([bestScoreInt]) { (error) in
+                            if error != nil {
+                                print(error!.localizedDescription)
+                            } else {
+                                print("Best Score submitted to your Leaderboard!")
+                            }
                         }
+                    } else{
+                        defaults.set(gameMode, forKey: "failed\(gameMode)")
+                        defaults.set("Y", forKey: "failedGameCenter")
                     }
                 }
                 else {
@@ -124,15 +186,19 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
                     highScore = time
                     defaults.set(time, forKey: gameMode)
                     highScoreLabel.text = "New Best!"
-                    
-                    let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
-                    bestScoreInt.value = Int64(highScore)
-                    GKScore.report([bestScoreInt]) { (error) in
-                        if error != nil {
-                            print(error!.localizedDescription)
-                        } else {
-                            print("Best Score submitted to your Leaderboard!")
+                    if Reachability.isConnectedToNetwork(){
+                        let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
+                        bestScoreInt.value = Int64(highScore)
+                        GKScore.report([bestScoreInt]) { (error) in
+                            if error != nil {
+                                print(error!.localizedDescription)
+                            } else {
+                                print("Best Score submitted to your Leaderboard!")
+                            }
                         }
+                    } else{
+                        defaults.set(gameMode, forKey: "failed\(gameMode)")
+                        defaults.set("Y", forKey: "failedGameCenter")
                     }
                 }
                 else {
@@ -144,15 +210,15 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
                 }
             }
         }
-            if (defaults.value(forKeyPath: "Points") == nil) {
-                defaults.set(score, forKey: "Points")
-            }
-            else {
-                let readPoints = defaults.integer(forKey: "Points")
-                let points = readPoints + score
-                defaults.set(points, forKey: "Points")
-            }
-
+        if (defaults.value(forKeyPath: "Points") == nil) {
+            defaults.set(score, forKey: "Points")
+        }
+        else {
+            let readPoints = defaults.integer(forKey: "Points")
+            let points = readPoints + score
+            defaults.set(points, forKey: "Points")
+        }
+        
         if (defaults.value(forKeyPath: "Coins") == nil) {
             defaults.set(coins, forKey: "Coins")
         }
@@ -187,12 +253,12 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     func createAndLoadInterstitial() -> GADInterstitial {
         interstitial = GADInterstitial(adUnitID: "ca-app-pub-4669355053831786/7207262873")
         //interstitial = GADInterstitial(adUnitID: "ca-app-pub-4669355053831786/7207262873")
-
+        
         let request = GADRequest()
         request.testDevices = [kGADSimulatorID]
         interstitial.load(request)
         interstitial.delegate = self
-
+        
         return interstitial
         
     }
@@ -254,12 +320,12 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     }
     
     /*override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        // Remove self from navigation hierarchy
-        guard let viewControllers = navigationController?.viewControllers,
-            let index = viewControllers.index(of: self) else { return }
-        navigationController?.viewControllers.remove(at: index)
-    }*/
+     super.viewDidDisappear(animated)
+     // Remove self from navigation hierarchy
+     guard let viewControllers = navigationController?.viewControllers,
+     let index = viewControllers.index(of: self) else { return }
+     navigationController?.viewControllers.remove(at: index)
+     }*/
     
     override func viewDidAppear(_ animated: Bool) {
         if lifeAd?.isReady == true {
@@ -270,9 +336,10 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             interstitial.present(fromRootViewController: self)
         }
     }
-
+    
     @IBAction func backPressed(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        fadeOut()
+        dismiss(animated: false, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -284,6 +351,11 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func homePressed(_ sender: Any) {
+        performSegue(withIdentifier: "backtoMenu", sender: self)
+        //navigationController?.popToRootViewController(animated: true)
+    }
+    
     @IBAction func leaderboardPressed(_ sender: Any) {
         
         let gcVC = GKGameCenterViewController()
@@ -291,6 +363,26 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         gcVC.viewState = .leaderboards
         gcVC.leaderboardIdentifier = LEADERBOARD_ID
         present(gcVC, animated: true, completion: nil)
+    }
+    
+    func fadeIn(){
+        UIView.animate(withDuration: 1, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.fade.alpha = 0
+        },
+                       completion: nil
+        )
+    }
+    
+    func fadeOut(){
+        UIView.animate(withDuration: 1, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.fade.alpha = 1
+        },
+                       completion: nil
+        )
     }
 }
 

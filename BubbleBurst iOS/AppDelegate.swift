@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+//import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,9 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     static var player: AVAudioPlayer?
     
+    static var wasInactive = false
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        //playMusic()
+        //FirebaseApp.configure()
         return true
     }
     
@@ -28,15 +31,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
         
-        /*var backgroundaudio = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource( "seve", ofType: "mp3")!), error: nil)*/
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
             try AVAudioSession.sharedInstance().setActive(true)
             
-            /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
-            //player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
-            
-            /* iOS 10 and earlier require the following line:*/
             AppDelegate.player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
             
             guard let player = AppDelegate.player else { return }
@@ -59,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "inactive"), object: nil)
-        
+    
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -70,12 +68,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             AppDelegate.player?.pause()
         }
         
-        
+        //GameScene.gamePaused = true
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        GameScene.gamePaused = false
+        //GameScene.gamePaused = false
         if (Menu.music) {
             AppDelegate.player?.play()
         }
@@ -86,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        GameScene.gamePaused = false
+        //GameScene.gamePaused = false
         if (Menu.music) {
             AppDelegate.player?.play()
         }

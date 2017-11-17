@@ -30,6 +30,9 @@ class GameViewController: UIViewController {
     
     let scene = GameScene(fileNamed: "GameScene")
     var gameMode: String!
+    var pauseShowing = false
+    
+    @IBOutlet weak var fade: UIImageView!
     
     override func viewDidLoad() {
         
@@ -77,22 +80,26 @@ class GameViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         
+        self.navigationController?.popViewController(animated: false)
         
         scoreLabel.text = "0"
+        
         if (gameMode == "Timed") {
             livesTimeLabel.text = "0"
             instructionsLabel.text = "Keep your finger \n on the screen!"
         }
-        if (gameMode == "Classic"){
+        if (gameMode == "Classic") {
             livesTimeLabel.text = "10"
             instructionsLabel.text = "Swipe or tap the bubbles \n to pop them!"
         }
-        if (gameMode == "Endless"){
+        if (gameMode == "Endless") {
             livesTimeLabel.isHidden = true
             coinsLabel.frame.origin.y = livesTimeLabel.frame.origin.y
             instructionsLabel.text = "Swipe or tap the bubbles \n to pop them!"
         }
         coinsLabel.text = "0"
+        
+        fadeIn()
         
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
@@ -113,7 +120,7 @@ class GameViewController: UIViewController {
             )
         }
         
-        if (gameMode == "Timed"){
+        /*if (gameMode == "Timed"){
             UIView.animate(withDuration: 0.7, delay: 0,
                            options: [.curveEaseOut],
                            animations: {
@@ -123,7 +130,7 @@ class GameViewController: UIViewController {
             },
                            completion: nil
             )
-        }
+        }*/
         
         UIView.animate(withDuration: 1, delay: 5,
                        options: [.curveEaseOut],
@@ -148,6 +155,7 @@ class GameViewController: UIViewController {
     }
     
     func hidePause(){
+        pauseShowing = false
         Home.isHidden = true
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
@@ -162,6 +170,7 @@ class GameViewController: UIViewController {
     }
     
     func showPause(){
+        pauseShowing = true
         Home.isHidden = false
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
@@ -245,6 +254,26 @@ class GameViewController: UIViewController {
     
     @IBAction func backPressed(_ sender: Any) {
         segueToGameOver()
+    }
+    
+    func fadeIn(){
+        UIView.animate(withDuration: 1, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.fade.alpha = 0
+        },
+                       completion: nil
+        )
+    }
+    
+    func fadeOut(){
+        UIView.animate(withDuration: 1, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.fade.alpha = 1
+        },
+                       completion: nil
+        )
     }
     
 }

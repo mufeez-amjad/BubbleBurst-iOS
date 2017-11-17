@@ -11,8 +11,10 @@ import UIKit
 import SpriteKit
 import GameplayKit
 import GoogleMobileAds
+import StoreKit
 
-class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelegate, GADInterstitialDelegate {
+class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
+    
     let defaults = UserDefaults.standard
     
     @IBOutlet weak var Back: UIButton!
@@ -63,6 +65,15 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     @IBOutlet weak var bannerAd: GADBannerView!
     var coinRewardAd: GADRewardBasedVideoAd?
     
+    let removeAdsID = "2017101"
+    let fiftyCoinsID = "2017102"
+    let hundredCoinsID = "2017103"
+    
+    var productID = ""
+    var productsRequest = SKProductsRequest()
+    var iapProducts = [SKProduct]()
+    var noAdsPurchased = UserDefaults.standard.bool(forKey: "noAdsPurchased")
+    
     override func viewDidLoad() {
         Back.setImage(UIImage(named: "back"), for: .normal)
         coinAd.setImage(UIImage(named: "coinAd"), for: .normal)
@@ -99,6 +110,13 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         Back.center.x -= view.bounds.width
         coinsLabel.center.y += view.bounds.height
         coinIcon.center.y += view.bounds.height
+        
+        if noAdsPurchased {
+            noAds.setImage(UIImage(named: "noAds2"), for: .normal)
+        }
+        
+        // Fetch IAP Products available
+        fetchAvailableProducts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -108,20 +126,15 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         coinsLabel.text = "\(coins)"
         
         //autoProgress.image = resizeImage(image: autoProgress.image!, scaledToSize: CGSize(width: autoProgress.bounds.size.width * CGFloat(autoWidth), height: autoProgress.bounds.size.height))
-        
         updateProgress()
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
                         self.Back.center.x += self.view.bounds.width
-        },
-                       completion: nil
-        )
-        
-        UIView.animate(withDuration: 0.7, delay: 0.7,
-                       options: [.curveEaseOut],
-                       animations: {
                         self.coinsLabel.center.y -= self.view.bounds.height
                         self.coinIcon.center.y -= self.view.bounds.height
         },
@@ -367,9 +380,6 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         }
         else if (menu == "PowerUp"){
             Menu.image = UIImage(named: "powerUpMenu")
-            
-            
-            
             slowUpgrade.isHidden = false
             autoUpgrade.isHidden = false
             lifeUpgrade.isHidden = false
@@ -388,4 +398,165 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         }
     }
     
+    @IBAction func noAdsPressed(_ sender: Any) {
+        purchaseMyProduct(product: iapProducts[0])
+    }
+    @IBAction func adCoinsPressed(_ sender: Any) {
+        
+    }
+    @IBAction func restorePressed(_ sender: Any) {
+        SKPaymentQueue.default().add(self)
+        SKPaymentQueue.default().restoreCompletedTransactions()
+    }
+    @IBAction func buyCoinsPressed(_ sender: Any) {
+        
+    }
+    
+    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
+        noAdsPurchased = true
+        UserDefaults.standard.set(noAdsPurchased, forKey: "noAdsPurchased")
+        let alert = UIAlertController(title: "Restore Purchases", message: "You've successfully restored your purchase!", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let cancelAction = UIAlertAction(title: "OK",
+                                         style: .cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
+    }
+    
+    func fetchAvailableProducts()  {
+        // Put here your IAP Products ID's
+        let productIdentifiers = NSSet(objects: removeAdsID, fiftyCoinsID, hundredCoinsID
+        )
+        
+        productsRequest = SKProductsRequest(productIdentifiers: productIdentifiers as! Set<String>)
+        productsRequest.delegate = self
+        productsRequest.start()
+    }
+    
+    func productsRequest (_ request:SKProductsRequest, didReceive response:SKProductsResponse) {
+        if (response.products.count > 0) {
+            iapProducts = response.products
+            
+            // 1st IAP Product (Consumable) ------------------------------------
+            let firstProduct = response.products[0] as SKProduct
+            
+            // Get its price from iTunes Connect
+            let numberFormatter = NumberFormatter()
+            numberFormatter.formatterBehavior = .behavior10_4
+            numberFormatter.numberStyle = .currency
+            numberFormatter.locale = firstProduct.priceLocale
+            let price1Str = numberFormatter.string(from: firstProduct.price)
+            
+            // Show its description
+            //consumableLabel.text = firstProduct.localizedDescription + "\nfor just \(price1Str!)"
+            // ------------------------------------------------
+            
+            
+            
+            // 2nd IAP Product (Non-Consumable) ------------------------------
+            let secondProd = response.products[1] as SKProduct
+            
+            // Get its price from iTunes Connect
+            numberFormatter.locale = secondProd.priceLocale
+            let price2Str = numberFormatter.string(from: secondProd.price)
+            
+            // Show its description
+            //nonConsumableLabel.text = secondProd.localizedDescription + "\nfor just \(price2Str!)"
+            // ------------------------------------
+        
+        }
+    }
+    
+    func canMakePurchases() -> Bool {  return SKPaymentQueue.canMakePayments()  }
+    
+    func purchaseMyProduct(product: SKProduct) {
+        if self.canMakePurchases() {
+            let payment = SKPayment(product: product)
+            SKPaymentQueue.default().add(self)
+            SKPaymentQueue.default().add(payment)
+            
+            print("PRODUCT TO PURCHASE: \(product.productIdentifier)")
+            productID = product.productIdentifier
+            
+        } else {
+            let alert = UIAlertController(title: "Purchase Error", message: "Purchases are disabled on your device!", preferredStyle: UIAlertControllerStyle.alert)
+            
+            let cancelAction = UIAlertAction(title: "OK",
+                                             style: .cancel, handler: nil)
+            
+            alert.addAction(cancelAction)
+            present(alert, animated: true)
+        }
+    }
+    
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        for transaction:AnyObject in transactions {
+            if let trans = transaction as? SKPaymentTransaction {
+                switch trans.transactionState {
+                    
+                case .purchased:
+                    SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                    
+                    // The Consumable product (10 coins) has been purchased -> gain 10 extra coins!
+                    if productID == fiftyCoinsID {
+                        
+                        // Add 10 coins and save their total amount
+                        coins += 50
+                        UserDefaults.standard.set(coins, forKey: "coins")
+                        coinsLabel.text = "\(coins)"
+                        
+                        let alert = UIAlertController(title: "Purchase Successful", message: "You've successfully purchased 50 coins!", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        let cancelAction = UIAlertAction(title: "OK",
+                                                         style: .cancel, handler: nil)
+                        
+                        alert.addAction(cancelAction)
+                        present(alert, animated: true)
+                        
+                    }
+                        
+                    else if productID == hundredCoinsID {
+                        coins += 100
+                        UserDefaults.standard.set(coins, forKey: "coins")
+                        coinsLabel.text = "\(coins)"
+                        
+                        let alert = UIAlertController(title: "Purchase Successful", message: "You've successfully purchased 100 coins!", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        let cancelAction = UIAlertAction(title: "OK",
+                                                         style: .cancel, handler: nil)
+                        
+                        alert.addAction(cancelAction)
+                        present(alert, animated: true)
+                    }
+                    
+                    else if productID == removeAdsID {
+                        
+                        // Save your purchase locally (needed only for Non-Consumable IAP)
+                        noAdsPurchased = true
+                        UserDefaults.standard.set(noAdsPurchased, forKey: "noAdsPurchased")
+                        
+                        noAds.setImage(UIImage(named: "noAds2"), for: .normal)
+
+                        let alert = UIAlertController(title: "Purchase Successful", message: "You've successfully removed ads!", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        let cancelAction = UIAlertAction(title: "OK",
+                                                         style: .cancel, handler: nil)
+                        
+                        alert.addAction(cancelAction)
+                        present(alert, animated: true)
+                    }
+                    
+                    break
+                    
+                case .failed:
+                    SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                    break
+                case .restored:
+                    SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                    break
+                    
+                default: break
+                }}}
+    }
 }
