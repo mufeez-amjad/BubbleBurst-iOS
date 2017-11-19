@@ -17,6 +17,8 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     
     let defaults = UserDefaults.standard
     
+    @IBOutlet weak var BG: UIImageView!
+    
     @IBOutlet weak var Back: UIButton!
     @IBOutlet weak var PowerUp: UIButton!
     @IBOutlet weak var Customize: UIButton!
@@ -45,7 +47,29 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     @IBOutlet weak var noAds: UIButton!
     @IBOutlet weak var restorePurchases: UIButton!
     
-    @IBOutlet weak var Menu: UIImageView!
+    @IBOutlet weak var powerUpMenu: UIImageView!
+    
+    
+    @IBOutlet weak var customizeMenu: UIImageView!
+    @IBOutlet weak var buyTitle: UILabel!
+    @IBOutlet weak var buyImage: UIImageView!
+    
+    @IBOutlet weak var includes: UILabel!
+    @IBOutlet weak var details: UILabel!
+    
+    @IBOutlet weak var buySet: UIButton!
+    
+    @IBOutlet weak var coinPrice: UIImageView!
+    @IBOutlet weak var price: UILabel!
+    
+    var grassPrice = 100
+    var snowPrice = 200
+    var tapiocaPrice = 200
+    
+    @IBOutlet weak var Regular: UIButton!
+    @IBOutlet weak var Grass: UIButton!
+    @IBOutlet weak var Snow: UIButton!
+    @IBOutlet weak var Tapioca: UIButton!
     
     var menu = "PowerUp"
     
@@ -74,14 +98,68 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     var iapProducts = [SKProduct]()
     var noAdsPurchased = UserDefaults.standard.bool(forKey: "noAdsPurchased")
     
+    var grassUnlocked = false
+    var snowUnlocked = false
+    var tapiocaUnlocked = false
+    
+    var regularSelected = true
+    var grassSelected = false
+    var snowSelected = false
+    var tapiocaSelected = false
+    
     override func viewDidLoad() {
+        
+        if (defaults.bool(forKey: "Greenery") == true){
+            grassUnlocked = true
+        }
+        
+        if (defaults.bool(forKey: "Snowy") == true){
+            snowUnlocked = true
+        }
+        
+        if (defaults.bool(forKey: "Bubble Tea") == true){
+            tapiocaUnlocked = true
+        }
+        
+        Regular.setImage(UIImage(named: "regularS"), for: .normal)
+        Grass.setImage(UIImage(named: "leaf"), for: .normal)
+        Snow.setImage(UIImage(named: "snow"), for: .normal)
+        Tapioca.setImage(UIImage(named: "tapioca"), for: .normal)
+        
+        if (Menu.bundle != "Classic"){
+            buySet.setImage(UIImage(named: "setItem"), for: .normal)
+        }
+        else {
+            buySet.setImage(UIImage(named: "setItemI"), for: .normal)
+        }
         Back.setImage(UIImage(named: "back"), for: .normal)
         coinAd.setImage(UIImage(named: "coinAd"), for: .normal)
         buyCoins.setImage(UIImage(named: "buyCoin"), for: .normal)
         noAds.setImage(UIImage(named: "noAds"), for: .normal)
         restorePurchases.setImage(UIImage(named: "restore"), for: .normal)
         
-        Menu.image = UIImage(named: "powerUpMenu")
+        powerUpMenu.isHidden = false
+        
+        customizeMenu.isHidden = true
+        buyImage.isHidden = true
+        buyTitle.isHidden = true
+        coinPrice.isHidden = true
+        price.isHidden = true
+        details.isHidden = true
+        includes.isHidden = true
+        buySet.isHidden = true
+        Regular.isHidden = true
+        Grass.isHidden = true
+        Snow.isHidden = true
+        Tapioca.isHidden = true
+        
+        buyImage.image = UIImage(named: "regularI")
+        
+        buyTitle.text = "Classic"
+        
+        details.text = "Bubbles, Ocean"
+        coinPrice.isHidden = true
+        price.isHidden = true
         
         //Request
         let request = GADRequest()
@@ -119,10 +197,40 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         fetchAvailableProducts()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        Back.center.x -= view.bounds.width
+        coinsLabel.center.y += view.bounds.height
+        coinIcon.center.y += view.bounds.height
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
+        if (Menu.bundle == "Classic"){
+            BG.image = UIImage(named: "BG")
+        }
+            
+        else if (Menu.bundle == "Bubble Tea"){
+            BG.image = UIImage(named: "milkBG")
+        }
+            
+        else if (Menu.bundle == "Snowy"){
+            BG.image = UIImage(named: "snowBG")
+        }
+            
+        else if (Menu.bundle == "Greenery"){
+            BG.image = UIImage(named: "grassBG")
+        }
+        
         if (defaults.value(forKey: "Coins") != nil){
             coins = defaults.integer(forKey: "Coins")
         }
+        
+        if (Menu.bundle != "Classic"){
+            buySet.setImage(UIImage(named: "setItem"), for: .normal)
+        }
+        else {
+            buySet.setImage(UIImage(named: "setItemI"), for: .normal)
+        }
+        
         coinsLabel.text = "\(coins)"
         
         //autoProgress.image = resizeImage(image: autoProgress.image!, scaledToSize: CGSize(width: autoProgress.bounds.size.width * CGFloat(autoWidth), height: autoProgress.bounds.size.height))
@@ -226,7 +334,8 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         
         if (defaults.object(forKey: "AutoPop") == nil){
             autoCost = 75
-            autoProgress.isHidden = true
+            autoProgress.isHidden = false
+            autoProgress.image = UIImage(named: "0")
             autoLevel = 0
         }
         else if (defaults.integer(forKey: "AutoPop") == 1){
@@ -359,7 +468,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     
     func changeMenu(){
         if (menu == "Customize"){
-            Menu.image = UIImage(named: "customizeMenu")
+            powerUpMenu.isHidden = true
             slowUpgrade.isHidden = true
             autoUpgrade.isHidden = true
             lifeUpgrade.isHidden = true
@@ -376,10 +485,35 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             lifeDetails.isHidden = true
             lifeProgress.isHidden = true
             
-            
+            customizeMenu.isHidden = false
+            buyImage.isHidden = false
+            buyTitle.isHidden = false
+            coinPrice.isHidden = true
+            price.isHidden = true
+            details.isHidden = false
+            includes.isHidden = false
+            buySet.isHidden = false
+            Regular.isHidden = false
+            Grass.isHidden = false
+            Snow.isHidden = false
+            Tapioca.isHidden = false
         }
         else if (menu == "PowerUp"){
-            Menu.image = UIImage(named: "powerUpMenu")
+            customizeMenu.isHidden = true
+            buyImage.isHidden = true
+            buyTitle.isHidden = true
+            coinPrice.isHidden = true
+            price.isHidden = true
+            details.isHidden = true
+            includes.isHidden = true
+            buySet.isHidden = true
+            Regular.isHidden = true
+            Grass.isHidden = true
+            Snow.isHidden = true
+            Tapioca.isHidden = true
+            
+            powerUpMenu.isHidden = false
+            
             slowUpgrade.isHidden = false
             autoUpgrade.isHidden = false
             lifeUpgrade.isHidden = false
@@ -410,6 +544,221 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     @IBAction func buyCoinsPressed(_ sender: Any) {
         
+    }
+    
+    @IBAction func regularPressed(_ sender: Any) {
+        regularSelected = true
+        snowSelected = false
+        grassSelected = false
+        tapiocaSelected = false
+        
+        buyImage.image = UIImage(named: "regularI")
+        
+        buyTitle.text = "Classic"
+        
+        details.text = "Bubbles, Ocean"
+        coinPrice.isHidden = true
+        price.isHidden = true
+        
+        if (Menu.bundle != "Classic") {
+            buySet.setImage(UIImage(named: "setItem"), for: .normal)
+        }
+        else {
+            buySet.setImage(UIImage(named: "setItemI"), for: .normal)
+        }
+        
+        Regular.setImage(UIImage(named: "regularS"), for: .normal)
+        Grass.setImage(UIImage(named: "leaf"), for: .normal)
+        Snow.setImage(UIImage(named: "snow"), for: .normal)
+        Tapioca.setImage(UIImage(named: "tapioca"), for: .normal)
+    }
+    
+    @IBAction func grassPressed(_ sender: Any) {
+        regularSelected = false
+        snowSelected = false
+        grassSelected = true
+        tapiocaSelected = false
+        
+        buyImage.image = UIImage(named: "leafI")
+        
+        buyTitle.text = "Greenery"
+        
+        details.text = "Grassy Hills"
+        coinPrice.isHidden = false
+        price.isHidden = false
+        price.text = "\(grassPrice)"
+        
+        if !(grassUnlocked){
+            if (coins >= grassPrice){
+                buySet.setImage(UIImage(named: "buyItem"), for: .normal)
+            }
+            else {
+                buySet.setImage(UIImage(named: "buyItemI"), for: .normal)
+            }
+        }
+        else {
+            if (Menu.bundle != "Greenery") {
+                buySet.setImage(UIImage(named: "setItem"), for: .normal)
+            }
+            else {
+                buySet.setImage(UIImage(named: "setItemI"), for: .normal)
+            }
+            coinPrice.isHidden = true
+            price.isHidden = true
+        }
+        
+        Grass.setImage(UIImage(named: "leafS"), for: .normal)
+        Regular.setImage(UIImage(named: "regular"), for: .normal)
+        Snow.setImage(UIImage(named: "snow"), for: .normal)
+        Tapioca.setImage(UIImage(named: "tapioca"), for: .normal)
+    }
+    
+    @IBAction func snowPressed(_ sender: Any) {
+        regularSelected = false
+        snowSelected = true
+        grassSelected = false
+        tapiocaSelected = false
+        
+        buyImage.image = UIImage(named: "snowI")
+        
+        buyTitle.text = "Winter"
+        
+        details.text = "Snowflakes\nSnowy Mountains"
+        coinPrice.isHidden = false
+        price.isHidden = false
+        price.text = "\(snowPrice)"
+        
+        if !(snowUnlocked){
+            if (coins >= snowPrice){
+                buySet.setImage(UIImage(named: "buyItem"), for: .normal)
+            }
+            else {
+                buySet.setImage(UIImage(named: "buyItemI"), for: .normal)
+            }
+        }
+        else {
+            if (Menu.bundle != "Snowy") {
+                buySet.setImage(UIImage(named: "setItem"), for: .normal)
+            }
+            else {
+                buySet.setImage(UIImage(named: "setItemI"), for: .normal)
+            }
+            coinPrice.isHidden = true
+            price.isHidden = true
+        }
+    
+        Snow.setImage(UIImage(named: "snowS"), for: .normal)
+        Regular.setImage(UIImage(named: "regular"), for: .normal)
+        Grass.setImage(UIImage(named: "leaf"), for: .normal)
+        Tapioca.setImage(UIImage(named: "tapioca"), for: .normal)
+    }
+    
+    @IBAction func Tapioca(_ sender: Any) {
+        regularSelected = false
+        snowSelected = false
+        grassSelected = false
+        tapiocaSelected = true
+        
+        buyImage.image = UIImage(named: "tapiocaI")
+        
+        buyTitle.text = "Bubble Tea"
+        
+        details.text = "Tapioca Balls\nMilk Tea"
+        coinPrice.isHidden = false
+        price.isHidden = false
+        price.text = "\(tapiocaPrice)"
+        
+        if !(tapiocaUnlocked){
+            if (coins >= tapiocaPrice){
+                buySet.setImage(UIImage(named: "buyItem"), for: .normal)
+            }
+            else {
+                buySet.setImage(UIImage(named: "buyItemI"), for: .normal)
+            }
+        }
+        else {
+            if (Menu.bundle != "Bubble Tea") {
+                buySet.setImage(UIImage(named: "setItem"), for: .normal)
+            }
+            else {
+                buySet.setImage(UIImage(named: "setItemI"), for: .normal)
+            }
+            coinPrice.isHidden = true
+            price.isHidden = true
+        }
+        
+        Tapioca.setImage(UIImage(named: "tapiocaS"), for: .normal)
+        Regular.setImage(UIImage(named: "regular"), for: .normal)
+        Grass.setImage(UIImage(named: "leaf"), for: .normal)
+        Snow.setImage(UIImage(named: "snow"), for: .normal)
+    }
+    
+    @IBAction func buySetPressed(_ sender: Any) {
+        if (regularSelected){
+            if (Menu.bundle != "Classic") {
+                Menu.bundle = "Classic"
+                defaults.set(Menu.bundle, forKey: "bundle")
+                BG.image = UIImage(named: "BG")
+            }
+        }
+        else if (grassSelected){
+            if (Menu.bundle != "Greenery"){
+                if (grassUnlocked){
+                    Menu.bundle = "Greenery"
+                    defaults.set(Menu.bundle, forKey: "bundle")
+                    buySet.setImage(UIImage(named: "setItemI"), for: .normal)
+                    BG.image = UIImage(named: "grassBG")
+                }
+                else if (coins >= grassPrice){
+                    coins -= grassPrice
+                    Menu.bundle = "Greenery"
+                    defaults.set(Menu.bundle, forKey: "bundle")
+                    grassUnlocked = true
+                    defaults.set(grassUnlocked, forKey: "Greenery")
+                    buySet.setImage(UIImage(named: "setItemI"), for: .normal)
+                    BG.image = UIImage(named: "grassBG")
+                }
+            }
+        }
+        else if (snowSelected){
+            if (Menu.bundle != "Snowy"){
+                if (snowUnlocked){
+                    Menu.bundle = "Snowy"
+                    defaults.set(Menu.bundle, forKey: "bundle")
+                    buySet.setImage(UIImage(named: "setItemI"), for: .normal)
+                    BG.image = UIImage(named: "snowBG")
+                }
+                else if (coins >= snowPrice){
+                    coins -= snowPrice
+                    Menu.bundle = "Snowy"
+                    defaults.set(Menu.bundle, forKey: "bundle")
+                    snowUnlocked = true
+                    defaults.set(snowUnlocked, forKey: "Snowy")
+                    buySet.setImage(UIImage(named: "setItemI"), for: .normal)
+                    BG.image = UIImage(named: "snowBG")
+                }
+            }
+        }
+        else if (tapiocaSelected){
+            if (Menu.bundle != "Bubble Tea"){
+                if (tapiocaUnlocked){
+                    Menu.bundle = "Bubble Tea"
+                    defaults.set(Menu.bundle, forKey: "bundle")
+                    BG.image = UIImage(named: "milkBG")
+                    buySet.setImage(UIImage(named: "setItemI"), for: .normal)
+                }
+                else if (coins >= tapiocaPrice){
+                    coins -= tapiocaPrice
+                    Menu.bundle = "Bubble Tea"
+                    defaults.set(Menu.bundle, forKey: "bundle")
+                    tapiocaUnlocked = true
+                    defaults.set(tapiocaUnlocked, forKey: "Bubble Tea")
+                    BG.image = UIImage(named: "milkBG")
+                    buySet.setImage(UIImage(named: "setItemI"), for: .normal)
+                }
+            }
+        }
+        coinsLabel.text = "\(coins)"
     }
     
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
@@ -464,7 +813,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             // Show its description
             //nonConsumableLabel.text = secondProd.localizedDescription + "\nfor just \(price2Str!)"
             // ------------------------------------
-        
+            
         }
     }
     
@@ -529,7 +878,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                         alert.addAction(cancelAction)
                         present(alert, animated: true)
                     }
-                    
+                        
                     else if productID == removeAdsID {
                         
                         // Save your purchase locally (needed only for Non-Consumable IAP)
@@ -537,7 +886,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                         UserDefaults.standard.set(noAdsPurchased, forKey: "noAdsPurchased")
                         
                         noAds.setImage(UIImage(named: "noAds2"), for: .normal)
-
+                        
                         let alert = UIAlertController(title: "Purchase Successful", message: "You've successfully removed ads!", preferredStyle: UIAlertControllerStyle.alert)
                         
                         let cancelAction = UIAlertAction(title: "OK",

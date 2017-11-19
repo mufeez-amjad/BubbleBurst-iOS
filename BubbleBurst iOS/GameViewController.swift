@@ -45,6 +45,26 @@ class GameViewController: UIViewController {
         Back.center.x -= view.bounds.width
         instructionsLabel.center.y -= view.bounds.height
         
+        BubbleIcon.center.x -= view.bounds.width
+        scoreLabel.center.x -= view.bounds.width
+        LivesIcon.center.x -= view.bounds.width
+        TimerIcon.center.x -= view.bounds.width
+        livesTimeLabel.center.x -= view.bounds.width
+        coinsIcon.center.x -= view.bounds.width
+        coinsLabel.center.x -= view.bounds.width
+        
+        if (Menu.bundle == "Classic" || Menu.bundle == "Greenery"){
+            BubbleIcon.image = UIImage(named: "Bubble")
+        }
+            
+        else if (Menu.bundle == "Bubble Tea"){
+            BubbleIcon.image = UIImage(named: "Tapioca")
+        }
+            
+        else if (Menu.bundle == "Snowy"){
+            BubbleIcon.image = UIImage(named: "Snow")
+        }
+        
         if (gameMode == "Timed" || gameMode == "Endless"){
             LivesIcon.isHidden = true
         }
@@ -104,6 +124,13 @@ class GameViewController: UIViewController {
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
+                        self.BubbleIcon.center.x += self.view.bounds.width
+                        self.scoreLabel.center.x += self.view.bounds.width
+                        self.LivesIcon.center.x += self.view.bounds.width
+                        self.TimerIcon.center.x += self.view.bounds.width
+                        self.livesTimeLabel.center.x += self.view.bounds.width
+                        self.coinsIcon.center.x += self.view.bounds.width
+                        self.coinsLabel.center.x += self.view.bounds.width
                         self.instructionsLabel.center.y += self.view.bounds.height
         },
                        completion: nil
@@ -152,6 +179,13 @@ class GameViewController: UIViewController {
                            completion: nil
             )
         }
+        BubbleIcon.center.x -= view.bounds.width
+        scoreLabel.center.x -= view.bounds.width
+        LivesIcon.center.x -= view.bounds.width
+        TimerIcon.center.x -= view.bounds.width
+        livesTimeLabel.center.x -= view.bounds.width
+        coinsIcon.center.x -= view.bounds.width
+        coinsLabel.center.x -= view.bounds.width
     }
     
     func hidePause(){

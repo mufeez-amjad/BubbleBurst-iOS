@@ -88,12 +88,30 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     @IBOutlet weak var fade: UIImageView!
     
+    static var bundle = "Classic"
+    
+    @IBOutlet weak var BG: UIImageView!
+    
+    @IBOutlet weak var PointsImage: UIImageView!
+    @IBOutlet weak var PowerupImage: UIImageView!
+    @IBOutlet weak var DangerImage: UIImageView!
+    
+    @IBOutlet weak var PointsTitle: UILabel!
+    @IBOutlet weak var PowerupTitle: UILabel!
+    @IBOutlet weak var DangerTitle: UILabel!
+    @IBOutlet weak var PowerUpsTitle: UILabel!
+    @IBOutlet weak var tapEachDetails: UILabel!
+    
     override func viewDidLoad() {
-        /*defaults.setValue(1500, forKey: "Coins")
+        defaults.setValue(1500, forKey: "Coins")
         defaults.setValue(100000, forKey: "Points")
         defaults.setValue(false, forKey: "TimedLock")
-        defaults.setValue(false, forKey: "EndlessLock")*/
+        defaults.setValue(false, forKey: "EndlessLock")
         super.viewDidLoad()
+        
+        if (defaults.string(forKey: "bundle") != nil) {
+            Menu.bundle = defaults.string(forKey: "bundle")!
+        }
         
         //Request
         let request = GADRequest()
@@ -107,7 +125,6 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         
         bannerAd.load(request)
         
-        // Do any additional setup after loading the view, typically from a nib.
         Play.setImage(UIImage(named: "play"), for: .normal)
         Info.setImage(UIImage(named: "info"), for: .normal)
         Back.setImage(UIImage(named: "back"), for: .normal)
@@ -183,13 +200,6 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             AppDelegate.playMusic()
         }
         
-        if (Menu.color) {
-            self.Instructions.image = UIImage(named: "instructions2")
-        }
-        else {
-            self.Instructions.image = UIImage(named: "instructions")
-        }
-        
         Logo.center.y  -= view.bounds.height
         Play.center.y += view.bounds.height
         Info.center.y += view.bounds.height
@@ -205,6 +215,14 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         coinsLabel.center.x -= view.bounds.width
         
         Instructions.center.y -= view.bounds.height
+        PointsImage.center.y -= view.bounds.height
+        PointsTitle.center.y -= view.bounds.height
+        PowerupImage.center.y -= view.bounds.height
+        PowerupTitle.center.y -= view.bounds.height
+        DangerImage.center.y -= view.bounds.height
+        DangerTitle.center.y -= view.bounds.height
+        PowerUpsTitle.center.y -= view.bounds.height
+        tapEachDetails.center.y -= view.bounds.height
         
         Classic.center.y += view.bounds.height
         Timed.center.y += view.bounds.height
@@ -312,6 +330,47 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         else {
             EndlessLock.isHidden = true
         }
+        
+        var BubbleType = "Bubble"
+        
+        if (Menu.bundle == "Classic"){
+            BG.image = UIImage(named: "BG")
+        }
+            
+        else if (Menu.bundle == "Bubble Tea"){
+            BG.image = UIImage(named: "milkBG")
+            BubbleType = "Tapioca"
+        }
+            
+        else if (Menu.bundle == "Snowy"){
+            BG.image = UIImage(named: "snowBG")
+            BubbleType = "Snow"
+        }
+            
+        else if (Menu.bundle == "Greenery"){
+            BG.image = UIImage(named: "grassBG")
+        }
+        
+        PointsImage.image = UIImage(named: BubbleType)
+        if (Menu.color) {
+            PowerupImage.image = UIImage(named: BubbleType + "Y")
+            PowerupTitle.textColor = UIColor(red: 0.89, green: 0.84, blue: 0.27, alpha: 1.0) //yellow
+            PowerUpsTitle.textColor = UIColor(red: 0.89, green: 0.84, blue: 0.27, alpha: 1.0)
+            tapEachDetails.textColor = UIColor(red: 0.89, green: 0.84, blue: 0.27, alpha: 1.0)
+        }
+        else {
+            PowerupImage.image = UIImage(named: BubbleType + "G")
+            PowerupTitle.textColor = UIColor(red: 0.32, green: 0.71, blue: 0.38, alpha: 1.0) //green
+            PowerUpsTitle.textColor = UIColor(red: 0.32, green: 0.71, blue: 0.38, alpha: 1.0)
+            tapEachDetails.textColor = UIColor(red: 0.32, green: 0.71, blue: 0.38, alpha: 1.0)
+        }
+        if (Menu.bundle != "Bubble Tea") {
+            PointsTitle.textColor = UIColor(red: 0.8, green: 0.95, blue: 1.0, alpha: 1.0) //blue
+        }
+        else {
+            PointsTitle.textColor = UIColor(red: 0.38, green: 0.19, blue: 0.02, alpha: 1.0) //tapioca brown
+        }
+        DangerImage.image = UIImage(named: BubbleType + "R")
    }
     
     override func didReceiveMemoryWarning() {
@@ -413,6 +472,14 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
                        options: [.curveEaseOut],
                        animations: {
                         self.Instructions.center.y += self.view.bounds.height
+                        self.PointsImage.center.y += self.view.bounds.height
+                        self.PointsTitle.center.y += self.view.bounds.height
+                        self.PowerupImage.center.y += self.view.bounds.height
+                        self.PowerupTitle.center.y += self.view.bounds.height
+                        self.DangerImage.center.y += self.view.bounds.height
+                        self.DangerTitle.center.y += self.view.bounds.height
+                        self.PowerUpsTitle.center.y += self.view.bounds.height
+                        self.tapEachDetails.center.y += self.view.bounds.height
                         self.Back.center.x += self.view.bounds.width
         },
                        completion: nil
@@ -424,6 +491,14 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
                        options: [.curveEaseOut],
                        animations: {
                         self.Instructions.center.y -= self.view.bounds.height
+                        self.PointsImage.center.y -= self.view.bounds.height
+                        self.PointsTitle.center.y -= self.view.bounds.height
+                        self.PowerupImage.center.y -= self.view.bounds.height
+                        self.PowerupTitle.center.y -= self.view.bounds.height
+                        self.DangerImage.center.y -= self.view.bounds.height
+                        self.DangerTitle.center.y -= self.view.bounds.height
+                        self.PowerUpsTitle.center.y -= self.view.bounds.height
+                        self.tapEachDetails.center.y -= self.view.bounds.height
                         self.Back.center.x -= self.view.bounds.width
         },
                        completion: { finished in
@@ -693,17 +768,33 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
    
     @IBAction func colorPressed(_ sender: Any) {
         Menu.color = !Menu.color
+        
+        var BubbleType = "Bubble"
+        
+        if (Menu.bundle == "Bubble Tea"){
+            BubbleType = "Tapioca"
+        }
+        else if (Menu.bundle == "Snowy"){
+            BubbleType = "Snow"
+        }
+        
         if (!Menu.color){
             colorButton.setImage(UIImage(named: "colorOff"), for: .normal)
             defaults.set("off", forKey: "color")
-            self.Instructions.image = UIImage(named: "instructions")
+            PowerupImage.image = UIImage(named: BubbleType + "G")
+            PowerupTitle.textColor = UIColor(red: 0.32, green: 0.71, blue: 0.38, alpha: 1.0) //green
+            PowerUpsTitle.textColor = UIColor(red: 0.32, green: 0.71, blue: 0.38, alpha: 1.0)
+            tapEachDetails.textColor = UIColor(red: 0.32, green: 0.71, blue: 0.38, alpha: 1.0)
         }
         else {
             colorButton.setImage(UIImage(named: "colorOn"), for: .normal)
             defaults.set("on", forKey: "color")
-            self.Instructions.image = UIImage(named: "instructions2")
+            PowerupImage.image = UIImage(named: BubbleType + "Y")
+            
+            PowerupTitle.textColor = UIColor(red: 0.89, green: 0.84, blue: 0.27, alpha: 1.0) //yellow
+            PowerUpsTitle.textColor = UIColor(red: 0.89, green: 0.84, blue: 0.27, alpha: 1.0)
+            tapEachDetails.textColor = UIColor(red: 0.89, green: 0.84, blue: 0.27, alpha: 1.0)
         }
-        print(defaults.value(forKey: "color"))
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

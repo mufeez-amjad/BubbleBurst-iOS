@@ -119,13 +119,27 @@ class GameScene: SKScene {
             lifeLevel = defaults.integer(forKey: "Life")
         }
         
-        let bg = SKSpriteNode(imageNamed: "BG (750x1334)")
+        var bg: SKSpriteNode!
+        
+        if (Menu.bundle == "Classic"){
+            bg = SKSpriteNode(imageNamed: "BGGame")
+        }
+            
+        else if (Menu.bundle == "Bubble Tea"){
+            bg = SKSpriteNode(imageNamed: "milkGame")
+        }
+            
+        else if (Menu.bundle == "Snowy"){
+            bg = SKSpriteNode(imageNamed: "snowGame")
+        }
+            
+        else if (Menu.bundle == "Greenery"){
+            bg = SKSpriteNode(imageNamed: "grassGame")
+        }
         
         bg.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
         bg.zPosition = -1
         self.addChild(bg)
-        
-        
         
         oneUpIcon = SKSpriteNode(imageNamed: "1Up")
         slowMoIcon = SKSpriteNode(imageNamed: "slowMo")
@@ -1000,11 +1014,22 @@ class GameScene: SKScene {
         for (i,bubble) in bubbles.enumerated().reversed() {
             bubble.update()
             if (gameMode == "Classic") {
-                if (bubble.getY() > 1400){
-                    bubbles.remove(at: i)
-                    bubble.removeFromParent()
-                    if lives > 0 && bubble.ifBlue(){
-                        lives -= 1
+                if (Menu.bundle == "Classic" || Menu.bundle == "Greenery") {
+                    if (bubble.getY() > 1400){
+                        bubbles.remove(at: i)
+                        bubble.removeFromParent()
+                        if lives > 0 && bubble.ifBlue(){
+                            lives -= 1
+                        }
+                    }
+                }
+                else {
+                    if (bubble.getY() < 0){
+                        bubbles.remove(at: i)
+                        bubble.removeFromParent()
+                        if lives > 0 && bubble.ifBlue(){
+                            lives -= 1
+                        }
                     }
                 }
                 if lives <= 0 {
@@ -1012,16 +1037,37 @@ class GameScene: SKScene {
                 }
             }
             if (gameMode == "Timed"){
-                if (bubble.getY() > 1400){
-                    bubbles.remove(at: i)
-                    bubble.removeFromParent()
-                    score += 1
+                if (Menu.bundle == "Classic" || Menu.bundle == "Greenery") {
+                    if (bubble.getY() > 1400){
+                        bubbles.remove(at: i)
+                        bubble.removeFromParent()
+                        score += 1
+                    }
+                }
+                else {
+                    if (bubble.getY() < 0){
+                        bubbles.remove(at: i)
+                        bubble.removeFromParent()
+                        score += 1
+                    }
                 }
             }
             
         }
         for (i,coin) in coins.enumerated().reversed() {
             coin.update()
+            if (Menu.bundle == "Classic" || Menu.bundle == "Greenery") {
+                if (coin.getY() > 1400){
+                    coins.remove(at: i)
+                    coin.removeFromParent()
+                }
+            }
+            else {
+                if (coin.getY() < 0){
+                    coins.remove(at: i)
+                    coin.removeFromParent()
+                }
+            }
         }
         
         if (gameMode == "Timed"){
@@ -1084,7 +1130,18 @@ class Bubble: SKSpriteNode {
     var red = false
     var green = false
     
+    var bubbleImage = "Bubble"
+    
     init() {
+        if (Menu.bundle == "Snowy"){
+            bubbleImage = "Snow"
+            y = 1400
+        }
+        else if (Menu.bundle == "Bubble Tea"){
+            bubbleImage = "Tapioca"
+            y = 1400
+        }
+        
         bubbleSize = Int(arc4random_uniform(3))
         if (Bubble.gameMode != "Timed") {
             type = Int(arc4random_uniform(100))
@@ -1094,19 +1151,19 @@ class Bubble: SKSpriteNode {
             //Bubble.riseSpeed = 17
         }
         
-        var texture = SKTexture(imageNamed: "Bubble")
+        var texture = SKTexture(imageNamed: bubbleImage)
         
         if (type < 85){
             if (bubbleSize == 1) {
-                texture = SKTexture(imageNamed: "Bubble2")
+                texture = SKTexture(imageNamed: bubbleImage + "2")
             }
                 
             else if (bubbleSize == 2) {
-                texture = SKTexture(imageNamed: "Bubble3")
+                texture = SKTexture(imageNamed: bubbleImage + "3")
             }
                 
             else if (bubbleSize == 3) {
-                texture = SKTexture(imageNamed: "Bubble4")
+                texture = SKTexture(imageNamed: bubbleImage + "4")
             }
         }
             
@@ -1114,37 +1171,37 @@ class Bubble: SKSpriteNode {
             green = true
             if (bubbleSize == 0) {
                 if (!Menu.color) {
-                    texture = SKTexture(imageNamed: "BubbleG")
+                    texture = SKTexture(imageNamed: bubbleImage + "G")
                 }
                 else {
-                    texture = SKTexture(imageNamed: "BubbleY")
+                    texture = SKTexture(imageNamed: bubbleImage + "Y")
                 }
             }
                 
             else if (bubbleSize == 1) {
                 if (!Menu.color) {
-                    texture = SKTexture(imageNamed: "BubbleG2")
+                    texture = SKTexture(imageNamed: bubbleImage + "G2")
                 }
                 else {
-                    texture = SKTexture(imageNamed: "BubbleY2")
+                    texture = SKTexture(imageNamed: bubbleImage + "Y2")
                 }
             }
                 
             else if (bubbleSize == 2) {
                 if (!Menu.color) {
-                    texture = SKTexture(imageNamed: "BubbleG3")
+                    texture = SKTexture(imageNamed: bubbleImage + "G3")
                 }
                 else {
-                    texture = SKTexture(imageNamed: "BubbleY3")
+                    texture = SKTexture(imageNamed: bubbleImage + "Y3")
                 }
             }
                 
             else if (bubbleSize == 3) {
                 if (!Menu.color) {
-                    texture = SKTexture(imageNamed: "BubbleG4")
+                    texture = SKTexture(imageNamed: bubbleImage + "G4")
                 }
                 else {
-                    texture = SKTexture(imageNamed: "BubbleY4")
+                    texture = SKTexture(imageNamed: bubbleImage + "Y4")
                 }
             }
         }
@@ -1152,19 +1209,19 @@ class Bubble: SKSpriteNode {
         else if (type < 100) {
             red = true
             if (bubbleSize == 0) {
-                texture = SKTexture(imageNamed: "BubbleR")
+                texture = SKTexture(imageNamed: bubbleImage + "R")
             }
                 
             else if (bubbleSize == 1) {
-                texture = SKTexture(imageNamed: "BubbleR2")
+                texture = SKTexture(imageNamed: bubbleImage + "R2")
             }
                 
             else if (bubbleSize == 2) {
-                texture = SKTexture(imageNamed: "BubbleR3")
+                texture = SKTexture(imageNamed: bubbleImage + "R3")
             }
                 
             else if (bubbleSize == 3) {
-                texture = SKTexture(imageNamed: "BubbleR4")
+                texture = SKTexture(imageNamed: bubbleImage + "R4")
             }
         }
         
@@ -1217,7 +1274,12 @@ class Bubble: SKSpriteNode {
                     Bubble.riseSpeed *= 1.005
                 }
             }
-            y += Int(Bubble.riseSpeed)
+            if (Menu.bundle == "Classic" || Menu.bundle == "Greenery") {
+                y += Int(Bubble.riseSpeed)
+            }
+            else {
+                y -= Int(Bubble.riseSpeed)
+            }
             
             self.position = CGPoint(x: x, y: y)
         }
@@ -1235,6 +1297,11 @@ class Coin: SKSpriteNode {
     
     
     init() {
+        
+        if (Menu.bundle == "Snowy" || Menu.bundle == "Bubble Tea") {
+            y = 1400
+        }
+        
         var texture = SKTexture(imageNamed: "coin1")
         
         let f0 = SKTexture.init(imageNamed: "coin1")
@@ -1260,10 +1327,18 @@ class Coin: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func getY() -> CGFloat {
+        return CGFloat(y)
+    }
     
     func update(){
         if !(GameScene.gamePaused){
-            y += riseSpeed
+            if (Menu.bundle == "Classic" || Menu.bundle == "Greenery"){
+                y += riseSpeed
+            }
+            else {
+                y -= riseSpeed
+            }
             self.position = CGPoint(x: x, y: y)
         }
         

@@ -16,6 +16,8 @@ import GameKit
 
 class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelegate, GADInterstitialDelegate, GKGameCenterControllerDelegate {
     
+    @IBOutlet weak var BG: UIImageView!
+    
     @IBOutlet weak var gameOverOverlay: UIImageView!
     
     @IBOutlet weak var highScoreLabel: UILabel!
@@ -53,7 +55,21 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             videoAdButton.isHidden = true
         }
         
-        
+        if (Menu.bundle == "Classic"){
+            BG.image = UIImage(named: "BG")
+        }
+            
+        else if (Menu.bundle == "Bubble Tea"){
+            BG.image = UIImage(named: "milkBG")
+        }
+            
+        else if (Menu.bundle == "Snowy"){
+            BG.image = UIImage(named: "snowBG")
+        }
+            
+        else if (Menu.bundle == "Greenery"){
+            BG.image = UIImage(named: "grassBG")
+        }
         
         //Request
         let request = GADRequest()
