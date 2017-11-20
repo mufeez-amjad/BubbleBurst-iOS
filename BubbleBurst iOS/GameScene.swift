@@ -90,7 +90,7 @@ class GameScene: SKScene {
     var reveal: SKAction!
     
     var countdownAction: SKAction!
- 
+    
     
     var startsIn = 3
     var gameMode: String!
@@ -108,7 +108,7 @@ class GameScene: SKScene {
     
     override func sceneDidLoad() {
         if !(defaults.object(forKey: "AutoPop") == nil){
-           autoLevel = defaults.integer(forKey: "AutoPop")
+            autoLevel = defaults.integer(forKey: "AutoPop")
         }
         
         if !(defaults.object(forKey: "SlowMo") == nil){
@@ -155,60 +155,60 @@ class GameScene: SKScene {
         inactiveAutoPop = SKSpriteNode(imageNamed: "auto2")
         
         pathEmitter = SKEmitterNode(fileNamed: "MyParticle")
-            timerIcon.position = CGPoint(x: 250,y: self.frame.height - 100)
-            timerIcon.xScale = 0.07
-            timerIcon.yScale = 0.07
-            self.addChild(timerIcon)
-            
-            autoPopIcon.position = CGPoint(x: timerIcon.position.x + 100,y: self.frame.height - 100)
-            autoPopIcon.xScale = 0.07
-            autoPopIcon.yScale = 0.07
-            self.addChild(autoPopIcon)
-            
-            inactiveAutoPop.position = CGPoint(x: timerIcon.position.x + 100,y: self.frame.height - 100)
-            inactiveAutoPop.xScale = 0.07
-            inactiveAutoPop.yScale = 0.07
-            self.addChild(inactiveAutoPop)
-            
-            slowMoIcon.position = CGPoint(x: autoPopIcon.position.x + autoPopIcon.size.width * 1.1,y: self.frame.height - 100)
-            slowMoIcon.xScale = 0.07
-            slowMoIcon.yScale = 0.07
-            self.addChild(slowMoIcon)
-            
-            inactiveSlowMo.position = CGPoint(x: autoPopIcon.position.x + autoPopIcon.size.width * 1.1,y: self.frame.height - 100)
-            inactiveSlowMo.xScale = 0.07
-            inactiveSlowMo.yScale = 0.07
-            self.addChild(inactiveSlowMo)
-            
-            oneUpIcon.position = CGPoint(x: slowMoIcon.position.x + slowMoIcon.size.width * 1.1,y: self.frame.height - 100)
-            oneUpIcon.xScale = 0.07
-            oneUpIcon.yScale = 0.07
-            self.addChild(oneUpIcon)
-            
-            inactiveOneUp.position = CGPoint(x: slowMoIcon.position.x + slowMoIcon.size.width * 1.1,y: self.frame.height - 100)
-            inactiveOneUp.xScale = 0.07
-            inactiveOneUp.yScale = 0.07
-            self.addChild(inactiveOneUp)
-            
-            freezeIcon.position = CGPoint(x: oneUpIcon.position.x + oneUpIcon.size.width * 1.1,y: self.frame.height - 100)
-            freezeIcon.xScale = 0.07
-            freezeIcon.yScale = 0.07
-            self.addChild(freezeIcon)
-            
-            inactiveFreeze.position = CGPoint(x: oneUpIcon.position.x + oneUpIcon.size.width * 1.1,y: self.frame.height - 100)
-            inactiveFreeze.xScale = 0.07
-            inactiveFreeze.yScale = 0.07
-            self.addChild(inactiveFreeze)
-            
-            superPopIcon.position = CGPoint(x: freezeIcon.position.x + freezeIcon.size.width * 1.1,y: self.frame.height - 100)
-            superPopIcon.xScale = 0.07
-            superPopIcon.yScale = 0.07
-            self.addChild(superPopIcon)
-            
-            inactiveSuperPop.position = CGPoint(x: freezeIcon.position.x + freezeIcon.size.width * 1.1,y: self.frame.height - 100)
-            inactiveSuperPop.xScale = 0.07
-            inactiveSuperPop.yScale = 0.07
-            self.addChild(inactiveSuperPop)
+        timerIcon.position = CGPoint(x: 250,y: self.frame.height - 100)
+        timerIcon.xScale = 0.07
+        timerIcon.yScale = 0.07
+        self.addChild(timerIcon)
+        
+        autoPopIcon.position = CGPoint(x: timerIcon.position.x + 100,y: self.frame.height - 100)
+        autoPopIcon.xScale = 0.07
+        autoPopIcon.yScale = 0.07
+        self.addChild(autoPopIcon)
+        
+        inactiveAutoPop.position = CGPoint(x: timerIcon.position.x + 100,y: self.frame.height - 100)
+        inactiveAutoPop.xScale = 0.07
+        inactiveAutoPop.yScale = 0.07
+        self.addChild(inactiveAutoPop)
+        
+        slowMoIcon.position = CGPoint(x: autoPopIcon.position.x + autoPopIcon.size.width * 1.1,y: self.frame.height - 100)
+        slowMoIcon.xScale = 0.07
+        slowMoIcon.yScale = 0.07
+        self.addChild(slowMoIcon)
+        
+        inactiveSlowMo.position = CGPoint(x: autoPopIcon.position.x + autoPopIcon.size.width * 1.1,y: self.frame.height - 100)
+        inactiveSlowMo.xScale = 0.07
+        inactiveSlowMo.yScale = 0.07
+        self.addChild(inactiveSlowMo)
+        
+        oneUpIcon.position = CGPoint(x: slowMoIcon.position.x + slowMoIcon.size.width * 1.1,y: self.frame.height - 100)
+        oneUpIcon.xScale = 0.07
+        oneUpIcon.yScale = 0.07
+        self.addChild(oneUpIcon)
+        
+        inactiveOneUp.position = CGPoint(x: slowMoIcon.position.x + slowMoIcon.size.width * 1.1,y: self.frame.height - 100)
+        inactiveOneUp.xScale = 0.07
+        inactiveOneUp.yScale = 0.07
+        self.addChild(inactiveOneUp)
+        
+        freezeIcon.position = CGPoint(x: oneUpIcon.position.x + oneUpIcon.size.width * 1.1,y: self.frame.height - 100)
+        freezeIcon.xScale = 0.07
+        freezeIcon.yScale = 0.07
+        self.addChild(freezeIcon)
+        
+        inactiveFreeze.position = CGPoint(x: oneUpIcon.position.x + oneUpIcon.size.width * 1.1,y: self.frame.height - 100)
+        inactiveFreeze.xScale = 0.07
+        inactiveFreeze.yScale = 0.07
+        self.addChild(inactiveFreeze)
+        
+        superPopIcon.position = CGPoint(x: freezeIcon.position.x + freezeIcon.size.width * 1.1,y: self.frame.height - 100)
+        superPopIcon.xScale = 0.07
+        superPopIcon.yScale = 0.07
+        self.addChild(superPopIcon)
+        
+        inactiveSuperPop.position = CGPoint(x: freezeIcon.position.x + freezeIcon.size.width * 1.1,y: self.frame.height - 100)
+        inactiveSuperPop.xScale = 0.07
+        inactiveSuperPop.yScale = 0.07
+        self.addChild(inactiveSuperPop)
         
         
         reveal = SKAction.sequence([sizeUp, wait, sizeDown])
@@ -363,9 +363,9 @@ class GameScene: SKScene {
     }
     
     @objc func stopWatch(){
-            time += 1
-            viewController.livesTimeLabel.text = "\(time)"
-            //timeLabel.text = "\(time)"
+        time += 1
+        viewController.livesTimeLabel.text = "\(time)"
+        //timeLabel.text = "\(time)"
         
     }
     
@@ -530,13 +530,13 @@ class GameScene: SKScene {
             }
                 
             else if powerUp < 10 {
-                    freezeTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(freezeCountdown), userInfo: nil, repeats: true)
-                    isFreeze = true
-                    Bubble.frozen = true
-                    beforeFreezeSpeed = Bubble.riseSpeed
-                    Bubble.riseSpeed = 0.0
-                    powerUpLabel.text = "Freeze"
-                    powerUpLabel.run(reveal)
+                freezeTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(freezeCountdown), userInfo: nil, repeats: true)
+                isFreeze = true
+                Bubble.frozen = true
+                beforeFreezeSpeed = Bubble.riseSpeed
+                Bubble.riseSpeed = 0.0
+                powerUpLabel.text = "Freeze"
+                powerUpLabel.run(reveal)
                 
             }
             else if powerUp < 20 {
@@ -828,22 +828,22 @@ class GameScene: SKScene {
     
     func pause(){
         if (gameMode == "Timed"){
-        GameScene.gamePaused = true
-        timesPaused += 1
-        viewController.pausesLeft.text = "Pauses left: \(3 - timesPaused)"
-        viewController.showPause()
-        if (bubbleTimer != nil){
-             bubbleTimer.invalidate()
-             bubbleTimer = nil
-        }
-         if (gameTimer != nil){
-             gameTimer.invalidate()
-             gameTimer = nil
-         }
-         if (coinTimer != nil){
-             coinTimer.invalidate()
-             coinTimer = nil
-         }
+            GameScene.gamePaused = true
+            timesPaused += 1
+            viewController.pausesLeft.text = "Pauses left: \(3 - timesPaused)"
+            viewController.showPause()
+            if (bubbleTimer != nil){
+                bubbleTimer.invalidate()
+                bubbleTimer = nil
+            }
+            if (gameTimer != nil){
+                gameTimer.invalidate()
+                gameTimer = nil
+            }
+            if (coinTimer != nil){
+                coinTimer.invalidate()
+                coinTimer = nil
+            }
         }
     }
     
@@ -866,7 +866,10 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         
-        //NotificationCenter.default.addObserver(self, selector: #selector(pause), name: NSNotification.Name(rawValue: "inactive"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(pauseTimers), name: NSNotification.Name(rawValue: "inactive"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(unpauseTimers), name: NSNotification.Name(rawValue: "active"), object: nil)
+        
         if (!fingerDown && startsIn < 0 && gameMode == "Timed" && !GameScene.gamePaused){
             timesPaused -= 1
             pause()
@@ -887,11 +890,11 @@ class GameScene: SKScene {
                 if (Menu.sound) {
                     playPop()
                     /*if #available(iOS 10.0, *) {
-                        let generator = UINotificationFeedbackGenerator()
-                        generator.notificationOccurred(.error)
-                    } else {
-                        // Fallback on earlier versions
-                    }*/
+                     let generator = UINotificationFeedbackGenerator()
+                     generator.notificationOccurred(.error)
+                     } else {
+                     // Fallback on earlier versions
+                     }*/
                 }
                 
                 if bubble.ifGreen() {
@@ -1005,7 +1008,7 @@ class GameScene: SKScene {
             endGame()
             gameEnded = true
         }
-        
+            
         else {
             if (viewController.pauseShowing && unpaused){
                 viewController.hidePause()
@@ -1076,20 +1079,32 @@ class GameScene: SKScene {
         else if (gameMode == "Classic") {
             viewController.livesTimeLabel.text = "\(lives)"
         }
-            
+        
         viewController.scoreLabel.text = "\(score)"
         viewController.coinsLabel.text = "\(coinCount)"
         
         if (isAutoPop) {
             timerLabel.text = "\(autoPop)"
             for (i,bubble) in bubbles.enumerated().reversed() {
-                if (bubble.getY() >= self.frame.height / 2 && bubble.ifBlue()){
-                    if (Menu.sound) {
-                        playPop()
+                if (Menu.bundle == "Classic" || Menu.bundle == "Greenery") {
+                    if (bubble.getY() >= self.frame.height / 2 && bubble.ifBlue()){
+                        if (Menu.sound) {
+                            playPop()
+                        }
+                        bubbles.remove(at: i)
+                        bubble.removeFromParent()
+                        score += 1
                     }
-                    bubbles.remove(at: i)
-                    bubble.removeFromParent()
-                    score += 1
+                }
+                else {
+                    if (bubble.getY() <= self.frame.height / 2 && bubble.ifBlue()){
+                        if (Menu.sound) {
+                            playPop()
+                        }
+                        bubbles.remove(at: i)
+                        bubble.removeFromParent()
+                        score += 1
+                    }
                 }
             }
         }
@@ -1098,250 +1113,252 @@ class GameScene: SKScene {
         }
     }
     
-    /*@objc func pause(){
-       
-            timesPaused += 1
-            viewController.pausesLeft.text = "Pauses left: \(3 - timesPaused)"
-            viewController.showPause()
-            startsIn = 3
-            stopBubbles()
+    @objc func pauseTimers(){
+        if (gameMode != "Timed"){
+            if (bubbleTimer != nil){
+                bubbleTimer.invalidate()
+                bubbleTimer = nil
+            }
+            if (gameTimer != nil){
+                gameTimer.invalidate()
+                gameTimer = nil
+            }
+            if (coinTimer != nil){
+                coinTimer.invalidate()
+                coinTimer = nil
+            }
         }
-    }*/
-    
-    
-    
-    func stopBubbles(){
-       /*if (bubbleTimer != nil) {
-            bubbleTimer.invalidate()
-            bubbleTimer = nil
-       }*/
     }
-
-
-class Bubble: SKSpriteNode {
-    var bubbleSize: Int
-    var type: Int
-    var x: Int
-    var y = 0
-    static var riseSpeed = 4.0
-    static var frozen = false
-    static var gameMode: String!
-
-    var red = false
-    var green = false
     
-    var bubbleImage = "Bubble"
-    
-    init() {
-        if (Menu.bundle == "Snowy"){
-            bubbleImage = "Snow"
-            y = 1400
+    @objc func unpauseTimers(){
+        if (gameMode != "Timed"){
+            startCountdown()
         }
-        else if (Menu.bundle == "Bubble Tea"){
-            bubbleImage = "Tapioca"
-            y = 1400
-        }
+    }
+    class Bubble: SKSpriteNode {
+        var bubbleSize: Int
+        var type: Int
+        var x: Int
+        var y = 0
+        static var riseSpeed = 4.0
+        static var frozen = false
+        static var gameMode: String!
         
-        bubbleSize = Int(arc4random_uniform(3))
-        if (Bubble.gameMode != "Timed") {
-            type = Int(arc4random_uniform(100))
-        }
-        else {
-            type = 95 //forced red bubble
-            //Bubble.riseSpeed = 17
-        }
+        var red = false
+        var green = false
         
-        var texture = SKTexture(imageNamed: bubbleImage)
+        var bubbleImage = "Bubble"
         
-        if (type < 85){
-            if (bubbleSize == 1) {
-                texture = SKTexture(imageNamed: bubbleImage + "2")
+        init() {
+            if (Menu.bundle == "Snowy"){
+                bubbleImage = "Snow"
+                y = 1400
             }
-                
-            else if (bubbleSize == 2) {
-                texture = SKTexture(imageNamed: bubbleImage + "3")
+            else if (Menu.bundle == "Bubble Tea"){
+                bubbleImage = "Tapioca"
+                y = 1400
             }
-                
-            else if (bubbleSize == 3) {
-                texture = SKTexture(imageNamed: bubbleImage + "4")
-            }
-        }
             
-        else if (type <= 90) {
-            green = true
-            if (bubbleSize == 0) {
-                if (!Menu.color) {
-                    texture = SKTexture(imageNamed: bubbleImage + "G")
-                }
-                else {
-                    texture = SKTexture(imageNamed: bubbleImage + "Y")
-                }
-            }
-                
-            else if (bubbleSize == 1) {
-                if (!Menu.color) {
-                    texture = SKTexture(imageNamed: bubbleImage + "G2")
-                }
-                else {
-                    texture = SKTexture(imageNamed: bubbleImage + "Y2")
-                }
-            }
-                
-            else if (bubbleSize == 2) {
-                if (!Menu.color) {
-                    texture = SKTexture(imageNamed: bubbleImage + "G3")
-                }
-                else {
-                    texture = SKTexture(imageNamed: bubbleImage + "Y3")
-                }
-            }
-                
-            else if (bubbleSize == 3) {
-                if (!Menu.color) {
-                    texture = SKTexture(imageNamed: bubbleImage + "G4")
-                }
-                else {
-                    texture = SKTexture(imageNamed: bubbleImage + "Y4")
-                }
-            }
-        }
-            
-        else if (type < 100) {
-            red = true
-            if (bubbleSize == 0) {
-                texture = SKTexture(imageNamed: bubbleImage + "R")
-            }
-                
-            else if (bubbleSize == 1) {
-                texture = SKTexture(imageNamed: bubbleImage + "R2")
-            }
-                
-            else if (bubbleSize == 2) {
-                texture = SKTexture(imageNamed: bubbleImage + "R3")
-            }
-                
-            else if (bubbleSize == 3) {
-                texture = SKTexture(imageNamed: bubbleImage + "R4")
-            }
-        }
-        
-        let randomBubbleX = GKRandomDistribution(lowestValue:Int(texture.size().width/2), highestValue: 750 - Int(texture.size().width)/2)
-        x = randomBubbleX.nextInt()
-        super.init(texture: texture, color: UIColor.clear, size: texture.size())
-        }
-    
-    func ifBlue() -> Bool {
-        return !(red || green)
-    }
-    func ifRed() -> Bool {
-        return red
-    }
-    
-    func ifGreen() -> Bool {
-        return green
-    }
-    func getX() -> CGFloat {
-        return CGFloat(x)
-    }
-    
-    func getY() -> CGFloat {
-        return CGFloat(y)
-    }
-    func getBubbleSize() -> CGSize {
-        return self.frame.size
-    }
-    func update(){
-        if !(GameScene.gamePaused){
-            if Bubble.frozen {
-                Bubble.riseSpeed = 0.0
-            }
+            bubbleSize = Int(arc4random_uniform(3))
             if (Bubble.gameMode != "Timed") {
-                if (Bubble.riseSpeed < 30) {
-                    Bubble.riseSpeed *= 1.001
-                }
+                type = Int(arc4random_uniform(100))
             }
             else {
-                if (Bubble.riseSpeed < 15) {
-                    Bubble.riseSpeed *= 1.0005
-                }
-                else if (Bubble.riseSpeed < 20){
-                    Bubble.riseSpeed *= 1.0015
-                }
-                else if (Bubble.riseSpeed < 25){
-                    Bubble.riseSpeed *= 1.001
-                }
-                else if (Bubble.riseSpeed < 30){
-                    Bubble.riseSpeed *= 1.005
-                }
-            }
-            if (Menu.bundle == "Classic" || Menu.bundle == "Greenery") {
-                y += Int(Bubble.riseSpeed)
-            }
-            else {
-                y -= Int(Bubble.riseSpeed)
+                type = 95 //forced red bubble
+                //Bubble.riseSpeed = 17
             }
             
-            self.position = CGPoint(x: x, y: y)
-        }
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-class Coin: SKSpriteNode {
-    var x: Int
-    var y = 0
-    var riseSpeed = 6
-    
-    
-    init() {
-        
-        if (Menu.bundle == "Snowy" || Menu.bundle == "Bubble Tea") {
-            y = 1400
-        }
-        
-        var texture = SKTexture(imageNamed: "coin1")
-        
-        let f0 = SKTexture.init(imageNamed: "coin1")
-        let f1 = SKTexture.init(imageNamed: "coin2")
-        let f2 = SKTexture.init(imageNamed: "coin3")
-        let f3 = SKTexture.init(imageNamed: "coin4")
-        let f4 = SKTexture.init(imageNamed: "coin5")
-        let f5 = SKTexture.init(imageNamed: "coin6")
-        
-        let frames: [SKTexture] = [f0, f1, f2, f3, f4, f5]
-        
-        let animation = SKAction.animate(with: frames, timePerFrame: 0.2, resize: false, restore: true)
-        
-        let randomX = GKRandomDistribution(lowestValue:Int(f5.size().width/2), highestValue: 750 - Int(f5.size().width/2))
-        x = randomX.nextInt()
-        
-        super.init(texture: texture, color: UIColor.clear, size: texture.size())
-        run(SKAction.repeatForever(animation))
-        position = CGPoint(x: x, y: y)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func getY() -> CGFloat {
-        return CGFloat(y)
-    }
-    
-    func update(){
-        if !(GameScene.gamePaused){
-            if (Menu.bundle == "Classic" || Menu.bundle == "Greenery"){
-                y += riseSpeed
+            var texture = SKTexture(imageNamed: bubbleImage)
+            
+            if (type < 85){
+                if (bubbleSize == 1) {
+                    texture = SKTexture(imageNamed: bubbleImage + "2")
+                }
+                    
+                else if (bubbleSize == 2) {
+                    texture = SKTexture(imageNamed: bubbleImage + "3")
+                }
+                    
+                else if (bubbleSize == 3) {
+                    texture = SKTexture(imageNamed: bubbleImage + "4")
+                }
             }
-            else {
-                y -= riseSpeed
+                
+            else if (type <= 90) {
+                green = true
+                if (bubbleSize == 0) {
+                    if (!Menu.color) {
+                        texture = SKTexture(imageNamed: bubbleImage + "G")
+                    }
+                    else {
+                        texture = SKTexture(imageNamed: bubbleImage + "Y")
+                    }
+                }
+                    
+                else if (bubbleSize == 1) {
+                    if (!Menu.color) {
+                        texture = SKTexture(imageNamed: bubbleImage + "G2")
+                    }
+                    else {
+                        texture = SKTexture(imageNamed: bubbleImage + "Y2")
+                    }
+                }
+                    
+                else if (bubbleSize == 2) {
+                    if (!Menu.color) {
+                        texture = SKTexture(imageNamed: bubbleImage + "G3")
+                    }
+                    else {
+                        texture = SKTexture(imageNamed: bubbleImage + "Y3")
+                    }
+                }
+                    
+                else if (bubbleSize == 3) {
+                    if (!Menu.color) {
+                        texture = SKTexture(imageNamed: bubbleImage + "G4")
+                    }
+                    else {
+                        texture = SKTexture(imageNamed: bubbleImage + "Y4")
+                    }
+                }
             }
-            self.position = CGPoint(x: x, y: y)
+                
+            else if (type < 100) {
+                red = true
+                if (bubbleSize == 0) {
+                    texture = SKTexture(imageNamed: bubbleImage + "R")
+                }
+                    
+                else if (bubbleSize == 1) {
+                    texture = SKTexture(imageNamed: bubbleImage + "R2")
+                }
+                    
+                else if (bubbleSize == 2) {
+                    texture = SKTexture(imageNamed: bubbleImage + "R3")
+                }
+                    
+                else if (bubbleSize == 3) {
+                    texture = SKTexture(imageNamed: bubbleImage + "R4")
+                }
+            }
+            
+            let randomBubbleX = GKRandomDistribution(lowestValue:Int(texture.size().width/2), highestValue: 750 - Int(texture.size().width)/2)
+            x = randomBubbleX.nextInt()
+            super.init(texture: texture, color: UIColor.clear, size: texture.size())
         }
         
+        func ifBlue() -> Bool {
+            return !(red || green)
+        }
+        func ifRed() -> Bool {
+            return red
+        }
+        
+        func ifGreen() -> Bool {
+            return green
+        }
+        func getX() -> CGFloat {
+            return CGFloat(x)
+        }
+        
+        func getY() -> CGFloat {
+            return CGFloat(y)
+        }
+        func getBubbleSize() -> CGSize {
+            return self.frame.size
+        }
+        func update(){
+            if !(GameScene.gamePaused){
+                if Bubble.frozen {
+                    Bubble.riseSpeed = 0.0
+                }
+                if (Bubble.gameMode != "Timed") {
+                    if (Bubble.riseSpeed < 30) {
+                        Bubble.riseSpeed *= 1.001
+                    }
+                }
+                else {
+                    if (Bubble.riseSpeed < 15) {
+                        Bubble.riseSpeed *= 1.0005
+                    }
+                    else if (Bubble.riseSpeed < 20){
+                        Bubble.riseSpeed *= 1.0015
+                    }
+                    else if (Bubble.riseSpeed < 25){
+                        Bubble.riseSpeed *= 1.001
+                    }
+                    else if (Bubble.riseSpeed < 30){
+                        Bubble.riseSpeed *= 1.005
+                    }
+                }
+                if (Menu.bundle == "Classic" || Menu.bundle == "Greenery") {
+                    y += Int(Bubble.riseSpeed)
+                }
+                else {
+                    y -= Int(Bubble.riseSpeed)
+                }
+                
+                self.position = CGPoint(x: x, y: y)
+            }
+        }
+        
+        required init(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
     }
-}
+    
+    class Coin: SKSpriteNode {
+        var x: Int
+        var y = 0
+        var riseSpeed = 6
+        
+        
+        init() {
+            
+            if (Menu.bundle == "Snowy" || Menu.bundle == "Bubble Tea") {
+                y = 1400
+            }
+            
+            var texture = SKTexture(imageNamed: "coin1")
+            
+            let f0 = SKTexture.init(imageNamed: "coin1")
+            let f1 = SKTexture.init(imageNamed: "coin2")
+            let f2 = SKTexture.init(imageNamed: "coin3")
+            let f3 = SKTexture.init(imageNamed: "coin4")
+            let f4 = SKTexture.init(imageNamed: "coin5")
+            let f5 = SKTexture.init(imageNamed: "coin6")
+            
+            let frames: [SKTexture] = [f0, f1, f2, f3, f4, f5]
+            
+            let animation = SKAction.animate(with: frames, timePerFrame: 0.2, resize: false, restore: true)
+            
+            let randomX = GKRandomDistribution(lowestValue:Int(f5.size().width/2), highestValue: 750 - Int(f5.size().width/2))
+            x = randomX.nextInt()
+            
+            super.init(texture: texture, color: UIColor.clear, size: texture.size())
+            run(SKAction.repeatForever(animation))
+            position = CGPoint(x: x, y: y)
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        func getY() -> CGFloat {
+            return CGFloat(y)
+        }
+        
+        func update(){
+            if !(GameScene.gamePaused){
+                if (Menu.bundle == "Classic" || Menu.bundle == "Greenery"){
+                    y += riseSpeed
+                }
+                else {
+                    y -= riseSpeed
+                }
+                self.position = CGPoint(x: x, y: y)
+            }
+            
+        }
+    }
 }

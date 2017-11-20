@@ -646,7 +646,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             coinPrice.isHidden = true
             price.isHidden = true
         }
-    
+        
         Snow.setImage(UIImage(named: "snowS"), for: .normal)
         Regular.setImage(UIImage(named: "regular"), for: .normal)
         Grass.setImage(UIImage(named: "leaf"), for: .normal)

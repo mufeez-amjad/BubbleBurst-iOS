@@ -148,16 +148,16 @@ class GameViewController: UIViewController {
         }
         
         /*if (gameMode == "Timed"){
-            UIView.animate(withDuration: 0.7, delay: 0,
-                           options: [.curveEaseOut],
-                           animations: {
-                            self.blurOverlay.alpha = 1
-                            self.pausedOverlay.alpha = 1
-                            self.pausesLeft.alpha = 1
-            },
-                           completion: nil
-            )
-        }*/
+         UIView.animate(withDuration: 0.7, delay: 0,
+         options: [.curveEaseOut],
+         animations: {
+         self.blurOverlay.alpha = 1
+         self.pausedOverlay.alpha = 1
+         self.pausesLeft.alpha = 1
+         },
+         completion: nil
+         )
+         }*/
         
         UIView.animate(withDuration: 1, delay: 5,
                        options: [.curveEaseOut],
@@ -234,7 +234,7 @@ class GameViewController: UIViewController {
         }
         
     }
-
+    
     override var shouldAutorotate: Bool {
         return true
     }
@@ -261,7 +261,7 @@ class GameViewController: UIViewController {
     }
     
     @IBAction func homePressed(_ sender: Any) {
-       segueToGameOver()
+        segueToGameOver()
     }
     
     func nullify(){

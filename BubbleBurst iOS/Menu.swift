@@ -49,7 +49,9 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     var endlessCost = 100
     var timedCost = 50
     //var timedCost = 20000
-
+    @IBOutlet weak var MALogo: UIImageView!
+    @IBOutlet weak var MALogoBackground: UIImageView!
+    
     @IBOutlet weak var TimedLock: UIImageView!
     @IBOutlet weak var EndlessLock: UIImageView!
     
@@ -103,10 +105,10 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     @IBOutlet weak var tapEachDetails: UILabel!
     
     override func viewDidLoad() {
-        defaults.setValue(1500, forKey: "Coins")
-        defaults.setValue(100000, forKey: "Points")
-        defaults.setValue(false, forKey: "TimedLock")
-        defaults.setValue(false, forKey: "EndlessLock")
+        defaults.setValue(5000, forKey: "Coins")
+        //defaults.setValue(0, forKey: "Points")
+        //defaults.setValue(false, forKey: "TimedLock")
+        //defaults.setValue(false, forKey: "EndlessLock")
         super.viewDidLoad()
         
         if (defaults.string(forKey: "bundle") != nil) {
@@ -136,7 +138,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         Classic.setImage(UIImage(named: "classic"), for: .normal)
         Timed.setImage(UIImage(named: "timed"), for: .normal)
         Endless.setImage(UIImage(named: "endless"), for: .normal)
-
+        
         if (defaults.value(forKeyPath: "music") == nil || defaults.string(forKey: "music") == "on"){
             Menu.music = true
         }
@@ -197,7 +199,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             timedLocked = false
         }
         if (Menu.music) {
-            AppDelegate.playMusic()
+            AppDelegate.playMusic() //&& !(AppDelegate.player?.isPlaying)!
         }
         
         Logo.center.y  -= view.bounds.height
@@ -240,6 +242,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         blur.alpha = 0.0
         
         authenticateLocalPlayer()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -265,8 +268,17 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         
         coinsLabel.text = "\(coins)"
         
-        fadeIn()
-        introIn()
+        if (AppDelegate.justLaunched){
+            logoIntro()
+            AppDelegate.justLaunched = false
+        }
+        else {
+            MALogo.alpha = 0
+            MALogoBackground.alpha = 0
+            fadeIn()
+            introIn()
+        }
+        
     }
     
     func fadeIn(){
@@ -277,6 +289,35 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         },
                        completion: nil
         )
+    }
+    
+    func logoIntro(){
+        
+        UIView.animate(withDuration: 0.5, delay: 1,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.MALogo.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+        },
+                       completion: nil
+        )
+        
+        UIView.animate(withDuration: 0.5, delay: 1.5,
+                       options: [.curveEaseIn],
+                       animations: {
+                        self.MALogo.transform = CGAffineTransform(scaleX: 100, y: 100)
+        },
+                       completion: nil
+        )
+        
+        UIView.animate(withDuration: 0.25, delay: 1.9,
+                       options: [.curveLinear],
+                       animations: {
+                        self.MALogo.alpha = 0
+                        self.MALogoBackground.alpha = 0
+        },
+                       completion: { finished in
+                        self.introIn()
+        })
     }
     
     func fadeOut(){
@@ -295,23 +336,23 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         if (playScreen){
             //playOut()
         }
-        
+            
         else { //main menu
             /*Logo.center.y  -= view.bounds.height
-            Play.center.y += view.bounds.height
-            Info.center.y += view.bounds.height
-            Shop.center.y += view.bounds.height
-            Settings.center.y += view.bounds.height
-            
-            pointsIcon.center.x -= view.bounds.width
-            pointsLabel.center.x -= view.bounds.width
-            
-            coinsIcon.center.x -= view.bounds.width
-            coinsLabel.center.x -= view.bounds.width
-            
-            if (settings){
-                hideSettings()
-            }*/
+             Play.center.y += view.bounds.height
+             Info.center.y += view.bounds.height
+             Shop.center.y += view.bounds.height
+             Settings.center.y += view.bounds.height
+             
+             pointsIcon.center.x -= view.bounds.width
+             pointsLabel.center.x -= view.bounds.width
+             
+             coinsIcon.center.x -= view.bounds.width
+             coinsLabel.center.x -= view.bounds.width
+             
+             if (settings){
+             hideSettings()
+             }*/
         }
     }
     
@@ -323,7 +364,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         else {
             TimedLock.isHidden = true
         }
-
+        
         if (endlessLocked) {
             EndlessLock.isHidden = false
         }
@@ -371,7 +412,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             PointsTitle.textColor = UIColor(red: 0.38, green: 0.19, blue: 0.02, alpha: 1.0) //tapioca brown
         }
         DangerImage.image = UIImage(named: BubbleType + "R")
-   }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -387,7 +428,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
                         self.Info.center.y += self.view.bounds.height
                         self.Shop.center.y += self.view.bounds.height
                         self.Settings.center.y += self.view.bounds.height
-
+                        
                         self.pointsIcon.center.x -= self.view.bounds.width
                         self.pointsLabel.center.x -= self.view.bounds.width
                         
@@ -765,7 +806,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             defaults.set("on", forKey: "sound")
         }
     }
-   
+    
     @IBAction func colorPressed(_ sender: Any) {
         Menu.color = !Menu.color
         
@@ -807,10 +848,10 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     override func viewWillDisappear(_ animated: Bool) {
         if gameSegue {
             /*if let nav = self.navigationController {
-                var stack = nav.viewControllers
-                stack.remove(at: 0)
-                nav.setViewControllers(stack, animated: true)
-            }*/
+             var stack = nav.viewControllers
+             stack.remove(at: 0)
+             nav.setViewControllers(stack, animated: true)
+             }*/
             gameSegue = false
         }
     }

@@ -266,6 +266,14 @@
                                     <constraint firstAttribute="width" constant="320" id="dom-w9-9SI"/>
                                 </constraints>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="whiteBG" translatesAutoresizingMaskIntoConstraints="NO" id="ZaS-uR-0ru">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="MALogo" translatesAutoresizingMaskIntoConstraints="NO" id="PbD-gK-EcZ">
+                                <rect key="frame" x="65" y="212" width="243" height="243"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -286,6 +294,8 @@
                         <outlet property="Info" destination="8bM-Oc-O1k" id="9Tc-OE-heT"/>
                         <outlet property="Instructions" destination="ExG-9a-C83" id="N0A-0o-SvY"/>
                         <outlet property="Logo" destination="Iqh-w1-aTZ" id="Av9-CK-j8F"/>
+                        <outlet property="MALogo" destination="PbD-gK-EcZ" id="fsU-ME-fJo"/>
+                        <outlet property="MALogoBackground" destination="ZaS-uR-0ru" id="a6s-Qe-cun"/>
                         <outlet property="Multiplayer" destination="KCN-bm-fPg" id="lZF-xm-6OO"/>
                         <outlet property="Play" destination="Kla-zm-uT2" id="f22-Un-bTC"/>
                         <outlet property="PointsImage" destination="rWB-h2-En5" id="hFe-hn-j4d"/>
@@ -335,6 +345,10 @@
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="powerUpMenu" translatesAutoresizingMaskIntoConstraints="NO" id="heo-Y4-1yZ" userLabel="powerupMenu">
                                 <rect key="frame" x="32" y="50" width="311" height="452"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="customizeMenu" translatesAutoresizingMaskIntoConstraints="NO" id="gsJ-Xa-cl8">
+                                <rect key="frame" x="32" y="50" width="311" height="384"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sqQ-IQ-e2K" customClass="GADBannerView">
@@ -505,26 +519,22 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="customizeMenu" translatesAutoresizingMaskIntoConstraints="NO" id="gsJ-Xa-cl8">
-                                <rect key="frame" x="32" y="50" width="311" height="384"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bubble Tea Pack" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eOV-U9-oIL" userLabel="Title">
-                                <rect key="frame" x="143" y="118" width="148" height="21"/>
+                                <rect key="frame" x="139" y="117" width="185" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="includes:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8XK-Ol-Evq" userLabel="Includes">
-                                <rect key="frame" x="143" y="162" width="60" height="14"/>
+                                <rect key="frame" x="139" y="162" width="83" height="14"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lho-Tw-gn6" userLabel="Price">
-                                <rect key="frame" x="160" y="136" width="30" height="22"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="150" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lho-Tw-gn6" userLabel="Price">
+                                <rect key="frame" x="165" y="136" width="59" height="22"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -578,13 +588,6 @@
                                 <rect key="frame" x="38" y="110" width="93" height="93"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Milk Tea" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XM8-ln-GEs" userLabel="Details">
-                                <rect key="frame" x="205" y="149" width="116" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="12"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SBz-xD-c0a" userLabel="Powerup">
                                 <rect key="frame" x="71" y="53" width="114" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
@@ -599,6 +602,13 @@
                                     <action selector="customizePressed:" destination="tEV-bx-FZj" eventType="touchDown" id="j1Q-ah-wip"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Milk Tea" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XM8-ln-GEs" userLabel="Details">
+                                <rect key="frame" x="210" y="150" width="136" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="10"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -880,6 +890,7 @@
         <image name="BG" width="621" height="1104"/>
         <image name="Bubble" width="90" height="90"/>
         <image name="Lives" width="1018" height="1018"/>
+        <image name="MALogo" width="1451" height="1451"/>
         <image name="coin6" width="110" height="111"/>
         <image name="customizeMenu" width="842" height="1038"/>
         <image name="dropdown" width="379" height="1055"/>
@@ -893,6 +904,7 @@
         <image name="regularI" width="335" height="335"/>
         <image name="timer" width="1018" height="1017"/>
         <image name="unlock" width="511" height="384"/>
+        <image name="whiteBG" width="2251" height="4001"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="nAk-4y-7Yn"/>
