@@ -81,6 +81,10 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     var slowLevel = 1
     var lifeLevel = 1
     
+    var autoWidth = "0"
+    var slowWidth = "20"
+    var lifeWidth = "20"
+    
     var coins = 0
     
     @IBOutlet weak var coinIcon: UIImageView!
@@ -234,7 +238,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         coinsLabel.text = "\(coins)"
         
         //autoProgress.image = resizeImage(image: autoProgress.image!, scaledToSize: CGSize(width: autoProgress.bounds.size.width * CGFloat(autoWidth), height: autoProgress.bounds.size.height))
-        updateProgress()
+        updateProgress(powerUp: 0)
         
     }
     
@@ -292,176 +296,188 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     @IBAction func backPressed(_ sender: Any) {
+        AppDelegate.playClick()
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func autoPopUpgrade(_ sender: Any) {
         if (coins >= autoCost && autoLevel < 3){
+            AppDelegate.playMoney()
             coins -= autoCost
             autoLevel += 1
             coinsLabel.text = "\(coins)"
             defaults.setValue(autoLevel, forKey: "AutoPop")
-            updateProgress()
+            updateProgress(powerUp: 1)
+        }
+        else {
+            AppDelegate.playError()
         }
     }
     
     @IBAction func slowMoUpgrade(_ sender: Any) {
+        
+
         if (coins >= slowCost && slowLevel < 5){
+            AppDelegate.playMoney()
             coins -= slowCost
             slowLevel += 1
             coinsLabel.text = "\(coins)"
             defaults.setValue(slowLevel, forKey: "SlowMo")
-            updateProgress()
+            updateProgress(powerUp: 2)
         }
-        print(slowLevel)
+        else {
+            AppDelegate.playError()
+        }
     }
     
     @IBAction func lifeUpgrade(_ sender: Any) {
+
         if (coins >= lifeCost && lifeLevel < 5){
+            AppDelegate.playMoney()
             coins -= lifeCost
             lifeLevel += 1
             coinsLabel.text = "\(coins)"
             defaults.setValue(lifeLevel, forKey: "Life")
-            updateProgress()
+            updateProgress(powerUp: 3)
         }
-        print(lifeLevel)
+        else {
+            AppDelegate.playError()
+        }
     }
     
-    func updateProgress(){
-        var autoWidth = 0.0
-        var slowWidth = 0.2
-        var lifeWidth = 0.2
+    func updateProgress(powerUp: Int){
         
-        if (defaults.object(forKey: "AutoPop") == nil){
-            autoCost = 75
-            autoProgress.isHidden = false
-            autoProgress.image = UIImage(named: "0")
-            autoLevel = 0
-        }
-        else if (defaults.integer(forKey: "AutoPop") == 1){
-            autoWidth = 0.33
-            autoCost = 125
-            autoProgress.isHidden = false
-            autoProgress.image = UIImage(named: "0.33")
-            autoLevel = 1
-            autoDetails.text = "Longer duration"
-        }
-        else if (defaults.integer(forKey: "AutoPop") == 2){
-            autoWidth = 0.66
-            autoCost = 200
-            autoProgress.image = UIImage(named: "0.66")
-            autoLevel = 2
-            autoDetails.text = "Longer duration"
-        }
-        else if (defaults.integer(forKey: "AutoPop") == 3){
-            autoWidth = 1
-            autoProgress.image = UIImage(named: "1")
-            autoLevel = 3
-            autoDetails.text = "MAX Level Reached"
-        }
-        
-        if (defaults.object(forKey: "SlowMo") == nil){
-            slowCost = 60
-            slowProgress.image = UIImage(named: "0.2")
-            slowLevel = 1
-            slowDetails.text = "Slower"
-        }
-        else if (defaults.integer(forKey: "SlowMo") == 2){
-            slowWidth = 0.4
-            slowCost = 100
-            slowProgress.image = UIImage(named: "0.4")
-            slowLevel = 2
-            slowDetails.text = "Slower"
-        }
-        else if (defaults.integer(forKey: "SlowMo") == 3){
-            slowWidth = 0.6
-            slowCost = 180
-            slowProgress.image = UIImage(named: "0.6")
-            slowLevel = 3
-            slowDetails.text = "Slower"
-        }
-        else if (defaults.integer(forKey: "SlowMo") == 4){
-            slowWidth = 0.8
-            slowCost = 340
-            slowProgress.image = UIImage(named: "0.8")
-            slowLevel = 4
-            slowDetails.text = "Slower"
-        }
-        else if (defaults.integer(forKey: "SlowMo") == 5){
-            slowWidth = 1
-            slowProgress.image = UIImage(named: "1")
-            slowLevel = 5
-            slowDetails.text = "MAX Level Reached"
+        if (powerUp == 1 || powerUp == 0) { //all or autoPop
+            if (defaults.object(forKey: "AutoPop") == nil){
+                autoCost = 75
+                autoLevel = 0
+            }
+            else if (defaults.integer(forKey: "AutoPop") == 1){
+                autoWidth = "33"
+                autoCost = 125
+                autoLevel = 1
+                autoDetails.text = "Longer duration"
+            }
+            else if (defaults.integer(forKey: "AutoPop") == 2){
+                autoWidth = "66"
+                autoCost = 200
+                autoLevel = 2
+                autoDetails.text = "Longer duration"
+            }
+            else if (defaults.integer(forKey: "AutoPop") == 3){
+                autoWidth = "100"
+                autoLevel = 3
+                autoDetails.text = "MAX Level Reached"
+            }
+            autoProgress.image = UIImage(named: autoWidth)
+            
+            autoCurrent.text = "Current Level: \(autoLevel)"
+            
+            if (autoLevel < 3) {
+                autoNext.text = "Next Level: \(autoLevel+1)"
+                autoUpgrade.setTitle("\(autoCost)", for: .normal)
+            }
+            else {
+                autoNext.text = "Next Level: \(autoLevel)"
+                autoUpgrade.setTitle("MAX", for: .normal)
+            }
         }
         
-        if (defaults.object(forKey: "Life") == nil) {
-            lifeCost = 50
-            lifeProgress.image = UIImage(named: "0.2")
-            lifeLevel = 1
-            lifeDetails.text = "One more life"
+        if (powerUp == 2 || powerUp == 0) {
+            if (defaults.object(forKey: "SlowMo") == nil){
+                slowCost = 60
+                slowLevel = 1
+                slowDetails.text = "Slower"
+            }
+            else if (defaults.integer(forKey: "SlowMo") == 2){
+                slowWidth = "40"
+                slowCost = 100
+                slowLevel = 2
+                slowDetails.text = "Slower"
+            }
+            else if (defaults.integer(forKey: "SlowMo") == 3){
+                slowWidth = "60"
+                slowCost = 180
+                slowLevel = 3
+                slowDetails.text = "Slower"
+            }
+            else if (defaults.integer(forKey: "SlowMo") == 4){
+                slowWidth = "80"
+                slowCost = 340
+                slowLevel = 4
+                slowDetails.text = "Slower"
+            }
+            else if (defaults.integer(forKey: "SlowMo") == 5){
+                slowWidth = "100"
+                slowLevel = 5
+                slowDetails.text = "MAX Level Reached"
+            }
+            
+            slowCurrent.text = "Current Level: \(slowLevel)"
+            if (slowLevel < 5) {
+                slowNext.text = "Next Level: \(slowLevel+1)"
+                slowUpgrade.setTitle("\(slowCost)", for: .normal)
+            }
+            else {
+                slowNext.text = "Next Level: \(slowLevel)"
+                slowUpgrade.setTitle("MAX", for: .normal)
+            }
+            slowProgress.image = UIImage(named: slowWidth)
         }
-        else if (defaults.integer(forKey: "Life") == 2){
-            lifeWidth = 0.4
-            lifeCost = 100
-            lifeProgress.image = UIImage(named: "0.4")
-            lifeLevel = 2
-            lifeDetails.text = "One more life"
-        }
-        else if (defaults.integer(forKey: "Life") == 3){
-            lifeWidth = 0.6
-            lifeCost = 200
-            lifeProgress.image = UIImage(named: "0.6")
-            lifeLevel = 3
-            lifeDetails.text = "One more life"
-        }
-        else if (defaults.integer(forKey: "Life") == 4){
-            lifeWidth = 0.8
-            lifeCost = 400
-            lifeProgress.image = UIImage(named: "0.8")
-            lifeLevel = 4
-            lifeDetails.text = "One more life"
-        }
-        else if (defaults.integer(forKey: "Life") == 5){
-            lifeWidth = 1
-            lifeProgress.image = UIImage(named: "1")
-            lifeLevel = 5
-            lifeDetails.text = "MAX Level Reached"
-        }
-        
-        autoUpgrade.setTitle("\(autoCost)", for: .normal)
-        slowUpgrade.setTitle("\(slowCost)", for: .normal)
-        lifeUpgrade.setTitle("\(lifeCost)", for: .normal)
-        
-        autoCurrent.text = "Current Level: \(autoLevel)"
-        if (autoLevel < 3) {
-            autoNext.text = "Next Level: \(autoLevel+1)"
-        }
-        else {
-            autoNext.text = "Next Level: \(autoLevel)"
-        }
-        slowCurrent.text = "Current Level: \(slowLevel)"
-        if (slowLevel < 5) {
-            slowNext.text = "Next Level: \(slowLevel+1)"
-        }
-        else {
-            slowNext.text = "Next Level: \(slowLevel)"
-        }
-        lifeCurrent.text = "Current Level: \(lifeLevel)"
-        if (lifeLevel < 5) {
-            lifeNext.text = "Next Level: \(lifeLevel+1)"
-        }
-        else {
-            lifeNext.text = "Next Level: \(lifeLevel)"
+        if (powerUp == 3 || powerUp == 0) {
+
+            if (defaults.object(forKey: "Life") == nil) {
+                lifeCost = 50
+                lifeLevel = 1
+                lifeDetails.text = "One more life"
+            }
+            else if (defaults.integer(forKey: "Life") == 2){
+                lifeWidth = "40"
+                lifeCost = 100
+                lifeLevel = 2
+                lifeDetails.text = "One more life"
+            }
+            else if (defaults.integer(forKey: "Life") == 3){
+                lifeWidth = "60"
+                lifeCost = 200
+                lifeLevel = 3
+                lifeDetails.text = "One more life"
+            }
+            else if (defaults.integer(forKey: "Life") == 4){
+                lifeWidth = "80"
+                lifeCost = 400
+                lifeLevel = 4
+                lifeDetails.text = "One more life"
+            }
+            else if (defaults.integer(forKey: "Life") == 5){
+                lifeWidth = "100"
+                lifeLevel = 5
+                lifeDetails.text = "MAX Level Reached"
+            }
+            
+            lifeProgress.image = UIImage(named: lifeWidth)
+            
+            lifeCurrent.text = "Current Level: \(lifeLevel)"
+            if (lifeLevel < 5) {
+                lifeNext.text = "Next Level: \(lifeLevel+1)"
+                lifeUpgrade.setTitle("\(lifeCost)", for: .normal)
+            }
+            else {
+                lifeNext.text = "Next Level: \(lifeLevel)"
+                lifeUpgrade.setTitle("MAX", for: .normal)
+            }
         }
         
     }
     
     @IBAction func customizePressed(_ sender: Any) {
+        AppDelegate.playClick()
         menu = "Customize"
         changeMenu()
     }
     
     @IBAction func powerUpPressed(_ sender: Any) {
+        AppDelegate.playClick()
         menu = "PowerUp"
         changeMenu()
     }
@@ -547,6 +563,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     @IBAction func regularPressed(_ sender: Any) {
+        AppDelegate.playClick()
         regularSelected = true
         snowSelected = false
         grassSelected = false
@@ -574,6 +591,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     @IBAction func grassPressed(_ sender: Any) {
+        AppDelegate.playClick()
         regularSelected = false
         snowSelected = false
         grassSelected = true
@@ -614,6 +632,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     @IBAction func snowPressed(_ sender: Any) {
+        AppDelegate.playClick()
         regularSelected = false
         snowSelected = true
         grassSelected = false
@@ -654,6 +673,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     @IBAction func Tapioca(_ sender: Any) {
+        AppDelegate.playClick()
         regularSelected = false
         snowSelected = false
         grassSelected = false
@@ -696,20 +716,31 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     @IBAction func buySetPressed(_ sender: Any) {
         if (regularSelected){
             if (Menu.bundle != "Classic") {
+                AppDelegate.playClick()
+                coinPrice.isHidden = true
+                price.isHidden = true
                 Menu.bundle = "Classic"
                 defaults.set(Menu.bundle, forKey: "bundle")
                 BG.image = UIImage(named: "BG")
+                buySet.setImage(UIImage(named: "setItemI"), for: .normal)
             }
         }
         else if (grassSelected){
             if (Menu.bundle != "Greenery"){
                 if (grassUnlocked){
+                    AppDelegate.playClick()
+                    coinPrice.isHidden = true
+                    price.isHidden = true
                     Menu.bundle = "Greenery"
                     defaults.set(Menu.bundle, forKey: "bundle")
                     buySet.setImage(UIImage(named: "setItemI"), for: .normal)
                     BG.image = UIImage(named: "grassBG")
                 }
                 else if (coins >= grassPrice){
+                    AppDelegate.playMoney()
+
+                    coinPrice.isHidden = true
+                    price.isHidden = true
                     coins -= grassPrice
                     Menu.bundle = "Greenery"
                     defaults.set(Menu.bundle, forKey: "bundle")
@@ -723,12 +754,19 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         else if (snowSelected){
             if (Menu.bundle != "Snowy"){
                 if (snowUnlocked){
+                    AppDelegate.playClick()
+                    coinPrice.isHidden = true
+                    price.isHidden = true
                     Menu.bundle = "Snowy"
                     defaults.set(Menu.bundle, forKey: "bundle")
                     buySet.setImage(UIImage(named: "setItemI"), for: .normal)
                     BG.image = UIImage(named: "snowBG")
                 }
                 else if (coins >= snowPrice){
+                    AppDelegate.playMoney()
+
+                    coinPrice.isHidden = true
+                    price.isHidden = true
                     coins -= snowPrice
                     Menu.bundle = "Snowy"
                     defaults.set(Menu.bundle, forKey: "bundle")
@@ -742,12 +780,20 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         else if (tapiocaSelected){
             if (Menu.bundle != "Bubble Tea"){
                 if (tapiocaUnlocked){
+                    AppDelegate.playClick()
+
+                    coinPrice.isHidden = true
+                    price.isHidden = true
                     Menu.bundle = "Bubble Tea"
                     defaults.set(Menu.bundle, forKey: "bundle")
                     BG.image = UIImage(named: "milkBG")
                     buySet.setImage(UIImage(named: "setItemI"), for: .normal)
                 }
                 else if (coins >= tapiocaPrice){
+                    AppDelegate.playMoney()
+
+                    coinPrice.isHidden = true
+                    price.isHidden = true
                     coins -= tapiocaPrice
                     Menu.bundle = "Bubble Tea"
                     defaults.set(Menu.bundle, forKey: "bundle")

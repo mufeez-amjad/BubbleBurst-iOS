@@ -287,6 +287,7 @@ class GameViewController: UIViewController {
     }
     
     @IBAction func backPressed(_ sender: Any) {
+        AppDelegate.playClick()
         segueToGameOver()
     }
     

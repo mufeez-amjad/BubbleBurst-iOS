@@ -26,6 +26,8 @@
 		8FA132031F8013DF00B6D3D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FA132021F8013DF00B6D3D8 /* Assets.xcassets */; };
 		8FA132061F8013DF00B6D3D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FA132041F8013DF00B6D3D8 /* LaunchScreen.storyboard */; };
 		8FA732CA1FB7B8F600E13DB0 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA732C91FB7B8F600E13DB0 /* Reachability.swift */; };
+		8FA732D21FC50E1B00E13DB0 /* error.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8FA732D11FC50E1B00E13DB0 /* error.mp3 */; };
+		8FA732D41FC50E2F00E13DB0 /* money.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8FA732D31FC50E2F00E13DB0 /* money.mp3 */; };
 		8FA7E6551FB6693500E9D459 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8FA7E6541FB6693500E9D459 /* GoogleService-Info.plist */; };
 		8FC7F5631F96AF5400BF24A3 /* pop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8FC7F5621F96AD6500BF24A3 /* pop.wav */; };
 		8FDAFF081F86FF0E00F5C852 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FDAFF071F86FF0E00F5C852 /* GoogleMobileAds.framework */; };
@@ -60,6 +62,8 @@
 		8FA132051F8013DF00B6D3D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8FA132071F8013DF00B6D3D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8FA732C91FB7B8F600E13DB0 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		8FA732D11FC50E1B00E13DB0 /* error.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = error.mp3; sourceTree = "<group>"; };
+		8FA732D31FC50E2F00E13DB0 /* money.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = money.mp3; sourceTree = "<group>"; };
 		8FA7E6541FB6693500E9D459 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8FC7F5621F96AD6500BF24A3 /* pop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop.wav; sourceTree = "<group>"; };
 		8FDAFF071F86FF0E00F5C852 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = Framework/GoogleMobileAds.framework; sourceTree = "<group>"; };
@@ -145,6 +149,8 @@
 				8FC7F5621F96AD6500BF24A3 /* pop.wav */,
 				8F65F8E21FA4126200041FB0 /* bgMusic.mp3 */,
 				8F0104E81FAA951900392E56 /* coin.mp3 */,
+				8FA732D11FC50E1B00E13DB0 /* error.mp3 */,
+				8FA732D31FC50E2F00E13DB0 /* money.mp3 */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -238,7 +244,9 @@
 				8FA132061F8013DF00B6D3D8 /* LaunchScreen.storyboard in Resources */,
 				8F65F8E31FA4126200041FB0 /* bgMusic.mp3 in Resources */,
 				8F0104E91FAA951900392E56 /* coin.mp3 in Resources */,
+				8FA732D41FC50E2F00E13DB0 /* money.mp3 in Resources */,
 				8F8EDF1D1F82E1CA00336BC2 /* Assets.xcassets in Resources */,
+				8FA732D21FC50E1B00E13DB0 /* error.mp3 in Resources */,
 				8FA131FA1F8013DF00B6D3D8 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

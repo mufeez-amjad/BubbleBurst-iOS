@@ -104,6 +104,8 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     @IBOutlet weak var PowerUpsTitle: UILabel!
     @IBOutlet weak var tapEachDetails: UILabel!
     
+    var buttonPlayer: AVAudioPlayer?
+    
     override func viewDidLoad() {
         defaults.setValue(5000, forKey: "Coins")
         //defaults.setValue(0, forKey: "Points")
@@ -198,8 +200,8 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         else if (defaults.bool(forKey: "TimedLock") == false){
             timedLocked = false
         }
-        if (Menu.music) {
-            AppDelegate.playMusic() //&& !(AppDelegate.player?.isPlaying)!
+        if (Menu.music && !AppDelegate.musicisPlaying) {
+            AppDelegate.playMusic()
         }
         
         Logo.center.y  -= view.bounds.height
@@ -269,6 +271,8 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         coinsLabel.text = "\(coins)"
         
         if (AppDelegate.justLaunched){
+            MALogo.alpha = 1
+            MALogoBackground.alpha = 1
             logoIntro()
             AppDelegate.justLaunched = false
         }
@@ -653,6 +657,8 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     @objc func buttonClicked(_ sender: AnyObject?) {
         
+        AppDelegate.playClick()
+        
         if sender === Info {
             infoScreen = true
             introOut(menu: 1)
@@ -686,12 +692,14 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     
     @IBAction func classicPressed(_ sender: Any) {
+        AppDelegate.playClick()
         gameMode = "Classic"
         toGame()
         //performSegue(withIdentifier: "startPlay", sender: self)
     }
     
     @IBAction func timedPressed(_ sender: Any) {
+       AppDelegate.playClick()
         if (!timedLocked) {
             gameMode = "Timed"
             toGame()
@@ -714,6 +722,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     }
     
     @IBAction func endlessPressed(_ sender: Any) {
+        AppDelegate.playClick()
         if (!endlessLocked) {
             gameMode = "Endless"
             toGame()
@@ -736,12 +745,14 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     }
     
     @IBAction func xButtonPressed(_ sender: Any) {
+        AppDelegate.playClick()
         unlockOut()
         timedSelected = false
         endlessSelected = false
     }
     
     @IBAction func unlockPressed(_ sender: Any) {
+        AppDelegate.playClick()
         let defaults = UserDefaults.standard
         
         if (endlessSelected && points >= endlessCost){
@@ -772,6 +783,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     }
     
     @IBAction func settingsPressed(_ sender: Any) {
+        AppDelegate.playClick()
         settings = !settings
         if (settings) {
             revealSettings()
@@ -782,6 +794,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     }
     
     @IBAction func musicPressed(_ sender: Any) {
+        AppDelegate.playClick()
         Menu.music = !Menu.music
         if (!Menu.music){
             musicButton.setImage(UIImage(named: "musicOff"), for: .normal)
@@ -796,6 +809,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     }
     
     @IBAction func soundPressed(_ sender: Any) {
+        AppDelegate.playClick()
         Menu.sound = !Menu.sound
         if (!Menu.sound){
             soundButton.setImage(UIImage(named: "soundOff"), for: .normal)
@@ -808,6 +822,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     }
     
     @IBAction func colorPressed(_ sender: Any) {
+        AppDelegate.playClick()
         Menu.color = !Menu.color
         
         var BubbleType = "Bubble"
@@ -883,6 +898,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     }
     
     @IBAction func shopPressed(_ sender: Any) {
+        AppDelegate.playClick()
         introOut(menu: 2)
     }
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {

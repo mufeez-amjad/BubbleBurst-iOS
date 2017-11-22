@@ -15,8 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     static var player: AVAudioPlayer?
+    static var soundPlayer: AVAudioPlayer?
     
-    static var wasInactive = false
+    static var musicisPlaying = false
     static var justLaunched = true
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -43,6 +44,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             player.play()
             player.numberOfLoops = -1
             player.volume = 0.5
+            AppDelegate.musicisPlaying = true
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    class func playClick(){
+        if (Menu.sound){
+            playSound(source: "pop", type: "wav")
+        }
+    }
+    
+    class func playMoney(){
+        if (Menu.sound){
+            playSound(source: "money", type: "mp3")
+        }
+    }
+    
+    class func playError(){
+        if (Menu.sound){
+            playSound(source: "error", type: "mp3")
+        }
+    }
+    
+    class func playSound(source: String, type: String) {
+        
+        guard let url = Bundle.main.url(forResource: source, withExtension: type) else {
+            print("url not found")
+            return
+        }
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategorySoloAmbient)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            soundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+            
+            guard let soundPlayer = soundPlayer else { return }
+            
+            soundPlayer.play()
+            soundPlayer.volume = 0.25
             
         } catch let error {
             print(error.localizedDescription)

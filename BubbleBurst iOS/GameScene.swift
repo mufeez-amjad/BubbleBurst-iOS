@@ -58,6 +58,8 @@ class GameScene: SKScene {
     var superPop = 3
     var autoPop = 5
     
+    var autoPopLine: SKSpriteNode!
+    
     var isOneUp = false
     var isSlowMo = false
     var isFreeze = false
@@ -140,6 +142,11 @@ class GameScene: SKScene {
         bg.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
         bg.zPosition = -1
         self.addChild(bg)
+        
+        autoPopLine = SKSpriteNode(imageNamed: "dashedLine")
+        autoPopLine.position = CGPoint(x: autoPopLine.frame.width / 2, y: self.frame.height / 2 - autoPopLine.frame.height / 2)
+        autoPopLine.isHidden = true
+        self.addChild(autoPopLine)
         
         oneUpIcon = SKSpriteNode(imageNamed: "1Up")
         slowMoIcon = SKSpriteNode(imageNamed: "slowMo")
@@ -425,6 +432,7 @@ class GameScene: SKScene {
                 autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(autoPopCountdown), userInfo: nil, repeats: true)
                 powerUpLabel.text = "Auto Pop"
                 powerUpLabel.run(reveal)
+                autoPopLine.isHidden = false
             }
                 
             else if powerUp < 10 {
@@ -527,6 +535,7 @@ class GameScene: SKScene {
                 autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(autoPopCountdown), userInfo: nil, repeats: true)
                 powerUpLabel.text = "Auto Pop"
                 powerUpLabel.run(reveal)
+                autoPopLine.isHidden = false
             }
                 
             else if powerUp < 10 {
@@ -685,6 +694,7 @@ class GameScene: SKScene {
         
         if (autoPop == 0) {
             isAutoPop = false
+            autoPopLine.isHidden = true
             if (autoLevel == 1){
                 autoPop = 5
             }
@@ -865,7 +875,6 @@ class GameScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        
         NotificationCenter.default.addObserver(self, selector: #selector(pauseTimers), name: NSNotification.Name(rawValue: "inactive"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(unpauseTimers), name: NSNotification.Name(rawValue: "active"), object: nil)
@@ -911,6 +920,7 @@ class GameScene: SKScene {
                 
                 if bubble.ifRed() {
                     if (gameMode == "Classic") {
+                        score -= 1
                         lives = 0
                         gameOver = true
                     }
@@ -1135,6 +1145,7 @@ class GameScene: SKScene {
             startCountdown()
         }
     }
+    
     class Bubble: SKSpriteNode {
         var bubbleSize: Int
         var type: Int
@@ -1242,7 +1253,7 @@ class GameScene: SKScene {
                 }
             }
             
-            let randomBubbleX = GKRandomDistribution(lowestValue:Int(texture.size().width/2), highestValue: 750 - Int(texture.size().width)/2)
+            let randomBubbleX = GKRandomDistribution(lowestValue: 0, highestValue: 750 - Int(texture.size().width)/4)
             x = randomBubbleX.nextInt()
             super.init(texture: texture, color: UIColor.clear, size: texture.size())
         }

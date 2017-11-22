@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "dashedLine.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "instructions2.png",
       "scale" : "2x"
     },
     {
