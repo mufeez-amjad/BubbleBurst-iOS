@@ -432,7 +432,6 @@ class GameScene: SKScene {
                 autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(autoPopCountdown), userInfo: nil, repeats: true)
                 powerUpLabel.text = "Auto Pop"
                 powerUpLabel.run(reveal)
-                autoPopLine.isHidden = false
             }
                 
             else if powerUp < 10 {
@@ -535,7 +534,6 @@ class GameScene: SKScene {
                 autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(autoPopCountdown), userInfo: nil, repeats: true)
                 powerUpLabel.text = "Auto Pop"
                 powerUpLabel.run(reveal)
-                autoPopLine.isHidden = false
             }
                 
             else if powerUp < 10 {
@@ -638,7 +636,7 @@ class GameScene: SKScene {
     }
     
     @objc func slowMoCountdown(){
-        if isSlowMo {
+        if isSlowMo && !isAutoPop {
             slowMo -= 1
         }
         if (slowMo == 0) {
@@ -694,7 +692,6 @@ class GameScene: SKScene {
         
         if (autoPop == 0) {
             isAutoPop = false
-            autoPopLine.isHidden = true
             if (autoLevel == 1){
                 autoPop = 5
             }
@@ -768,7 +765,6 @@ class GameScene: SKScene {
         score = 0
         time = 0
         coinCount = 0
-        
         
         for (i,bubble) in bubbles.enumerated().reversed() {
             bubbles.remove(at: i)
@@ -882,6 +878,13 @@ class GameScene: SKScene {
         if (!fingerDown && startsIn < 0 && gameMode == "Timed" && !GameScene.gamePaused){
             timesPaused -= 1
             pause()
+        }
+        
+        if (isAutoPop){
+            autoPopLine.isHidden = false
+        }
+        else {
+            autoPopLine.isHidden = true
         }
         for (i,coin) in coins.enumerated().reversed() {
             if coin.contains(previousLocation) {
@@ -1125,18 +1128,21 @@ class GameScene: SKScene {
     
     @objc func pauseTimers(){
         if (gameMode != "Timed"){
-            if (bubbleTimer != nil){
-                bubbleTimer.invalidate()
-                bubbleTimer = nil
-            }
             if (gameTimer != nil){
                 gameTimer.invalidate()
                 gameTimer = nil
             }
-            if (coinTimer != nil){
-                coinTimer.invalidate()
-                coinTimer = nil
+        }
+        else if !(GameScene.gamePaused){
+            pause()
+        }
+        if (bubbleTimer != nil){
+            bubbleTimer.invalidate()
+            bubbleTimer = nil
             }
+        if (coinTimer != nil){
+            coinTimer.invalidate()
+            coinTimer = nil
         }
     }
     
@@ -1253,7 +1259,7 @@ class GameScene: SKScene {
                 }
             }
             
-            let randomBubbleX = GKRandomDistribution(lowestValue: 0, highestValue: 750 - Int(texture.size().width)/4)
+            let randomBubbleX = GKRandomDistribution(lowestValue: Int(texture.size().width) / 3, highestValue: 750 - Int(texture.size().width) / 3)
             x = randomBubbleX.nextInt()
             super.init(texture: texture, color: UIColor.clear, size: texture.size())
         }

@@ -13,6 +13,8 @@ import AVFoundation
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    let defaults = UserDefaults.standard
+    
     var window: UIWindow?
     static var player: AVAudioPlayer?
     static var soundPlayer: AVAudioPlayer?
@@ -20,9 +22,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     static var musicisPlaying = false
     static var justLaunched = true
     
+    static var firstLaunch = true
+    
+    static var noAds = false
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         //FirebaseApp.configure()
+        if (defaults.value(forKey: "firstLaunch") != nil){
+            AppDelegate.firstLaunch = defaults.bool(forKey: "firstLaunch")
+        }
+        if Reachability.isConnectedToNetwork() {
+            //defaults.set(false, forKey: "firstLaunch")
+        }
         return true
     }
     

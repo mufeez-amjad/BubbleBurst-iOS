@@ -16,6 +16,10 @@ import GameKit
 
 class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelegate, GADInterstitialDelegate, GKGameCenterControllerDelegate {
     
+    let defaults = UserDefaults.standard
+
+    var iCloudKeyStore: NSUbiquitousKeyValueStore? = NSUbiquitousKeyValueStore()
+    
     @IBOutlet weak var BG: UIImageView!
     
     @IBOutlet weak var gameOverOverlay: UIImageView!
@@ -100,8 +104,6 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         Home.setImage(UIImage(named: "home"), for: .normal)
         Leaderboard.setImage(UIImage(named: "leaderboard"), for: .normal)
         videoAdButton.setImage(UIImage(named: "videoAd"), for: .normal)
-        
-        let defaults = UserDefaults.standard
         
         if (defaults.string(forKey: "failedGameCenter") == "Y") { //uploads score to GameCenter if previously offline
             if (defaults.string(forKey: "failedClassic") != "" && defaults.string(forKey: "failedClassic") != nil){
@@ -356,6 +358,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         if interstitial.isReady {
             interstitial.present(fromRootViewController: self)
         }
+        updateiCloud()
     }
     
     @IBAction func backPressed(_ sender: Any) {
@@ -432,6 +435,34 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
                 print(error)
             }
         }
+    }
+    
+    func updateiCloud(){
+        
+        if !(defaults.object(forKey: "Classic") == nil){
+            let classicHigh = defaults.integer(forKey: "Classic")
+            iCloudKeyStore?.set(classicHigh, forKey: "Classic")
+        }
+        else {
+            iCloudKeyStore?.set(0, forKey: "Classic")
+        }
+        
+        if !(defaults.object(forKey: "Timed") == nil){
+            let timedHigh = defaults.integer(forKey: "Timed")
+            iCloudKeyStore?.set(timedHigh, forKey: "Timed")
+        }
+        else {
+            iCloudKeyStore?.set(0, forKey: "Timed")
+        }
+        
+        if !(defaults.object(forKey: "Endless") == nil){
+            let endlessHigh = defaults.integer(forKey: "Endless")
+            iCloudKeyStore?.set(endlessHigh, forKey: "Endless")
+        }
+        else {
+            iCloudKeyStore?.set(0, forKey: "Endless")
+        }
+        iCloudKeyStore?.synchronize()
     }
 }
 

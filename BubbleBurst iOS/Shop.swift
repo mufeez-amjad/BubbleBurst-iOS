@@ -17,6 +17,9 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     
     let defaults = UserDefaults.standard
     
+    var iCloudKeyStore: NSUbiquitousKeyValueStore? = NSUbiquitousKeyValueStore()
+
+    
     @IBOutlet weak var BG: UIImageView!
     
     @IBOutlet weak var Back: UIButton!
@@ -308,6 +311,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             coinsLabel.text = "\(coins)"
             defaults.setValue(autoLevel, forKey: "AutoPop")
             updateProgress(powerUp: 1)
+            updateiCloud()
         }
         else {
             AppDelegate.playError()
@@ -324,6 +328,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             coinsLabel.text = "\(coins)"
             defaults.setValue(slowLevel, forKey: "SlowMo")
             updateProgress(powerUp: 2)
+            updateiCloud()
         }
         else {
             AppDelegate.playError()
@@ -339,6 +344,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             coinsLabel.text = "\(coins)"
             defaults.setValue(lifeLevel, forKey: "Life")
             updateProgress(powerUp: 3)
+            updateiCloud()
         }
         else {
             AppDelegate.playError()
@@ -711,6 +717,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         Regular.setImage(UIImage(named: "regular"), for: .normal)
         Grass.setImage(UIImage(named: "leaf"), for: .normal)
         Snow.setImage(UIImage(named: "snow"), for: .normal)
+        updateiCloud()
     }
     
     @IBAction func buySetPressed(_ sender: Any) {
@@ -805,6 +812,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             }
         }
         coinsLabel.text = "\(coins)"
+        updateiCloud()
     }
     
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
@@ -953,5 +961,60 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                     
                 default: break
                 }}}
+    }
+    
+    func updateiCloud(){
+        iCloudKeyStore?.set(coins, forKey: "Coins")
+        
+        if !(defaults.object(forKey: "noAdsPurchased") == nil){
+            iCloudKeyStore?.set(noAdsPurchased, forKey: "noAdsPurchased")
+        }
+        else {
+            iCloudKeyStore?.set(false, forKey: "noAdsPurchased")
+        }
+        
+        if !(defaults.object(forKey: "AutoPop") == nil){
+            iCloudKeyStore?.set(autoLevel, forKey: "AutoPop")
+        }
+        else {
+            iCloudKeyStore?.set(0, forKey: "AutoPop")
+        }
+        
+        if !(defaults.object(forKey: "SlowMo") == nil){
+            iCloudKeyStore?.set(slowLevel, forKey: "SlowMo")
+        }
+        else {
+            iCloudKeyStore?.set(0, forKey: "SlowMo")
+        }
+        
+        if !(defaults.object(forKey: "Life") == nil){
+            iCloudKeyStore?.set(lifeLevel, forKey: "Life")
+        }
+        else {
+            iCloudKeyStore?.set(0, forKey: "Life")
+        }
+        
+        if !(defaults.object(forKey: "Greenery") == nil){
+            iCloudKeyStore?.set(grassUnlocked, forKey: "Greenery")
+        }
+        else {
+            iCloudKeyStore?.set(false, forKey: "Greenery")
+        }
+        
+        if !(defaults.object(forKey: "Snowy") == nil){
+            iCloudKeyStore?.set(snowUnlocked, forKey: "Snowy")
+        }
+        else {
+            iCloudKeyStore?.set(false, forKey: "Snowy")
+        }
+        
+        if !(defaults.object(forKey: "Bubble Tea") == nil){
+            iCloudKeyStore?.set(tapiocaUnlocked, forKey: "Bubble Tea")
+        }
+        else {
+            iCloudKeyStore?.set(false, forKey: "Bubble Tea")
+        }
+        
+        iCloudKeyStore?.synchronize()
     }
 }

@@ -28,7 +28,6 @@
 		8FA732CA1FB7B8F600E13DB0 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA732C91FB7B8F600E13DB0 /* Reachability.swift */; };
 		8FA732D21FC50E1B00E13DB0 /* error.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8FA732D11FC50E1B00E13DB0 /* error.mp3 */; };
 		8FA732D41FC50E2F00E13DB0 /* money.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8FA732D31FC50E2F00E13DB0 /* money.mp3 */; };
-		8FA7E6551FB6693500E9D459 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8FA7E6541FB6693500E9D459 /* GoogleService-Info.plist */; };
 		8FC7F5631F96AF5400BF24A3 /* pop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8FC7F5621F96AD6500BF24A3 /* pop.wav */; };
 		8FDAFF081F86FF0E00F5C852 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FDAFF071F86FF0E00F5C852 /* GoogleMobileAds.framework */; };
 		8FF354111F96A76100F74F00 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FF354101F96A76100F74F00 /* AVFoundation.framework */; };
@@ -64,7 +63,6 @@
 		8FA732C91FB7B8F600E13DB0 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		8FA732D11FC50E1B00E13DB0 /* error.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = error.mp3; sourceTree = "<group>"; };
 		8FA732D31FC50E2F00E13DB0 /* money.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = money.mp3; sourceTree = "<group>"; };
-		8FA7E6541FB6693500E9D459 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8FC7F5621F96AD6500BF24A3 /* pop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop.wav; sourceTree = "<group>"; };
 		8FDAFF071F86FF0E00F5C852 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = Framework/GoogleMobileAds.framework; sourceTree = "<group>"; };
 		8FF354101F96A76100F74F00 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -129,7 +127,6 @@
 				8FA131F71F8013DF00B6D3D8 /* GameScene.sks */,
 				8FA131F91F8013DF00B6D3D8 /* Actions.sks */,
 				8FA131FB1F8013DF00B6D3D8 /* GameScene.swift */,
-				8FA7E6541FB6693500E9D459 /* GoogleService-Info.plist */,
 				8FA131FD1F8013DF00B6D3D8 /* GameViewController.swift */,
 				8FA131FF1F8013DF00B6D3D8 /* Main.storyboard */,
 				8F525D8A1F87272500C2CD4F /* Postgame.swift */,
@@ -239,7 +236,6 @@
 				8FA131F81F8013DF00B6D3D8 /* GameScene.sks in Resources */,
 				8F8EDF191F816EA300336BC2 /* Bubblegum.ttf in Resources */,
 				8FA132031F8013DF00B6D3D8 /* Assets.xcassets in Resources */,
-				8FA7E6551FB6693500E9D459 /* GoogleService-Info.plist in Resources */,
 				8F8EDF1C1F82E1CA00336BC2 /* MyParticle.sks in Resources */,
 				8FA132061F8013DF00B6D3D8 /* LaunchScreen.storyboard in Resources */,
 				8F65F8E31FA4126200041FB0 /* bgMusic.mp3 in Resources */,

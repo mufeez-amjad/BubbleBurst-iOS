@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BubbleBurst iOS/GameScene.swift"
-            timestampString = "533012286.281829"
+            filePath = "BubbleBurst iOS/Menu.swift"
+            timestampString = "533872624.166885"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1129"
-            endingLineNumber = "1129"
-            landmarkName = "pauseTimers()"
+            startingLineNumber = "1055"
+            endingLineNumber = "1055"
+            landmarkName = "updateiCloud()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BubbleBurst iOS/AppDelegate.swift"
-            timestampString = "533012286.28194"
+            filePath = "BubbleBurst iOS/Menu.swift"
+            timestampString = "533872624.1676"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
-            landmarkName = "applicationDidEnterBackground(_:)"
+            startingLineNumber = "1056"
+            endingLineNumber = "1056"
+            landmarkName = "updateiCloud()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

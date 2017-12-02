@@ -691,7 +691,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Pauses Left: 3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2MH-b8-rLm">
-                                <rect key="frame" x="124" y="381" width="126" height="21"/>
+                                <rect key="frame" x="114" y="381" width="147" height="21"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="17"/>
                                 <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -751,7 +751,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fade" translatesAutoresizingMaskIntoConstraints="NO" id="fwB-Zu-dF7">
-                                <rect key="frame" x="-2" y="0.0" width="379" height="670"/>
+                                <rect key="frame" x="-4" y="0.0" width="379" height="670"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                         </subviews>
@@ -778,7 +778,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="185" y="134"/>
+            <point key="canvasLocation" x="184.80000000000001" y="133.5832083958021"/>
         </scene>
         <!--Postgame-->
         <scene sceneID="RcQ-t6-JsP">
