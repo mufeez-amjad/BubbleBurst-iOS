@@ -372,8 +372,6 @@ class GameScene: SKScene {
     @objc func stopWatch(){
         time += 1
         viewController.livesTimeLabel.text = "\(time)"
-        //timeLabel.text = "\(time)"
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

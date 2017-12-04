@@ -19,7 +19,6 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     
     var iCloudKeyStore: NSUbiquitousKeyValueStore? = NSUbiquitousKeyValueStore()
 
-    
     @IBOutlet weak var BG: UIImageView!
     
     @IBOutlet weak var Back: UIButton!
@@ -95,6 +94,8 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     
     @IBOutlet weak var bannerAd: GADBannerView!
     var coinRewardAd: GADRewardBasedVideoAd?
+    
+    
     
     let removeAdsID = "2017101"
     let fiftyCoinsID = "2017102"
@@ -186,12 +187,6 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         coinRewardAd?.load(GADRequest(),
                            withAdUnitID: "ca-app-pub-4669355053831786/3619020008")
         
-        /*
-         if lifeAd?.isReady == true {
-         lifeAd?.present(fromRootViewController: self)
-         }
-         */
-        
         Back.center.x -= view.bounds.width
         coinsLabel.center.y += view.bounds.height
         coinIcon.center.y += view.bounds.height
@@ -240,9 +235,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         
         coinsLabel.text = "\(coins)"
         
-        //autoProgress.image = resizeImage(image: autoProgress.image!, scaledToSize: CGSize(width: autoProgress.bounds.size.width * CGFloat(autoWidth), height: autoProgress.bounds.size.height))
         updateProgress(powerUp: 0)
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -255,6 +248,10 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         },
                        completion: nil
         )
+        
+        if coinRewardAd?.isReady == true {
+            coinAd.isHidden = false
+        }
     }
     
     func resizeImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
@@ -267,7 +264,8 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     
     func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
                             didRewardUserWith reward: GADAdReward) {
-        //coins = reward.amount
+        coins += Int(truncating: reward.amount)
+        AppDelegate.playMoney()
         print("Reward received with currency: \(reward.type), amount \(reward.amount).")
     }
     func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
@@ -827,6 +825,11 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         present(alert, animated: true)
     }
     
+    @IBAction func watchCoinAd(_ sender: Any) {
+        if coinRewardAd?.isReady == true {
+            coinRewardAd?.present(fromRootViewController: self)
+        }
+    }
     func fetchAvailableProducts()  {
         // Put here your IAP Products ID's
         let productIdentifiers = NSSet(objects: removeAdsID, fiftyCoinsID, hundredCoinsID
@@ -851,11 +854,6 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             numberFormatter.locale = firstProduct.priceLocale
             let price1Str = numberFormatter.string(from: firstProduct.price)
             
-            // Show its description
-            //consumableLabel.text = firstProduct.localizedDescription + "\nfor just \(price1Str!)"
-            // ------------------------------------------------
-            
-            
             
             // 2nd IAP Product (Non-Consumable) ------------------------------
             let secondProd = response.products[1] as SKProduct
@@ -863,10 +861,6 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             // Get its price from iTunes Connect
             numberFormatter.locale = secondProd.priceLocale
             let price2Str = numberFormatter.string(from: secondProd.price)
-            
-            // Show its description
-            //nonConsumableLabel.text = secondProd.localizedDescription + "\nfor just \(price2Str!)"
-            // ------------------------------------
             
         }
     }

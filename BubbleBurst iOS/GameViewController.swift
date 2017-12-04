@@ -86,7 +86,6 @@ class GameViewController: UIViewController {
                 scene?.scaleMode = .aspectFill
                 
                 // Present the scene
-                //scene.viewController = self
                 scene?.gameMode = gameMode
                 view.presentScene(scene)
             }
@@ -220,8 +219,6 @@ class GameViewController: UIViewController {
     
     @objc func segueToGameOver(){
         performSegue(withIdentifier: "gameIsOver", sender: self)
-        //self.view.removeFromSuperview()
-        //self.view = nil
         nullify()
     }
     
@@ -282,9 +279,7 @@ class GameViewController: UIViewController {
         scene?.superPopTimer = nil
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        //nullify()
-    }
+    override func viewWillDisappear(_ animated: Bool)  {}
     
     @IBAction func backPressed(_ sender: Any) {
         AppDelegate.playClick()

@@ -353,7 +353,7 @@
 				CODE_SIGN_ENTITLEMENTS = "BubbleBurst iOS/BubbleBurst iOS.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CYF2GV4SQ2;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Framework";
 				INFOPLIST_FILE = "BubbleBurst iOS/Info.plist";

@@ -47,7 +47,6 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     var gcEnabled = Bool() // Check if the user has Game Center enabled
     var gcDefaultLeaderBoard = String() // Check the default leaderboardID
     
-    // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect)
     var LEADERBOARD_ID: String!
     
     @IBOutlet weak var fade: UIImageView!
@@ -96,7 +95,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         lifeAd?.delegate = self
         
         lifeAd?.load(GADRequest(),
-                     withAdUnitID: "ca-app-pub-4669355053831786/4776540656")
+                     withAdUnitID: "ca-app-pub-4669355053831786/4776540656") //TODO: ca-app-pub-4669355053831786/4776540656
         // ca-app-pub-3940256099942544/1712485313
         interstitial = createAndLoadInterstitial()
         
@@ -275,7 +274,6 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     
     func createAndLoadInterstitial() -> GADInterstitial {
         interstitial = GADInterstitial(adUnitID: "ca-app-pub-4669355053831786/7207262873")
-        //interstitial = GADInterstitial(adUnitID: "ca-app-pub-4669355053831786/7207262873")
         
         let request = GADRequest()
         request.testDevices = [kGADSimulatorID]
@@ -342,14 +340,6 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         print("Reward based video ad will leave application.")
     }
     
-    /*override func viewDidDisappear(_ animated: Bool) {
-     super.viewDidDisappear(animated)
-     // Remove self from navigation hierarchy
-     guard let viewControllers = navigationController?.viewControllers,
-     let index = viewControllers.index(of: self) else { return }
-     navigationController?.viewControllers.remove(at: index)
-     }*/
-    
     override func viewDidAppear(_ animated: Bool) {
         if lifeAd?.isReady == true {
             videoAdButton.isHidden = false
@@ -363,7 +353,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     
     @IBAction func backPressed(_ sender: Any) {
         AppDelegate.playClick()
-        fadeOut()
+        //fadeOut() TODO: uncomment
         dismiss(animated: false, completion: nil)
     }
     
@@ -379,8 +369,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     @IBAction func homePressed(_ sender: Any) {
         AppDelegate.playClick()
         performSegue(withIdentifier: "backtoMenu", sender: self)
-        //navigationController?.popToRootViewController(animated: true)
-    }
+=    }
     
     @IBAction func leaderboardPressed(_ sender: Any) {
         AppDelegate.playClick()

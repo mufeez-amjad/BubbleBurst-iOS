@@ -110,36 +110,17 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     var buttonPlayer: AVAudioPlayer?
     
     func addCheats(){
-       /*defaults.setValue(500, forKey: "Coins")
-         defaults.setValue(500, forKey: "Points")
-         defaults.setValue(false, forKey: "TimedLock")
-         defaults.setValue(false, forKey: "EndlessLock")
-        timedLocked = false
-        endlessLocked = false
-        coins = 500
-        points = 500*/
-        
-         /*iCloudKeyStore?.set(false, forKey: "EndlessLock")
-        iCloudKeyStore?.set(false, forKey: "TimedLock")*/
-        
-        iCloudKeyStore?.set(5000, forKey: "Points")
-        iCloudKeyStore?.set(5000, forKey: "Coins")
-        
-        iCloudKeyStore?.synchronize()
+        defaults.set(500000, forKey: "Points")
+        defaults.set(100000, forKey: "Coins")
     }
     
     override func viewDidLoad() {
-        addCheats()
+        
+        super.viewDidLoad()
         
         if AppDelegate.firstLaunch {
             updateLocal()
-            //AppDelegate.firstLaunch = false
-            //defaults.set(false, forKey: "firstLaunch")
         }
-        else {
-            //updateiCloud()
-        }
-        super.viewDidLoad()
         
         if (defaults.string(forKey: "bundle") != nil) {
             Menu.bundle = defaults.string(forKey: "bundle")!
@@ -170,7 +151,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         Endless.setImage(UIImage(named: "endless"), for: .normal)
         
         
-        if (defaults.value(forKeyPath: "music") == nil || defaults.string(forKey: "music") == "on"){
+        if (defaults.value(forKeyPath: "music") == nil || defaults.bool(forKey: "music")){
             Menu.music = true
         }
         else {
@@ -183,7 +164,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             musicButton.setImage(UIImage(named: "musicOff"), for: .normal)
         }
         
-        if (defaults.value(forKeyPath: "sound") == nil || defaults.string(forKey: "sound") == "on"){
+        if (defaults.value(forKeyPath: "sound") == nil || defaults.bool(forKey: "sound")){
             Menu.sound = true
         }
         else {
@@ -198,7 +179,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         
         colorButton.setImage(UIImage(named: "colorOff"), for: .normal)
         
-        if defaults.string(forKey: "color") == "on" {
+        if defaults.bool(forKey: "color") {
             Menu.color = true
             colorButton.setImage(UIImage(named: "colorOn"), for: .normal)
             
@@ -274,10 +255,10 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         blur.alpha = 0.0
         
         authenticateLocalPlayer()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        //addCheats()
         if (defaults.value(forKeyPath: "Points") == nil){
             points = 0
         }
@@ -292,13 +273,22 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             coins = defaults.integer(forKey: "Coins")
         }
         
+        if ((iCloudKeyStore?.bool(forKey: "synced"))! || defaults.bool(forKey: "UpdatedLocal") == nil) {
+            updateLocal()
+        }
+        else {
+            updateiCloud()
+        }
+        
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = NumberFormatter.Style.decimal
         let formattedNumber = numberFormatter.string(from: NSNumber(value:points))
         
         pointsLabel.text = formattedNumber
         
-        coinsLabel.text = "\(coins)"
+        let formattedNumber2 = numberFormatter.string(from: NSNumber(value:coins))
+        
+        coinsLabel.text = formattedNumber2
         
         if (AppDelegate.justLaunched){
             MALogo.alpha = 1
@@ -363,33 +353,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
                        completion: nil
         )
     }
-    override func viewDidDisappear(_ animated: Bool) {
-        if (infoScreen){
-            //instructionsOut()
-        }
-        if (playScreen){
-            //playOut()
-        }
-            
-        else { //main menu
-            /*Logo.center.y  -= view.bounds.height
-             Play.center.y += view.bounds.height
-             Info.center.y += view.bounds.height
-             Shop.center.y += view.bounds.height
-             Settings.center.y += view.bounds.height
-             
-             pointsIcon.center.x -= view.bounds.width
-             pointsLabel.center.x -= view.bounds.width
-             
-             coinsIcon.center.x -= view.bounds.width
-             coinsLabel.center.x -= view.bounds.width
-             
-             if (settings){
-             hideSettings()
-             }*/
-        }
-    }
-    
+    override func viewDidDisappear(_ animated: Bool) {}
     
     override func viewWillAppear(_ animated: Bool) {
         if (timedLocked) {
@@ -657,7 +621,6 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
                        completion: nil
         )
         
-        // fade in
         UIView.animate(withDuration: 1.0, animations: {
             self.blur.alpha = 0.8
         },
@@ -725,15 +688,13 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         AppDelegate.playClick()
         gameMode = "Classic"
         toGame()
-        //performSegue(withIdentifier: "startPlay", sender: self)
     }
     
     @IBAction func timedPressed(_ sender: Any) {
-       AppDelegate.playClick()
+        AppDelegate.playClick()
         if (!timedLocked) {
             gameMode = "Timed"
             toGame()
-            //performSegue(withIdentifier: "startPlay", sender: self)
         }
         else {
             if points < timedCost {
@@ -756,7 +717,6 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         if (!endlessLocked) {
             gameMode = "Endless"
             toGame()
-            //performSegue(withIdentifier: "startPlay", sender: self)
         }
         else {
             if points < endlessCost {
@@ -828,12 +788,12 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         Menu.music = !Menu.music
         if (!Menu.music){
             musicButton.setImage(UIImage(named: "musicOff"), for: .normal)
-            defaults.set("off", forKey: "music")
+            defaults.set(false, forKey: "music")
             AppDelegate.player?.stop()
         }
         else {
             musicButton.setImage(UIImage(named: "musicOn"), for: .normal)
-            defaults.set("on", forKey: "music")
+            defaults.set(true, forKey: "music")
             AppDelegate.playMusic()
         }
         updateiCloud()
@@ -844,11 +804,11 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         Menu.sound = !Menu.sound
         if (!Menu.sound){
             soundButton.setImage(UIImage(named: "soundOff"), for: .normal)
-            defaults.set("off", forKey: "sound")
+            defaults.set(false, forKey: "sound")
         }
         else {
             soundButton.setImage(UIImage(named: "soundOn"), for: .normal)
-            defaults.set("on", forKey: "sound")
+            defaults.set(true, forKey: "sound")
         }
         updateiCloud()
     }
@@ -868,7 +828,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         
         if (!Menu.color){
             colorButton.setImage(UIImage(named: "colorOff"), for: .normal)
-            defaults.set("off", forKey: "color")
+            defaults.set(false, forKey: "color")
             PowerupImage.image = UIImage(named: BubbleType + "G")
             PowerupTitle.textColor = UIColor(red: 0.32, green: 0.71, blue: 0.38, alpha: 1.0) //green
             PowerUpsTitle.textColor = UIColor(red: 0.32, green: 0.71, blue: 0.38, alpha: 1.0)
@@ -876,7 +836,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         }
         else {
             colorButton.setImage(UIImage(named: "colorOn"), for: .normal)
-            defaults.set("on", forKey: "color")
+            defaults.set(true, forKey: "color")
             PowerupImage.image = UIImage(named: BubbleType + "Y")
             
             PowerupTitle.textColor = UIColor(red: 0.89, green: 0.84, blue: 0.27, alpha: 1.0) //yellow
@@ -931,97 +891,29 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     }
     
     func updateLocal() {
-        if (iCloudKeyStore?.bool(forKey: "synced"))! {
+        if Reachability.isConnectedToNetwork() {
             defaults.set(iCloudKeyStore?.string(forKey: "bundle"), forKey: "bundle")
-            if (defaults.object(forKey: "bundle") != nil){
-                Menu.bundle = defaults.string(forKey: "bundle")!
-                var BubbleType = "Bubble"
-                
-                if (Menu.bundle == "Classic"){
-                    BG.image = UIImage(named: "BG")
-                }
-                    
-                else if (Menu.bundle == "Bubble Tea"){
-                    BG.image = UIImage(named: "milkBG")
-                    BubbleType = "Tapioca"
-                }
-                    
-                else if (Menu.bundle == "Snowy"){
-                    BG.image = UIImage(named: "snowBG")
-                    BubbleType = "Snow"
-                }
-                    
-                else if (Menu.bundle == "Greenery"){
-                    BG.image = UIImage(named: "grassBG")
-                }
-                
-                PointsImage.image = UIImage(named: BubbleType)
-                if (Menu.color) {
-                    PowerupImage.image = UIImage(named: BubbleType + "Y")
-                    PowerupTitle.textColor = UIColor(red: 0.89, green: 0.84, blue: 0.27, alpha: 1.0) //yellow
-                    PowerUpsTitle.textColor = UIColor(red: 0.89, green: 0.84, blue: 0.27, alpha: 1.0)
-                    tapEachDetails.textColor = UIColor(red: 0.89, green: 0.84, blue: 0.27, alpha: 1.0)
-                }
-                else {
-                    PowerupImage.image = UIImage(named: BubbleType + "G")
-                    PowerupTitle.textColor = UIColor(red: 0.32, green: 0.71, blue: 0.38, alpha: 1.0) //green
-                    PowerUpsTitle.textColor = UIColor(red: 0.32, green: 0.71, blue: 0.38, alpha: 1.0)
-                    tapEachDetails.textColor = UIColor(red: 0.32, green: 0.71, blue: 0.38, alpha: 1.0)
-                }
-                if (Menu.bundle != "Bubble Tea") {
-                    PointsTitle.textColor = UIColor(red: 0.8, green: 0.95, blue: 1.0, alpha: 1.0) //blue
-                }
-                else {
-                    PointsTitle.textColor = UIColor(red: 0.38, green: 0.19, blue: 0.02, alpha: 1.0) //tapioca brown
-                }
-                DangerImage.image = UIImage(named: BubbleType + "R")
-            }
+            Menu.bundle = defaults.string(forKey: "bundle")!
             
-            defaults.set(iCloudKeyStore?.string(forKey: "music"), forKey: "music")
+            defaults.set(iCloudKeyStore?.bool(forKey: "music"), forKey: "music")
             Menu.music = defaults.bool(forKey: "music")
-            if !(Menu.music){
-                AppDelegate.player?.stop()
-            }
-            defaults.set(iCloudKeyStore?.string(forKey: "sound"), forKey: "sound")
+            
+            defaults.set(iCloudKeyStore?.bool(forKey: "sound"), forKey: "sound")
             Menu.sound = defaults.bool(forKey: "sound")
             
-            defaults.set(iCloudKeyStore?.string(forKey: "color"), forKey: "color")
-            Menu.color = defaults.bool(forKey: "sound")
-            if (Menu.color){
-                var BubbleType = "Bubble"
-                
-                if (Menu.bundle == "Bubble Tea"){
-                    BubbleType = "Tapioca"
-                }
-                else if (Menu.bundle == "Snowy"){
-                    BubbleType = "Snow"
-                }
-                    colorButton.setImage(UIImage(named: "colorOn"), for: .normal)
-                    PowerupImage.image = UIImage(named: BubbleType + "Y")
-                    
-                    PowerupTitle.textColor = UIColor(red: 0.89, green: 0.84, blue: 0.27, alpha: 1.0) //yellow
-                    PowerUpsTitle.textColor = UIColor(red: 0.89, green: 0.84, blue: 0.27, alpha: 1.0)
-                    tapEachDetails.textColor = UIColor(red: 0.89, green: 0.84, blue: 0.27, alpha: 1.0)
-                }
-            }
-            defaults.set(iCloudKeyStore?.string(forKey: "EndlessLock"), forKey: "EndlessLock")
+            defaults.set(iCloudKeyStore?.bool(forKey: "color"), forKey: "color")
+            Menu.color = defaults.bool(forKey: "color")
+            
+            defaults.set(iCloudKeyStore?.bool(forKey: "EndlessLock"), forKey: "EndlessLock")
             endlessLocked = defaults.bool(forKey: "EndlessLock")
-            if (endlessLocked) {
-                EndlessLock.isHidden = false
-            }
-        
+            
             defaults.set(iCloudKeyStore?.bool(forKey: "TimedLock"), forKey: "TimedLock")
             timedLocked = defaults.bool(forKey: "TimedLock")
-            if (timedLocked) {
-                TimedLock.isHidden = false
-            }
-
+            
             defaults.set(iCloudKeyStore?.longLong(forKey: "Points"), forKey: "Points")
-        
-            print("POINTS: " + "\(iCloudKeyStore?.longLong(forKey: "Points"))")
-        
             points = defaults.integer(forKey: "Points")
             pointsLabel.text = "\(points)"
+            print("Points : " + "\(iCloudKeyStore?.longLong(forKey: "Points"))")
             defaults.set(iCloudKeyStore?.longLong(forKey: "Coins"), forKey: "Coins")
             coins = defaults.integer(forKey: "Coins")
             coinsLabel.text = "\(coins)"
@@ -1039,105 +931,113 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             defaults.set(iCloudKeyStore?.longLong(forKey: "Classic"), forKey: "Classic")
             defaults.set(iCloudKeyStore?.longLong(forKey: "Timed"), forKey: "Timed")
             defaults.set(iCloudKeyStore?.longLong(forKey: "Endless"), forKey: "Endless")
-
+            
             defaults.set(iCloudKeyStore?.bool(forKey: "Greenery"), forKey: "Greenery")
             defaults.set(iCloudKeyStore?.bool(forKey: "Snowy"), forKey: "Snowy")
             defaults.set(iCloudKeyStore?.bool(forKey: "Bubble Tea"), forKey: "Bubble Tea")
+            
+            defaults.set(false, forKey: "firstLaunch")
+            AppDelegate.firstLaunch = false
+            defaults.set(true, forKey: "UpdatedLocal")
+        }
     }
     
     func updateiCloud(){
-        iCloudKeyStore?.set(true, forKey: "synced")
-        iCloudKeyStore?.set(Menu.bundle, forKey: "bundle")
-        iCloudKeyStore?.set(Menu.music, forKey: "music")
-        iCloudKeyStore?.set(Menu.sound, forKey: "sound")
-        iCloudKeyStore?.set(Menu.color, forKey: "color")
-        
-        iCloudKeyStore?.set(endlessLocked, forKey: "EndlessLock")
-        iCloudKeyStore?.set(timedLocked, forKey: "TimedLock")
-        
-        iCloudKeyStore?.set(Int64(points), forKey: "Points")
-        iCloudKeyStore?.set(Int64(coins), forKey: "Coins")
-        
-        if !(defaults.object(forKey: "noAdsPurchased") == nil){
-            let noAdsPurchased = defaults.bool(forKey: "noAdsPurchased")
-            iCloudKeyStore?.set(noAdsPurchased, forKey: "noAdsPurchased")
+        if (defaults.bool(forKey: "UpdatedLocal")) {
+            iCloudKeyStore?.set(Menu.bundle, forKey: "bundle")
+            iCloudKeyStore?.set(Menu.music, forKey: "music")
+            iCloudKeyStore?.set(Menu.sound, forKey: "sound")
+            iCloudKeyStore?.set(Menu.color, forKey: "color")
+            
+            iCloudKeyStore?.set(endlessLocked, forKey: "EndlessLock")
+            iCloudKeyStore?.set(timedLocked, forKey: "TimedLock")
+            
+            iCloudKeyStore?.set(Int64(points), forKey: "Points")
+            iCloudKeyStore?.set(Int64(coins), forKey: "Coins")
+            
+            print("Points2 : " + "\(Int64(points))")
+            
+            if !(defaults.object(forKey: "noAdsPurchased") == nil){
+                let noAdsPurchased = defaults.bool(forKey: "noAdsPurchased")
+                iCloudKeyStore?.set(noAdsPurchased, forKey: "noAdsPurchased")
+            }
+            else {
+                iCloudKeyStore?.set(false, forKey: "noAdsPurchased")
+            }
+            
+            if !(defaults.object(forKey: "AutoPop") == nil){
+                let autoLevel = defaults.integer(forKey: "AutoPop")
+                iCloudKeyStore?.set(Int64(autoLevel), forKey: "AutoPop")
+            }
+            else {
+                iCloudKeyStore?.set(0, forKey: "AutoPop")
+            }
+            
+            if !(defaults.object(forKey: "SlowMo") == nil){
+                let slowLevel = defaults.integer(forKey: "SlowMo")
+                iCloudKeyStore?.set(Int64(slowLevel), forKey: "SlowMo")
+            }
+            else {
+                iCloudKeyStore?.set(0, forKey: "SlowMo")
+            }
+            
+            if !(defaults.object(forKey: "Life") == nil){
+                let lifeLevel = defaults.integer(forKey: "Life")
+                iCloudKeyStore?.set(Int64(lifeLevel), forKey: "Life")
+            }
+            else {
+                iCloudKeyStore?.set(0, forKey: "Life")
+            }
+            
+            if !(defaults.object(forKey: "Classic") == nil){
+                let classicHigh = defaults.integer(forKey: "Classic")
+                iCloudKeyStore?.set(Int64(classicHigh), forKey: "Classic")
+            }
+            else {
+                iCloudKeyStore?.set(0, forKey: "Classic")
+            }
+            
+            if !(defaults.object(forKey: "Timed") == nil){
+                let timedHigh = defaults.integer(forKey: "Timed")
+                iCloudKeyStore?.set(Int64(timedHigh), forKey: "Timed")
+            }
+            else {
+                iCloudKeyStore?.set(0, forKey: "Timed")
+            }
+            
+            if !(defaults.object(forKey: "Endless") == nil){
+                let endlessHigh = defaults.integer(forKey: "Endless")
+                iCloudKeyStore?.set(Int64(endlessHigh), forKey: "Endless")
+            }
+            else {
+                iCloudKeyStore?.set(0, forKey: "Endless")
+            }
+            
+            if !(defaults.object(forKey: "Greenery") == nil){
+                let grassUnlocked = defaults.bool(forKey: "Greenery")
+                iCloudKeyStore?.set(grassUnlocked, forKey: "Greenery")
+            }
+            else {
+                iCloudKeyStore?.set(false, forKey: "Greenery")
+            }
+            
+            if !(defaults.object(forKey: "Snowy") == nil){
+                let snowUnlocked = defaults.bool(forKey: "Snowy")
+                iCloudKeyStore?.set(snowUnlocked, forKey: "Snowy")
+            }
+            else {
+                iCloudKeyStore?.set(false, forKey: "Snowy")
+            }
+            
+            if !(defaults.object(forKey: "Bubble Tea") == nil){
+                let tapiocaUnlocked = defaults.bool(forKey: "Bubble Tea")
+                iCloudKeyStore?.set(tapiocaUnlocked, forKey: "Bubble Tea")
+            }
+            else {
+                iCloudKeyStore?.set(false, forKey: "Bubble Tea")
+            }
+            iCloudKeyStore?.synchronize()
         }
-        else {
-            iCloudKeyStore?.set(false, forKey: "noAdsPurchased")
-        }
-        
-        if !(defaults.object(forKey: "AutoPop") == nil){
-            let autoLevel = defaults.integer(forKey: "AutoPop")
-            iCloudKeyStore?.set(Int64(autoLevel), forKey: "AutoPop")
-        }
-        else {
-            iCloudKeyStore?.set(0, forKey: "AutoPop")
-        }
-        
-        if !(defaults.object(forKey: "SlowMo") == nil){
-            let slowLevel = defaults.integer(forKey: "SlowMo")
-            iCloudKeyStore?.set(Int64(slowLevel), forKey: "SlowMo")
-        }
-        else {
-            iCloudKeyStore?.set(0, forKey: "SlowMo")
-        }
-        
-        if !(defaults.object(forKey: "Life") == nil){
-            let lifeLevel = defaults.integer(forKey: "Life")
-            iCloudKeyStore?.set(Int64(lifeLevel), forKey: "Life")
-        }
-        else {
-            iCloudKeyStore?.set(0, forKey: "Life")
-        }
-        
-        if !(defaults.object(forKey: "Classic") == nil){
-            let classicHigh = defaults.integer(forKey: "Classic")
-            iCloudKeyStore?.set(Int64(classicHigh), forKey: "Classic")
-        }
-        else {
-            iCloudKeyStore?.set(0, forKey: "Classic")
-        }
-        
-        if !(defaults.object(forKey: "Timed") == nil){
-            let timedHigh = defaults.integer(forKey: "Timed")
-            iCloudKeyStore?.set(Int64(timedHigh), forKey: "Timed")
-        }
-        else {
-            iCloudKeyStore?.set(0, forKey: "Timed")
-        }
-        
-        if !(defaults.object(forKey: "Endless") == nil){
-            let endlessHigh = defaults.integer(forKey: "Endless")
-            iCloudKeyStore?.set(Int64(endlessHigh), forKey: "Endless")
-        }
-        else {
-            iCloudKeyStore?.set(0, forKey: "Endless")
-        }
-        
-        if !(defaults.object(forKey: "Greenery") == nil){
-            let grassUnlocked = defaults.bool(forKey: "Greenery")
-            iCloudKeyStore?.set(grassUnlocked, forKey: "Greenery")
-        }
-        else {
-            iCloudKeyStore?.set(false, forKey: "Greenery")
-        }
-        
-        if !(defaults.object(forKey: "Snowy") == nil){
-            let snowUnlocked = defaults.bool(forKey: "Snowy")
-            iCloudKeyStore?.set(snowUnlocked, forKey: "Snowy")
-        }
-        else {
-            iCloudKeyStore?.set(false, forKey: "Snowy")
-        }
-        
-        if !(defaults.object(forKey: "Bubble Tea") == nil){
-            let tapiocaUnlocked = defaults.bool(forKey: "Bubble Tea")
-            iCloudKeyStore?.set(tapiocaUnlocked, forKey: "Bubble Tea")
-        }
-        else {
-            iCloudKeyStore?.set(false, forKey: "Bubble Tea")
-        }
-        iCloudKeyStore?.synchronize()
     }
     
     @IBAction func shopPressed(_ sender: Any) {
@@ -1148,6 +1048,9 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }
+
 }
+
+
 
 

@@ -32,9 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (defaults.value(forKey: "firstLaunch") != nil){
             AppDelegate.firstLaunch = defaults.bool(forKey: "firstLaunch")
         }
-        if Reachability.isConnectedToNetwork() {
-            //defaults.set(false, forKey: "firstLaunch")
-        }
         return true
     }
     
