@@ -23,6 +23,7 @@ Bubble Burst was made entirely by me using the following software:
 * Adobe Photoshop - Raster Graphics
 
 ### Screens:
-![Menu](https://image.ibb.co/d42C9b/Simulator_Screen_Shot_i_Phone_6_2017_12_02_at_22_06_35.png) ![Gameplay](https://image.ibb.co/epdfvG/Simulator_Screen_Shot_i_Phone_6_2017_12_02_at_21_59_56.png)
+![Menu](https://image.ibb.co/d42C9b/Simulator_Screen_Shot_i_Phone_6_2017_12_02_at_22_06_35.png) ![Gameplay](https://image.ibb.co/epdfvG/Simulator_Screen_Shot_i_Phone_6_2017_12_02_at_21_59_56.png) 
+![Gameover](https://image.ibb.co/dePLx6/Simulator_Screen_Shot_i_Phone_6_2017_12_17_at_14_18_15.png) ![Shop](https://image.ibb.co/haMHc6/Simulator_Screen_Shot_i_Phone_6_2017_12_17_at_14_14_20.png) 
 
 
