@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JU7-wK-cQr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JU7-wK-cQr">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -351,14 +351,6 @@
                                 <rect key="frame" x="32" y="50" width="311" height="384"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sqQ-IQ-e2K" customClass="GADBannerView">
-                                <rect key="frame" x="27.5" y="0.0" width="320" height="50"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="3zJ-jY-W4z"/>
-                                    <constraint firstAttribute="height" constant="50" id="G9V-Iu-WK1"/>
-                                </constraints>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cH7-MF-qAo">
                                 <rect key="frame" x="9" y="587" width="70" height="70"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
@@ -607,6 +599,63 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <visualEffectView opaque="NO" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g9Y-Rn-VTy">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="YyV-b8-Hhp">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="dark"/>
+                            </visualEffectView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="buyCoins" translatesAutoresizingMaskIntoConstraints="NO" id="1LZ-Zw-47v">
+                                <rect key="frame" x="12" y="151" width="350" height="355"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zjv-K4-KX1">
+                                <rect key="frame" x="183" y="182" width="70" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XJs-7K-sMs" userLabel="100Coins">
+                                <rect key="frame" x="252" y="244" width="78" height="38"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="hundredCoinsPressed:" destination="tEV-bx-FZj" eventType="touchDown" id="XjU-dk-KMy"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2Y-bf-r3f" userLabel="200Coins">
+                                <rect key="frame" x="252" y="330" width="78" height="38"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="twoHundredCoinsPressed:" destination="tEV-bx-FZj" eventType="touchDown" id="3AY-Q0-d4M"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P0R-mi-2Se" userLabel="500Coins">
+                                <rect key="frame" x="252" y="416" width="78" height="38"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="fiveHundredCoinsPressed:" destination="tEV-bx-FZj" eventType="touchDown" id="Ym3-yc-bpr"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yqM-oa-4EC" userLabel="xButton">
+                                <rect key="frame" x="331" y="144" width="35" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="X"/>
+                                <connections>
+                                    <action selector="xButtonPressed:" destination="tEV-bx-FZj" eventType="touchDown" id="VTY-hl-gDr"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sqQ-IQ-e2K" customClass="GADBannerView">
+                                <rect key="frame" x="27" y="0.0" width="320" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="3zJ-jY-W4z"/>
+                                    <constraint firstAttribute="height" constant="50" id="G9V-Iu-WK1"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -618,6 +667,7 @@
                     <connections>
                         <outlet property="BG" destination="xhG-TU-IE3" id="rBn-9e-GKd"/>
                         <outlet property="Back" destination="cH7-MF-qAo" id="KXr-bM-6co"/>
+                        <outlet property="Blur" destination="g9Y-Rn-VTy" id="78O-m0-8oe"/>
                         <outlet property="Customize" destination="AUE-op-72b" id="uDO-zD-B06"/>
                         <outlet property="Grass" destination="mVS-cC-hLj" id="XIp-Br-BRS"/>
                         <outlet property="PowerUp" destination="SBz-xD-c0a" id="q8H-gR-AbZ"/>
@@ -631,6 +681,8 @@
                         <outlet property="autoUpgrade" destination="16e-o3-scE" id="nq4-Ot-RnS"/>
                         <outlet property="bannerAd" destination="sqQ-IQ-e2K" id="MxG-ML-s26"/>
                         <outlet property="buyCoins" destination="6Ej-EV-7x6" id="rWm-F9-0iA"/>
+                        <outlet property="buyCoinsLabel" destination="zjv-K4-KX1" id="DbV-cu-ocd"/>
+                        <outlet property="buyCoinsMenu" destination="1LZ-Zw-47v" id="Yz6-Us-k2S"/>
                         <outlet property="buyImage" destination="LVb-CC-GSo" id="bgk-cX-XZy"/>
                         <outlet property="buySet" destination="ic1-CF-87q" id="tAW-jr-sX6"/>
                         <outlet property="buyTitle" destination="eOV-U9-oIL" id="iCt-cH-fLh"/>
@@ -640,6 +692,8 @@
                         <outlet property="coinsLabel" destination="vEz-3x-L8v" id="zbu-VG-Fkl"/>
                         <outlet property="customizeMenu" destination="gsJ-Xa-cl8" id="moc-Ev-R4Z"/>
                         <outlet property="details" destination="XM8-ln-GEs" id="08D-Sz-OfC"/>
+                        <outlet property="fiveHundredCoins" destination="P0R-mi-2Se" id="88c-bQ-gYE"/>
+                        <outlet property="hundredCoins" destination="XJs-7K-sMs" id="9wx-Iu-cHi"/>
                         <outlet property="includes" destination="8XK-Ol-Evq" id="LQn-vb-siJ"/>
                         <outlet property="lifeCurrent" destination="LXE-pI-Vqk" id="dNp-tk-zNl"/>
                         <outlet property="lifeDetails" destination="KHo-ZH-aNK" id="EWU-Iq-RaV"/>
@@ -655,6 +709,8 @@
                         <outlet property="slowNext" destination="xJf-O2-6s1" id="ffp-uZ-0D2"/>
                         <outlet property="slowProgress" destination="nPC-uM-3vi" id="5Dh-0J-dTc"/>
                         <outlet property="slowUpgrade" destination="Ib2-wb-yqR" id="dAZ-3N-UIi"/>
+                        <outlet property="twoHundredCoins" destination="Q2Y-bf-r3f" id="Vhw-pl-BAc"/>
+                        <outlet property="xButton" destination="yqM-oa-4EC" id="PEx-H3-NKP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WEk-hG-pCr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -804,14 +860,6 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E21-iL-F9r" customClass="GADBannerView">
-                                <rect key="frame" x="27.5" y="0.0" width="320" height="50"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="3ue-ND-aok"/>
-                                    <constraint firstAttribute="height" constant="50" id="iaH-yu-cxr"/>
-                                </constraints>
-                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 102" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fxH-pJ-Xv5" userLabel="ScoreLabel">
                                 <rect key="frame" x="117" y="276" width="141" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
@@ -852,6 +900,14 @@
                                     <action selector="watchVideo:" destination="NLy-4g-DwG" eventType="touchDown" id="KMO-3z-q7d"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E21-iL-F9r" customClass="GADBannerView">
+                                <rect key="frame" x="27" y="0.0" width="320" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="3ue-ND-aok"/>
+                                    <constraint firstAttribute="height" constant="50" id="iaH-yu-cxr"/>
+                                </constraints>
+                            </view>
                             <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fade" translatesAutoresizingMaskIntoConstraints="NO" id="wGU-Z8-0ff">
                                 <rect key="frame" x="-4" y="0.0" width="379" height="670"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -890,6 +946,7 @@
         <image name="Bubble" width="90" height="90"/>
         <image name="Lives" width="1018" height="1018"/>
         <image name="MALogo" width="1451" height="1451"/>
+        <image name="buyCoins" width="1000" height="1014"/>
         <image name="coin6" width="110" height="111"/>
         <image name="customizeMenu" width="842" height="1038"/>
         <image name="dropdown" width="379" height="1055"/>
@@ -906,6 +963,6 @@
         <image name="whiteBG" width="2251" height="4001"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="nAk-4y-7Yn"/>
+        <segue reference="fys-Qd-I5b"/>
     </inferredMetricsTieBreakers>
 </document>

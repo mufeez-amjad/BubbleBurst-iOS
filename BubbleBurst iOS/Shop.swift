@@ -97,9 +97,11 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     
     
     
-    let removeAdsID = "2017101"
-    let fiftyCoinsID = "2017102"
-    let hundredCoinsID = "2017103"
+    let removeAdsID = "BubbleBurstNoAds"
+    let hundredCoinsID = "BubbleBurst100Coins"
+    let twohundredCoinsID = "BubbleBurst200Coins"
+    let fivehundredCoinsID = "BubbleBurst500Coins"
+
     
     var productID = ""
     var productsRequest = SKProductsRequest()
@@ -114,6 +116,16 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     var grassSelected = false
     var snowSelected = false
     var tapiocaSelected = false
+    
+    
+    @IBOutlet weak var Blur: UIVisualEffectView!
+    @IBOutlet weak var xButton: UIButton!
+    @IBOutlet weak var buyCoinsLabel: UILabel!
+    @IBOutlet weak var buyCoinsMenu: UIImageView!
+    
+    @IBOutlet weak var hundredCoins: UIButton!
+    @IBOutlet weak var twoHundredCoins: UIButton!
+    @IBOutlet weak var fiveHundredCoins: UIButton!
     
     override func viewDidLoad() {
         
@@ -190,6 +202,14 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         Back.center.x -= view.bounds.width
         coinsLabel.center.y += view.bounds.height
         coinIcon.center.y += view.bounds.height
+        
+        xButton.setImage(UIImage(named: "xButton"), for: .normal)
+        buyCoinsMenu.center.y += view.bounds.height
+        buyCoinsLabel.center.y += view.bounds.height
+        xButton.center.y += view.bounds.height
+        hundredCoins.center.y += view.bounds.height
+        twoHundredCoins.center.y += view.bounds.height
+        fiveHundredCoins.center.y += view.bounds.height
         
         if noAdsPurchased {
             noAds.setImage(UIImage(named: "noAds2"), for: .normal)
@@ -553,17 +573,61 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     @IBAction func noAdsPressed(_ sender: Any) {
-        purchaseMyProduct(product: iapProducts[0])
+        purchaseMyProduct(product: iapProducts[3])
     }
+    
     @IBAction func adCoinsPressed(_ sender: Any) {
         
     }
+    
     @IBAction func restorePressed(_ sender: Any) {
         SKPaymentQueue.default().add(self)
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
+    
     @IBAction func buyCoinsPressed(_ sender: Any) {
-        
+        buyCoinsLabel.text = "\(coins)"
+        UIView.animate(withDuration: 0.7, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.buyCoinsMenu.center.y -= self.view.bounds.height
+                        self.buyCoinsLabel.center.y -= self.view.bounds.height
+                        self.xButton.center.y -= self.view.bounds.height
+                        self.hundredCoins.center.y -= self.view.bounds.height
+                        self.twoHundredCoins.center.y -= self.view.bounds.height
+                        self.fiveHundredCoins.center.y -= self.view.bounds.height
+                        self.Blur.alpha = 1
+        },
+                       completion: nil
+        )
+    }
+    @IBAction func xButtonPressed(_ sender: Any) {
+        coinsLabel.text = "\(coins)"
+        UIView.animate(withDuration: 0.7, delay: 0,
+                       options: [.curveEaseOut],
+                       animations: {
+                        self.buyCoinsMenu.center.y += self.view.bounds.height
+                        self.buyCoinsLabel.center.y += self.view.bounds.height
+                        self.xButton.center.y += self.view.bounds.height
+                        self.hundredCoins.center.y += self.view.bounds.height
+                        self.twoHundredCoins.center.y += self.view.bounds.height
+                        self.fiveHundredCoins.center.y += self.view.bounds.height
+                        self.Blur.alpha = 0
+        },
+                       completion: nil
+        )
+    }
+    
+    @IBAction func hundredCoinsPressed(_ sender: Any) {
+        purchaseMyProduct(product: iapProducts[0])
+    }
+    
+    @IBAction func twoHundredCoinsPressed(_ sender: Any) {
+        purchaseMyProduct(product: iapProducts[1])
+    }
+    
+    @IBAction func fiveHundredCoinsPressed(_ sender: Any) {
+        purchaseMyProduct(product: iapProducts[2])
     }
     
     @IBAction func regularPressed(_ sender: Any) {
@@ -832,8 +896,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     func fetchAvailableProducts()  {
         // Put here your IAP Products ID's
-        let productIdentifiers = NSSet(objects: removeAdsID, fiftyCoinsID, hundredCoinsID
-        )
+        let productIdentifiers = NSSet(objects: hundredCoinsID, twohundredCoinsID, fivehundredCoinsID, removeAdsID)
         
         productsRequest = SKProductsRequest(productIdentifiers: productIdentifiers as! Set<String>)
         productsRequest.delegate = self
@@ -891,19 +954,21 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         for transaction:AnyObject in transactions {
             if let trans = transaction as? SKPaymentTransaction {
                 switch trans.transactionState {
+                
+                case .purchasing, .deferred: break
+                
+                case .purchased, .restored:
                     
-                case .purchased:
-                    SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
-                    
-                    // The Consumable product (10 coins) has been purchased -> gain 10 extra coins!
-                    if productID == fiftyCoinsID {
+                    if productID == hundredCoinsID {
                         
                         // Add 10 coins and save their total amount
-                        coins += 50
+                        coins += 100
                         UserDefaults.standard.set(coins, forKey: "coins")
-                        coinsLabel.text = "\(coins)"
+                        buyCoinsLabel.text = "\(coins)"
                         
-                        let alert = UIAlertController(title: "Purchase Successful", message: "You've successfully purchased 50 coins!", preferredStyle: UIAlertControllerStyle.alert)
+                        SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                        
+                        let alert = UIAlertController(title: "Purchase Successful", message: "You've successfully purchased 100 B-Coins!", preferredStyle: UIAlertControllerStyle.alert)
                         
                         let cancelAction = UIAlertAction(title: "OK",
                                                          style: .cancel, handler: nil)
@@ -913,12 +978,30 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                         
                     }
                         
-                    else if productID == hundredCoinsID {
-                        coins += 100
+                    else if productID == twohundredCoinsID {
+                        coins += 200
                         UserDefaults.standard.set(coins, forKey: "coins")
-                        coinsLabel.text = "\(coins)"
+                        buyCoinsLabel.text = "\(coins)"
                         
-                        let alert = UIAlertController(title: "Purchase Successful", message: "You've successfully purchased 100 coins!", preferredStyle: UIAlertControllerStyle.alert)
+                        SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                        
+                        let alert = UIAlertController(title: "Purchase Successful", message: "You've successfully purchased 200 B-Coins!", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        let cancelAction = UIAlertAction(title: "OK",
+                                                         style: .cancel, handler: nil)
+                        
+                        alert.addAction(cancelAction)
+                        present(alert, animated: true)
+                    }
+                        
+                    else if productID == fivehundredCoinsID {
+                        coins += 500
+                        UserDefaults.standard.set(coins, forKey: "coins")
+                        buyCoinsLabel.text = "\(coins)"
+                        
+                        SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                        
+                        let alert = UIAlertController(title: "Purchase Successful", message: "You've successfully purchased 500 B-Coins!", preferredStyle: UIAlertControllerStyle.alert)
                         
                         let cancelAction = UIAlertAction(title: "OK",
                                                          style: .cancel, handler: nil)
@@ -935,6 +1018,8 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                         
                         noAds.setImage(UIImage(named: "noAds2"), for: .normal)
                         
+                        SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                        
                         let alert = UIAlertController(title: "Purchase Successful", message: "You've successfully removed ads!", preferredStyle: UIAlertControllerStyle.alert)
                         
                         let cancelAction = UIAlertAction(title: "OK",
@@ -947,9 +1032,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                     break
                     
                 case .failed:
-                    SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
-                    break
-                case .restored:
+                    print("Purchase Failed")
                     SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
                     break
                     

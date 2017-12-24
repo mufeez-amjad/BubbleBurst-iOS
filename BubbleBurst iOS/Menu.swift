@@ -893,7 +893,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     func updateLocal() {
         if Reachability.isConnectedToNetwork() {
             defaults.set(iCloudKeyStore?.string(forKey: "bundle"), forKey: "bundle")
-            Menu.bundle = defaults.string(forKey: "bundle")!
+            //Menu.bundle = defaults.string(forKey: "bundle")!
             
             defaults.set(iCloudKeyStore?.bool(forKey: "music"), forKey: "music")
             Menu.music = defaults.bool(forKey: "music")

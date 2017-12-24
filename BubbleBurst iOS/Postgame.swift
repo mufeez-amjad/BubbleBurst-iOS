@@ -108,7 +108,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             if (defaults.string(forKey: "failedClassic") != "" && defaults.string(forKey: "failedClassic") != nil){
                 let readHighScore = defaults.integer(forKey: "Classic")
                 if Reachability.isConnectedToNetwork(){
-                    LEADERBOARD_ID = "201710_Classic"
+                    LEADERBOARD_ID = "BubbleBurstClassic"
                     let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
                     bestScoreInt.value = Int64(highScore)
                     GKScore.report([bestScoreInt]) { (error) in
@@ -125,7 +125,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             if (defaults.string(forKey: "failedTimed") != "" && defaults.string(forKey: "failedTimed") != nil){
                 let readHighScore = defaults.integer(forKey: "Timed")
                 if Reachability.isConnectedToNetwork(){
-                    LEADERBOARD_ID = "201710_Timed"
+                    LEADERBOARD_ID = "BubbleBurstTimed"
                     let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
                     bestScoreInt.value = Int64(highScore)
                     GKScore.report([bestScoreInt]) { (error) in
@@ -142,7 +142,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             if (defaults.string(forKey: "failedEndless") != "" && defaults.string(forKey: "failedEndless") != nil){
                 let readHighScore = defaults.integer(forKey: "Endless")
                 if Reachability.isConnectedToNetwork(){
-                    LEADERBOARD_ID = "201710_Endless"
+                    LEADERBOARD_ID = "BubbleBurstEndless"
                     let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
                     bestScoreInt.value = Int64(highScore)
                     GKScore.report([bestScoreInt]) { (error) in
@@ -158,7 +158,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             defaults.set("N", forKey: "failedGameCenter")
         }
         
-        LEADERBOARD_ID = "201710_" + gameMode
+        LEADERBOARD_ID = "BubbleBurst" + gameMode
         
         if (gameMode != "Timed"){
             if (defaults.value(forKeyPath: gameMode) == nil){
@@ -369,7 +369,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     @IBAction func homePressed(_ sender: Any) {
         AppDelegate.playClick()
         performSegue(withIdentifier: "backtoMenu", sender: self)
-=    }
+    }
     
     @IBAction func leaderboardPressed(_ sender: Any) {
         AppDelegate.playClick()
