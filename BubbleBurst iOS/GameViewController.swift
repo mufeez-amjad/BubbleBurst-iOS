@@ -223,13 +223,13 @@ class GameViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let yourVC = segue.destination as? Postgame {
-            yourVC.score = scene!.score
-            yourVC.time = scene!.time
-            yourVC.gameMode = scene!.gameMode
-            yourVC.coins = scene!.coinCount
+        if let nextVC = segue.destination as? Postgame {
+            nextVC.score = scene!.score
+            nextVC.time = scene!.time
+            nextVC.gameMode = scene!.gameMode
+            nextVC.coins = scene!.coinCount
+            nextVC.usedExtraLife = scene!.usedExtraLife
         }
-        
     }
     
     override var shouldAutorotate: Bool {

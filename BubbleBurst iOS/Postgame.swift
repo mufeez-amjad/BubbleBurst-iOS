@@ -40,6 +40,8 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     var gameMode: String!
     var coins: Int = 0
     
+    var usedExtraLife = false
+    
     var lifeAd: GADRewardBasedVideoAd?
     var interstitial: GADInterstitial!
     
@@ -52,7 +54,12 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     @IBOutlet weak var fade: UIImageView!
     
     override func viewDidLoad() {
+        let noAdsPurchased = defaults.bool(forKey: "noAdsPurchased")
         
+        if(usedExtraLife) {
+            videoAdButton.isHidden = true
+        }
+
         if !(GKLocalPlayer.localPlayer().isAuthenticated) {
             authenticateLocalPlayer()
         }
@@ -84,20 +91,24 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         request.testDevices = [kGADSimulatorID]
         
         //Set up ad
-        bannerAd.adUnitID = "ca-app-pub-4669355053831786/6468914787"
-        
-        bannerAd.rootViewController = self
-        bannerAd.delegate = self
-        
-        bannerAd.load(request)
-        
+        if (!noAdsPurchased){
+            bannerAd.adUnitID = "ca-app-pub-4669355053831786/6468914787"
+            
+            bannerAd.rootViewController = self
+            bannerAd.delegate = self
+            
+            bannerAd.load(request)
+        }
+
         lifeAd = GADRewardBasedVideoAd.sharedInstance()
         lifeAd?.delegate = self
         
         lifeAd?.load(GADRequest(),
                      withAdUnitID: "ca-app-pub-4669355053831786/4776540656") //TODO: ca-app-pub-4669355053831786/4776540656
         // ca-app-pub-3940256099942544/1712485313
-        interstitial = createAndLoadInterstitial()
+        if !(noAdsPurchased) {
+            interstitial = createAndLoadInterstitial()
+        }
         
         Retry.setImage(UIImage(named: "restart"), for: .normal)
         Home.setImage(UIImage(named: "home"), for: .normal)
@@ -261,7 +272,9 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         //scoreLabel.center.x = self.view.center.x
         
         highScoreLabel.center.x = self.view.center.x
-        interstitial.present(fromRootViewController: self)
+        if (!noAdsPurchased){
+            interstitial.present(fromRootViewController: self)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -281,7 +294,6 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         interstitial.delegate = self
         
         return interstitial
-        
     }
     
     func interstitialDidReceiveAd(_ ad: GADInterstitial) {
@@ -298,8 +310,10 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     }
     
     @IBAction func watchVideo(_ sender: Any) {
-        if lifeAd?.isReady == true {
-            lifeAd?.present(fromRootViewController: self)
+        if(!usedExtraLife) {
+            if lifeAd?.isReady == true {
+                lifeAd?.present(fromRootViewController: self)
+            }
         }
     }
     

@@ -186,12 +186,14 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         request.testDevices = [kGADSimulatorID]
         
         //Set up ad
-        bannerAd.adUnitID = "ca-app-pub-4669355053831786/6468914787"
-        
-        bannerAd.rootViewController = self
-        bannerAd.delegate = self
-        
-        bannerAd.load(request)
+        if (!noAdsPurchased){
+            bannerAd.adUnitID = "ca-app-pub-4669355053831786/6468914787"
+            
+            bannerAd.rootViewController = self
+            bannerAd.delegate = self
+            
+            bannerAd.load(request)
+        }
         
         coinRewardAd = GADRewardBasedVideoAd.sharedInstance()
         coinRewardAd?.delegate = self
@@ -284,7 +286,9 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     
     func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
                             didRewardUserWith reward: GADAdReward) {
-        coins += Int(truncating: reward.amount)
+        coins += 3
+        defaults.set(coins, forKey: "Coins")
+        coinsLabel.text = "\(coins)"
         AppDelegate.playMoney()
         print("Reward received with currency: \(reward.type), amount \(reward.amount).")
     }
@@ -573,7 +577,9 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     @IBAction func noAdsPressed(_ sender: Any) {
-        purchaseMyProduct(product: iapProducts[3])
+        if !(noAdsPurchased){
+            purchaseMyProduct(product: iapProducts[3])
+        }
     }
     
     @IBAction func adCoinsPressed(_ sender: Any) {
@@ -619,15 +625,21 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     @IBAction func hundredCoinsPressed(_ sender: Any) {
-        purchaseMyProduct(product: iapProducts[0])
+        if (!iapProducts.isEmpty) {
+            purchaseMyProduct(product: iapProducts[0])
+        }
     }
     
     @IBAction func twoHundredCoinsPressed(_ sender: Any) {
-        purchaseMyProduct(product: iapProducts[1])
+        if (!iapProducts.isEmpty) {
+            purchaseMyProduct(product: iapProducts[1])
+        }
     }
     
     @IBAction func fiveHundredCoinsPressed(_ sender: Any) {
-        purchaseMyProduct(product: iapProducts[2])
+        if (!iapProducts.isEmpty) {
+            purchaseMyProduct(product: iapProducts[2])
+        }
     }
     
     @IBAction func regularPressed(_ sender: Any) {
@@ -811,6 +823,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                     coinPrice.isHidden = true
                     price.isHidden = true
                     coins -= grassPrice
+                    coinsLabel.text = "\(coins)"
                     Menu.bundle = "Greenery"
                     defaults.set(Menu.bundle, forKey: "bundle")
                     grassUnlocked = true
@@ -837,6 +850,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                     coinPrice.isHidden = true
                     price.isHidden = true
                     coins -= snowPrice
+                    coinsLabel.text = "\(coins)"
                     Menu.bundle = "Snowy"
                     defaults.set(Menu.bundle, forKey: "bundle")
                     snowUnlocked = true
@@ -864,6 +878,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                     coinPrice.isHidden = true
                     price.isHidden = true
                     coins -= tapiocaPrice
+                    coinsLabel.text = "\(coins)"
                     Menu.bundle = "Bubble Tea"
                     defaults.set(Menu.bundle, forKey: "bundle")
                     tapiocaUnlocked = true
@@ -879,7 +894,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
         noAdsPurchased = true
-        UserDefaults.standard.set(noAdsPurchased, forKey: "noAdsPurchased")
+        defaults.set(noAdsPurchased, forKey: "noAdsPurchased")
         let alert = UIAlertController(title: "Restore Purchases", message: "You've successfully restored your purchase!", preferredStyle: UIAlertControllerStyle.alert)
         
         let cancelAction = UIAlertAction(title: "OK",
@@ -901,6 +916,17 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         productsRequest = SKProductsRequest(productIdentifiers: productIdentifiers as! Set<String>)
         productsRequest.delegate = self
         productsRequest.start()
+    }
+    
+    func request(_ request: SKRequest, didFailWithError error: Error) {
+        if request == productsRequest {
+            var count: Int = 0
+            count += 1
+            print("Request \(request) failed on \(count). attempt with error: \(error)")
+            productsRequest.cancel()
+            // try again until we succeed
+            fetchAvailableProducts()
+        }
     }
     
     func productsRequest (_ request:SKProductsRequest, didReceive response:SKProductsResponse) {
@@ -927,6 +953,8 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             
         }
     }
+    
+    
     
     func canMakePurchases() -> Bool {  return SKPaymentQueue.canMakePayments()  }
     
@@ -963,7 +991,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                         
                         // Add 10 coins and save their total amount
                         coins += 100
-                        UserDefaults.standard.set(coins, forKey: "coins")
+                        defaults.set(coins, forKey: "Coins")
                         buyCoinsLabel.text = "\(coins)"
                         
                         SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
@@ -980,7 +1008,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                         
                     else if productID == twohundredCoinsID {
                         coins += 200
-                        UserDefaults.standard.set(coins, forKey: "coins")
+                        defaults.set(coins, forKey: "Coins")
                         buyCoinsLabel.text = "\(coins)"
                         
                         SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
@@ -996,7 +1024,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                         
                     else if productID == fivehundredCoinsID {
                         coins += 500
-                        UserDefaults.standard.set(coins, forKey: "coins")
+                        defaults.set(coins, forKey: "Coins")
                         buyCoinsLabel.text = "\(coins)"
                         
                         SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
@@ -1014,7 +1042,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                         
                         // Save your purchase locally (needed only for Non-Consumable IAP)
                         noAdsPurchased = true
-                        UserDefaults.standard.set(noAdsPurchased, forKey: "noAdsPurchased")
+                        defaults.set(noAdsPurchased, forKey: "noAdsPurchased")
                         
                         noAds.setImage(UIImage(named: "noAds2"), for: .normal)
                         
@@ -1041,57 +1069,74 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     func updateiCloud(){
-        iCloudKeyStore?.set(coins, forKey: "Coins")
+        if (Reachability.isConnectedToNetwork()){
+            
+            if (defaults.bool(forKey: "UpdatedLocal")){
+                
+                iCloudKeyStore?.set(true, forKey: "synced")
+                
+                iCloudKeyStore?.set(Menu.bundle, forKey: "bundle")
+                
+                iCloudKeyStore?.set(Int64(coins), forKey: "Coins")
+                
+                if !(defaults.object(forKey: "noAdsPurchased") == nil){
+                    let noAdsPurchased = defaults.bool(forKey: "noAdsPurchased")
+                    iCloudKeyStore?.set(noAdsPurchased, forKey: "noAdsPurchased")
+                }
+                else {
+                    iCloudKeyStore?.set(false, forKey: "noAdsPurchased")
+                }
+                
+                if !(defaults.object(forKey: "AutoPop") == nil){
+                    let autoLevel = defaults.integer(forKey: "AutoPop")
+                    iCloudKeyStore?.set(Int64(autoLevel), forKey: "AutoPop")
+                }
+                else {
+                    iCloudKeyStore?.set(0, forKey: "AutoPop")
+                }
+                
+                if !(defaults.object(forKey: "SlowMo") == nil){
+                    let slowLevel = defaults.integer(forKey: "SlowMo")
+                    iCloudKeyStore?.set(Int64(slowLevel), forKey: "SlowMo")
+                }
+                else {
+                    iCloudKeyStore?.set(0, forKey: "SlowMo")
+                }
+                
+                if !(defaults.object(forKey: "Life") == nil){
+                    let lifeLevel = defaults.integer(forKey: "Life")
+                    iCloudKeyStore?.set(Int64(lifeLevel), forKey: "Life")
+                }
+                else {
+                    iCloudKeyStore?.set(0, forKey: "Life")
+                }
+                
+                if !(defaults.object(forKey: "Greenery") == nil){
+                    let grassUnlocked = defaults.bool(forKey: "Greenery")
+                    iCloudKeyStore?.set(grassUnlocked, forKey: "Greenery")
+                }
+                else {
+                    iCloudKeyStore?.set(false, forKey: "Greenery")
+                }
+                
+                if !(defaults.object(forKey: "Snowy") == nil){
+                    let snowUnlocked = defaults.bool(forKey: "Snowy")
+                    iCloudKeyStore?.set(snowUnlocked, forKey: "Snowy")
+                }
+                else {
+                    iCloudKeyStore?.set(false, forKey: "Snowy")
+                }
+                
+                if !(defaults.object(forKey: "Bubble Tea") == nil){
+                    let tapiocaUnlocked = defaults.bool(forKey: "Bubble Tea")
+                    iCloudKeyStore?.set(tapiocaUnlocked, forKey: "Bubble Tea")
+                }
+                else {
+                    iCloudKeyStore?.set(false, forKey: "Bubble Tea")
+                }
+                iCloudKeyStore?.synchronize()
+            }
+        }
         
-        if !(defaults.object(forKey: "noAdsPurchased") == nil){
-            iCloudKeyStore?.set(noAdsPurchased, forKey: "noAdsPurchased")
-        }
-        else {
-            iCloudKeyStore?.set(false, forKey: "noAdsPurchased")
-        }
-        
-        if !(defaults.object(forKey: "AutoPop") == nil){
-            iCloudKeyStore?.set(autoLevel, forKey: "AutoPop")
-        }
-        else {
-            iCloudKeyStore?.set(0, forKey: "AutoPop")
-        }
-        
-        if !(defaults.object(forKey: "SlowMo") == nil){
-            iCloudKeyStore?.set(slowLevel, forKey: "SlowMo")
-        }
-        else {
-            iCloudKeyStore?.set(0, forKey: "SlowMo")
-        }
-        
-        if !(defaults.object(forKey: "Life") == nil){
-            iCloudKeyStore?.set(lifeLevel, forKey: "Life")
-        }
-        else {
-            iCloudKeyStore?.set(0, forKey: "Life")
-        }
-        
-        if !(defaults.object(forKey: "Greenery") == nil){
-            iCloudKeyStore?.set(grassUnlocked, forKey: "Greenery")
-        }
-        else {
-            iCloudKeyStore?.set(false, forKey: "Greenery")
-        }
-        
-        if !(defaults.object(forKey: "Snowy") == nil){
-            iCloudKeyStore?.set(snowUnlocked, forKey: "Snowy")
-        }
-        else {
-            iCloudKeyStore?.set(false, forKey: "Snowy")
-        }
-        
-        if !(defaults.object(forKey: "Bubble Tea") == nil){
-            iCloudKeyStore?.set(tapiocaUnlocked, forKey: "Bubble Tea")
-        }
-        else {
-            iCloudKeyStore?.set(false, forKey: "Bubble Tea")
-        }
-        
-        iCloudKeyStore?.synchronize()
     }
 }

@@ -13,6 +13,8 @@ import AVFoundation
 class GameScene: SKScene {
     let defaults = UserDefaults.standard
     
+    var usedExtraLife = false
+    
     static var gamePaused = false
     var fingerDown = false
     var gameStarted = false
@@ -32,6 +34,12 @@ class GameScene: SKScene {
     var coinCount = 0
     var lives = 10
     var time = 0
+    
+    var prevScore = 0
+    var prevCoinCoint = 0
+    var prevLives = 0
+    var prevTime = 0
+    
     var gameOver = false
     var gameEnded = false
     
@@ -759,9 +767,14 @@ class GameScene: SKScene {
     
     func gameEnd(){
         pathEmitter?.position = CGPoint(x:-100,y: -100)
+        
+        prevLives = lives
         lives = 10
+        prevScore = score
         score = 0
+        prevTime = time
         time = 0
+        prevCoinCoint = coinCount
         coinCount = 0
         
         for (i,bubble) in bubbles.enumerated().reversed() {
@@ -775,10 +788,12 @@ class GameScene: SKScene {
     }
     
     func oneLife(){
-        lives = 1
-        var prevScore = score
+        usedExtraLife = true
         playAgain()
+        lives = 1
         score = prevScore
+        time = prevTime
+        coinCount = prevCoinCoint
     }
     
     func endGame(){
