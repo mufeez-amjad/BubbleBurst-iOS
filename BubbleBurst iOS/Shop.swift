@@ -75,9 +75,9 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     
     var menu = "PowerUp"
     
-    var autoCost = 0
-    var lifeCost = 0
-    var slowCost = 0
+    var autoCost = 70
+    var lifeCost = 60
+    var slowCost = 50
     
     var autoLevel = 0
     var slowLevel = 1
@@ -128,7 +128,6 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     @IBOutlet weak var fiveHundredCoins: UIButton!
     
     override func viewDidLoad() {
-        
         if (defaults.bool(forKey: "Greenery") == true){
             grassUnlocked = true
         }
@@ -219,6 +218,8 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         
         // Fetch IAP Products available
         fetchAvailableProducts()
+        
+        updateProgress(powerUp: 0)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -576,14 +577,25 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         }
     }
     
-    @IBAction func noAdsPressed(_ sender: Any) {
-        if !(noAdsPurchased){
-            purchaseMyProduct(product: iapProducts[3])
-        }
+    func noNetworkAlert() {
+        let alert = UIAlertController(title: "Unable to purchase", message: "Connect to a network and try again.", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let cancelAction = UIAlertAction(title: "OK",
+                                         style: .cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
     }
     
-    @IBAction func adCoinsPressed(_ sender: Any) {
-        
+    @IBAction func noAdsPressed(_ sender: Any) {
+        if !(noAdsPurchased){
+            if (!iapProducts.isEmpty) {
+                purchaseMyProduct(product: iapProducts[3])
+            }
+            else {
+                noNetworkAlert()
+            }
+        }
     }
     
     @IBAction func restorePressed(_ sender: Any) {
@@ -628,17 +640,26 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         if (!iapProducts.isEmpty) {
             purchaseMyProduct(product: iapProducts[0])
         }
+        else {
+            noNetworkAlert()
+        }
     }
     
     @IBAction func twoHundredCoinsPressed(_ sender: Any) {
         if (!iapProducts.isEmpty) {
             purchaseMyProduct(product: iapProducts[1])
         }
+        else {
+            noNetworkAlert()
+        }
     }
     
     @IBAction func fiveHundredCoinsPressed(_ sender: Any) {
         if (!iapProducts.isEmpty) {
             purchaseMyProduct(product: iapProducts[2])
+        }
+        else {
+            noNetworkAlert()
         }
     }
     

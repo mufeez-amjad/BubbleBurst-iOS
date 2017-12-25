@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import StoreKit
 //import Firebase
 
 @UIApplicationMain
@@ -30,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (defaults.value(forKey: "firstLaunch") != nil){
             AppDelegate.firstLaunch = defaults.bool(forKey: "firstLaunch")
         }
+        incrementAppRuns()
         return true
     }
     
@@ -98,6 +100,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(error.localizedDescription)
         }
     }
+    
+    func incrementAppRuns() {
+        var runs = 0
+        if (defaults.value(forKey: "timesRun") != nil){
+            runs = defaults.integer(forKey: "timesRun")
+        }
+        runs += 1
+        defaults.set(runs, forKey: "timesRun")
+        
+        if (runs % 3 == 0) {
+            if #available(iOS 10.3, *) {
+                SKStoreReviewController.requestReview()
+            } else {
+                // Fallback on earlier versions
+            }
+        }
+    }
+    
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

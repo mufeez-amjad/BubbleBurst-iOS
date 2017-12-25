@@ -104,8 +104,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         lifeAd?.delegate = self
         
         lifeAd?.load(GADRequest(),
-                     withAdUnitID: "ca-app-pub-4669355053831786/4776540656") //TODO: ca-app-pub-4669355053831786/4776540656
-        // ca-app-pub-3940256099942544/1712485313
+                     withAdUnitID: "ca-app-pub-4669355053831786/4776540656")
         if !(noAdsPurchased) {
             interstitial = createAndLoadInterstitial()
         }
@@ -321,8 +320,8 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
                             didRewardUserWith reward: GADAdReward) {
         if let presenter = presentingViewController as? GameViewController {
             presenter.scene?.oneLife()
+            usedExtraLife = true
         }
-        backPressed(self)
         print("Reward received with currency: \(reward.type), amount \(reward.amount).")
     }
     
@@ -347,6 +346,9 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
         print("Reward based video ad is closed.")
         NSLog("REWARDED.");
+        if usedExtraLife {
+            backPressed(self)
+        }
         AppDelegate.player?.play()
     }
     
@@ -387,6 +389,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     
     @IBAction func leaderboardPressed(_ sender: Any) {
         AppDelegate.playClick()
+        authenticateLocalPlayer()
         let gcVC = GKGameCenterViewController()
         gcVC.gameCenterDelegate = self
         gcVC.viewState = .leaderboards

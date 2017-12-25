@@ -43,7 +43,6 @@
 		8F26EA1E1FB2570C00CC38D4 /* BubbleBurst iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BubbleBurst iOS.entitlements"; sourceTree = "<group>"; };
 		8F2EA0881F86C507009AC742 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		8F35C9421F86E970004D8C5A /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = "../../../Downloads/GoogleMobileAdsSdkiOS-7.24.1/GoogleMobileAds.framework"; sourceTree = "<group>"; };
-		8F35C9441F86EB36004D8C5A /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		8F525D8A1F87272500C2CD4F /* Postgame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Postgame.swift; sourceTree = "<group>"; };
 		8F65F8E21FA4126200041FB0 /* bgMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgMusic.mp3; sourceTree = "<group>"; };
 		8F65F8E41FA4FC1300041FB0 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
@@ -120,7 +119,6 @@
 			children = (
 				8F26EA1E1FB2570C00CC38D4 /* BubbleBurst iOS.entitlements */,
 				8FC7F5611F96AD3300BF24A3 /* Sounds */,
-				8F35C9441F86EB36004D8C5A /* GoogleMobileAds.framework */,
 				8F8EDF1A1F82E1CA00336BC2 /* MyParticle.sks */,
 				8F8EDF181F816E8D00336BC2 /* Bubblegum.ttf */,
 				8FA131F51F8013DF00B6D3D8 /* AppDelegate.swift */,
@@ -362,7 +360,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YCDQXE3CNQ;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Framework";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Framework",
+					"$(PROJECT_DIR)/BubbleBurst\\ iOS/Sounds",
+				);
 				INFOPLIST_FILE = "BubbleBurst iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
