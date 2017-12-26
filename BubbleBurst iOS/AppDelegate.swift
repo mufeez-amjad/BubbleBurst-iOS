@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 import StoreKit
-//import Firebase
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -26,8 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     static var firstLaunch = true
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        //FirebaseApp.configure()
+
+        FirebaseApp.configure()
         if (defaults.value(forKey: "firstLaunch") != nil){
             AppDelegate.firstLaunch = defaults.bool(forKey: "firstLaunch")
         }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1EF04F249BB4726E89B317F5 /* Pods_BubbleBurst_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B94F5643138E279590F074 /* Pods_BubbleBurst_iOS.framework */; };
 		8F0104E91FAA951900392E56 /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8F0104E81FAA951900392E56 /* coin.mp3 */; };
 		8F26EA1B1FB256E800CC38D4 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26EA1A1FB256E800CC38D4 /* GameKit.framework */; };
 		8F26EA1D1FB256FB00CC38D4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26EA1C1FB256FB00CC38D4 /* StoreKit.framework */; };
@@ -30,6 +31,7 @@
 		8FA732D41FC50E2F00E13DB0 /* money.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8FA732D31FC50E2F00E13DB0 /* money.mp3 */; };
 		8FC7F5631F96AF5400BF24A3 /* pop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8FC7F5621F96AD6500BF24A3 /* pop.wav */; };
 		8FDAFF081F86FF0E00F5C852 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FDAFF071F86FF0E00F5C852 /* GoogleMobileAds.framework */; };
+		8FDE4FE31FF1C8DA00F2255E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8FDE4FE21FF1C8DA00F2255E /* GoogleService-Info.plist */; };
 		8FF354111F96A76100F74F00 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FF354101F96A76100F74F00 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +66,7 @@
 		8FA732D31FC50E2F00E13DB0 /* money.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = money.mp3; sourceTree = "<group>"; };
 		8FC7F5621F96AD6500BF24A3 /* pop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop.wav; sourceTree = "<group>"; };
 		8FDAFF071F86FF0E00F5C852 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = Framework/GoogleMobileAds.framework; sourceTree = "<group>"; };
+		8FDE4FE21FF1C8DA00F2255E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8FF354101F96A76100F74F00 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -76,6 +79,7 @@
 				8FF354111F96A76100F74F00 /* AVFoundation.framework in Frameworks */,
 				8FDAFF081F86FF0E00F5C852 /* GoogleMobileAds.framework in Frameworks */,
 				8F26EA1D1FB256FB00CC38D4 /* StoreKit.framework in Frameworks */,
+				1EF04F249BB4726E89B317F5 /* Pods_BubbleBurst_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,6 +138,7 @@
 				8FA132021F8013DF00B6D3D8 /* Assets.xcassets */,
 				8FA132041F8013DF00B6D3D8 /* LaunchScreen.storyboard */,
 				8FA132071F8013DF00B6D3D8 /* Info.plist */,
+				8FDE4FE21FF1C8DA00F2255E /* GoogleService-Info.plist */,
 			);
 			path = "BubbleBurst iOS";
 			sourceTree = "<group>";
@@ -166,9 +171,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8FA1320A1F8013DF00B6D3D8 /* Build configuration list for PBXNativeTarget "BubbleBurst iOS" */;
 			buildPhases = (
+				67990F8A35A9D76CE6D062F9 /* [CP] Check Pods Manifest.lock */,
 				8FA131EE1F8013DF00B6D3D8 /* Sources */,
 				8FA131EF1F8013DF00B6D3D8 /* Frameworks */,
 				8FA131F01F8013DF00B6D3D8 /* Resources */,
+				19CC1BEC5D059CCD109A2BA7 /* [CP] Embed Pods Frameworks */,
+				C22B588C19E372313C4BD8FD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -248,10 +256,67 @@
 				8F8EDF1D1F82E1CA00336BC2 /* Assets.xcassets in Resources */,
 				8FA732D21FC50E1B00E13DB0 /* error.mp3 in Resources */,
 				8FA131FA1F8013DF00B6D3D8 /* Actions.sks in Resources */,
+				8FDE4FE31FF1C8DA00F2255E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		19CC1BEC5D059CCD109A2BA7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BubbleBurst iOS/Pods-BubbleBurst iOS-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BubbleBurst iOS/Pods-BubbleBurst iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		67990F8A35A9D76CE6D062F9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BubbleBurst iOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C22B588C19E372313C4BD8FD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BubbleBurst iOS/Pods-BubbleBurst iOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8FA131EE1F8013DF00B6D3D8 /* Sources */ = {
@@ -361,8 +426,8 @@
 				DEVELOPMENT_TEAM = YCDQXE3CNQ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/Framework",
-					"$(PROJECT_DIR)/BubbleBurst\\ iOS/Sounds",
+					"$(inherited)",
+					"$(PROJECT_DIR)/Framework/",
 				);
 				INFOPLIST_FILE = "BubbleBurst iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
