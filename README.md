@@ -9,9 +9,10 @@ The game includes 3 game modes:
 
 ### Features:
 
-  - Integrated with GameCenter
   - Customization of gameplay and appearance
-  - Google Admob
+  - GameCenter integration
+  - Google Admob integration
+  - Firebase integration
   - iCloud data syncing
 
 ### Software Used:
