@@ -95,14 +95,11 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     @IBOutlet weak var bannerAd: GADBannerView!
     var coinRewardAd: GADRewardBasedVideoAd?
     
-    
-    
     let removeAdsID = "BubbleBurstNoAds"
     let hundredCoinsID = "BubbleBurst100Coins"
     let twohundredCoinsID = "BubbleBurst200Coins"
     let fivehundredCoinsID = "BubbleBurst500Coins"
 
-    
     var productID = ""
     var productsRequest = SKProductsRequest()
     var iapProducts = [SKProduct]()
@@ -180,17 +177,15 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         coinPrice.isHidden = true
         price.isHidden = true
         
-        //Request
-        let request = GADRequest()
-        request.testDevices = [kGADSimulatorID]
-        
-        //Set up ad
         if (!noAdsPurchased){
+            let request = GADRequest()
+            request.testDevices = [kGADSimulatorID]
+        
+        
             bannerAd.adUnitID = "ca-app-pub-4669355053831786/6468914787"
             
             bannerAd.rootViewController = self
             bannerAd.delegate = self
-            
             bannerAd.load(request)
         }
         
@@ -216,7 +211,6 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             noAds.setImage(UIImage(named: "noAds2"), for: .normal)
         }
         
-        // Fetch IAP Products available
         fetchAvailableProducts()
         
         updateProgress(powerUp: 0)

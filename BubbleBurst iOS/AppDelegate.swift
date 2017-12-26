@@ -112,8 +112,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (runs % 3 == 0) {
             if #available(iOS 10.3, *) {
                 SKStoreReviewController.requestReview()
-            } else {
-                // Fallback on earlier versions
             }
         }
     }
@@ -138,13 +136,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             AppDelegate.player?.pause()
         }
         
-        //GameScene.gamePaused = true
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "inactive"), object: nil)
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        //GameScene.gamePaused = false
         if (Menu.music) {
             AppDelegate.player?.play()
         }
@@ -155,11 +151,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        //GameScene.gamePaused = false
         if (Menu.music) {
             AppDelegate.player?.play()
         }
-        //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "active"), object: nil)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "active"), object: nil)
     }
     

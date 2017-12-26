@@ -17,6 +17,8 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     var iCloudKeyStore: NSUbiquitousKeyValueStore? = NSUbiquitousKeyValueStore()
     
+    var noAdsPurchased: Bool!
+    
     var gameSegue = false
     var transitionOut = false
     
@@ -118,27 +120,19 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         
         super.viewDidLoad()
         
-        if AppDelegate.firstLaunch {
-            //updateLocal()
-        }
-        
         if (defaults.string(forKey: "bundle") != nil) {
             Menu.bundle = defaults.string(forKey: "bundle")!
         }
         
-        //Request
-        let request = GADRequest()
-        request.testDevices = [kGADSimulatorID]
-        
-        //Set up ad
-        let noAdsPurchased = defaults.bool(forKey: "noAdsPurchased")
-        
+        noAdsPurchased = defaults.bool(forKey: "noAdsPurchased")
+
         if !noAdsPurchased {
+            let request = GADRequest()
+            request.testDevices = [kGADSimulatorID]
+    
             bannerAd.adUnitID = "ca-app-pub-4669355053831786/6468914787"
-            
             bannerAd.rootViewController = self
             bannerAd.delegate = self
-            
             bannerAd.load(request)
         }
         
@@ -262,7 +256,6 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //addCheats()
         if (defaults.value(forKeyPath: "Points") == nil){
             points = 0
         }
@@ -929,14 +922,17 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
                 points =  Int(truncatingIfNeeded: (iCloudKeyStore?.longLong(forKey: "Points"))!)
                 defaults.set(points, forKey: "Points")
                 pointsLabel.text = "\(points)"
-                print("Points : " + "\(iCloudKeyStore?.longLong(forKey: "Points"))") // returns Optional(0)
+                print("Points : " + "\(iCloudKeyStore?.longLong(forKey: "Points"))")
                 
                 coins = Int(truncatingIfNeeded: (iCloudKeyStore?.longLong(forKey: "Coins"))!)
                 defaults.set(coins, forKey: "Coins")
                 coinsLabel.text = "\(coins)"
                 
-                defaults.set(iCloudKeyStore?.bool(forKey: "noAdsPurchased"), forKey: "noAdsPurchased")
-                //TODO - make global noadsvariable
+                noAdsPurchased = iCloudKeyStore?.bool(forKey: "noAdsPurchased")
+                defaults.set(noAdsPurchased, forKey: "noAdsPurchased")
+                if (noAdsPurchased) {
+                    bannerAd.isHidden = true
+                }
                 
                 defaults.set(iCloudKeyStore?.longLong(forKey: "AutoPop"), forKey: "AutoPop")
                 defaults.set(iCloudKeyStore?.longLong(forKey: "SlowMo"), forKey: "SlowMo")

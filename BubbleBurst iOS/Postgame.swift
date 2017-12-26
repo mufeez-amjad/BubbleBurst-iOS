@@ -17,7 +17,7 @@ import GameKit
 class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelegate, GADInterstitialDelegate, GKGameCenterControllerDelegate {
     
     let defaults = UserDefaults.standard
-
+    
     var iCloudKeyStore: NSUbiquitousKeyValueStore? = NSUbiquitousKeyValueStore()
     
     @IBOutlet weak var BG: UIImageView!
@@ -46,24 +46,26 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     var interstitial: GADInterstitial!
     
     /* Variables */
-    var gcEnabled = Bool() // Check if the user has Game Center enabled
-    var gcDefaultLeaderBoard = String() // Check the default leaderboardID
+    var gcEnabled = Bool()
+    var gcDefaultLeaderBoard = String()
     
     var LEADERBOARD_ID: String!
     
     @IBOutlet weak var fade: UIImageView!
     
+    var noAdsPurchased: Bool!
+    
     override func viewDidLoad() {
-        let noAdsPurchased = defaults.bool(forKey: "noAdsPurchased")
+        noAdsPurchased = defaults.bool(forKey: "noAdsPurchased")
         
         if(usedExtraLife) {
             videoAdButton.isHidden = true
         }
-
+        
         if !(GKLocalPlayer.localPlayer().isAuthenticated) {
             authenticateLocalPlayer()
         }
-
+        
         super.viewDidLoad()
         
         if (gameMode == "Endless") {
@@ -86,28 +88,26 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             BG.image = UIImage(named: "grassBG")
         }
         
-        //Request
-        let request = GADRequest()
-        request.testDevices = [kGADSimulatorID]
-        
-        //Set up ad
         if (!noAdsPurchased){
-            bannerAd.adUnitID = "ca-app-pub-4669355053831786/6468914787"
+            let request = GADRequest()
+            request.testDevices = [kGADSimulatorID]
             
+            bannerAd.adUnitID = "ca-app-pub-4669355053831786/6468914787"
             bannerAd.rootViewController = self
             bannerAd.delegate = self
             
             bannerAd.load(request)
         }
-
+        
         lifeAd = GADRewardBasedVideoAd.sharedInstance()
         lifeAd?.delegate = self
         
         lifeAd?.load(GADRequest(),
                      withAdUnitID: "ca-app-pub-4669355053831786/4776540656")
-        if !(noAdsPurchased) {
-            interstitial = createAndLoadInterstitial()
-        }
+        
+        
+        interstitial = createAndLoadInterstitial()
+        
         
         Retry.setImage(UIImage(named: "restart"), for: .normal)
         Home.setImage(UIImage(named: "home"), for: .normal)
@@ -268,7 +268,6 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             let seconds = Int(time) % 60
             scoreLabel.text = "Time: \(String(format:"%02i:%02i", minutes, seconds))"
         }
-        //scoreLabel.center.x = self.view.center.x
         
         highScoreLabel.center.x = self.view.center.x
         if (!noAdsPurchased){
@@ -287,10 +286,12 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     func createAndLoadInterstitial() -> GADInterstitial {
         interstitial = GADInterstitial(adUnitID: "ca-app-pub-4669355053831786/7207262873")
         
-        let request = GADRequest()
-        request.testDevices = [kGADSimulatorID]
-        interstitial.load(request)
-        interstitial.delegate = self
+        if !(noAdsPurchased) {
+            let request = GADRequest()
+            request.testDevices = [kGADSimulatorID]
+            interstitial.load(request)
+            interstitial.delegate = self
+        }
         
         return interstitial
     }
@@ -304,9 +305,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         print("failed")
     }
     
-    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
-        //interstitial = createAndLoadInterstitial()
-    }
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) { }
     
     @IBAction func watchVideo(_ sender: Any) {
         if(!usedExtraLife) {
@@ -369,7 +368,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     
     @IBAction func backPressed(_ sender: Any) {
         AppDelegate.playClick()
-        //fadeOut() TODO: uncomment
+        fadeOut()
         dismiss(animated: false, completion: nil)
     }
     
@@ -389,7 +388,6 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     
     @IBAction func leaderboardPressed(_ sender: Any) {
         AppDelegate.playClick()
-        authenticateLocalPlayer()
         let gcVC = GKGameCenterViewController()
         gcVC.gameCenterDelegate = self
         gcVC.viewState = .leaderboards

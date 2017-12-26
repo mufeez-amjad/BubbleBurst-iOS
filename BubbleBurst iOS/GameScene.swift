@@ -1195,7 +1195,6 @@ class GameScene: SKScene {
             }
             else {
                 type = 95 //forced red bubble
-                //Bubble.riseSpeed = 17
             }
             
             var texture = SKTexture(imageNamed: bubbleImage)
