@@ -14,6 +14,7 @@ class GameScene: SKScene {
     let defaults = UserDefaults.standard
     
     var usedExtraLife = false
+    var gameisDone = false
     
     static var gamePaused = false
     var fingerDown = false
@@ -103,7 +104,6 @@ class GameScene: SKScene {
     
     
     var startsIn = 3
-    var gameMode: String!
     
     var previousLocation = CGPoint(x:-100,y: -100)
     
@@ -232,9 +232,6 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        Bubble.gameMode = gameMode
-        
-        
         scoreLabel = SKLabelNode(fontNamed: "Bubblegum")
         scoreLabel.text = "\(score)"
         scoreLabel.fontSize = 40
@@ -246,7 +243,7 @@ class GameScene: SKScene {
         livesLabel.fontSize = 40
         livesLabel.position = CGPoint(x: 150,y: self.frame.height - 200)
         livesLabel.zPosition = 1
-        if (gameMode == "Classic") {
+        if (GameViewController.gameMode == "Classic") {
             self.addChild(livesLabel)
         }
         
@@ -254,7 +251,7 @@ class GameScene: SKScene {
         coinsLabel.text = "\(coinCount)"
         coinsLabel.fontSize = 40
         coinsLabel.zPosition = 1
-        if (gameMode != "Endless") {
+        if (GameViewController.gameMode != "Endless") {
             coinsLabel.position = CGPoint(x: 150,y: self.frame.height - 300)
         }
         else {
@@ -262,14 +259,12 @@ class GameScene: SKScene {
         }
         self.addChild(coinsLabel)
         
-        
-        
         timeLabel = SKLabelNode(fontNamed: "Bubblegum")
         timeLabel.text = "\(time)"
         timeLabel.fontSize = 40
         timeLabel.position = CGPoint(x: 150,y: self.frame.height - 200)
         timeLabel.zPosition = 1
-        if (gameMode == "Timed"){
+        if (GameViewController.gameMode == "Timed"){
             self.addChild(timeLabel)
         }
         
@@ -287,7 +282,12 @@ class GameScene: SKScene {
         powerUpLabel.alpha = 60
         powerUpLabel.zPosition = 1
         self.addChild(powerUpLabel)
-        if (gameMode == "Timed"){
+        
+        /*if (viewController.getPauseShowing()){
+         viewController.hidePause()
+         }*/
+        
+        if (GameViewController.gameMode == "Timed"){
             
         }
         else {
@@ -302,6 +302,8 @@ class GameScene: SKScene {
         coinsLabel.isHidden = true
         scoreLabel.isHidden = true
         timeLabel.isHidden = true
+        
+        playAgain()
     }
     
     func playPop() {
@@ -368,7 +370,7 @@ class GameScene: SKScene {
             powerUpLabel.setScale(0)
             startBubbles()
             gameStarted = true
-            if (gameMode == "Timed") {
+            if (GameViewController.gameMode == "Timed") {
                 if gameTimer == nil {
                     gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(stopWatch), userInfo: nil, repeats: true)
                 }
@@ -403,13 +405,17 @@ class GameScene: SKScene {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         fingerDown = false
-        if (gameMode == "Timed"){
+        if (GameViewController.gameMode == "Timed"){
             if (startsIn < 0) {
                 if (timesPaused <= 2) {
                     pause()
                 }
                 else {
                     gameOver = true
+                    if (gameTimer != nil){
+                        gameTimer.invalidate()
+                        gameTimer = nil
+                    }
                 }
             }
         }
@@ -669,7 +675,7 @@ class GameScene: SKScene {
                 freezeTimer.invalidate()
                 freezeTimer = nil
             }
-            if (gameMode == "Timed") {
+            if (GameViewController.gameMode == "Timed") {
                 gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(stopWatch), userInfo: nil, repeats: true)
             }
         }
@@ -712,6 +718,42 @@ class GameScene: SKScene {
                 autoPopTimer = nil
             }
         }
+    }
+    
+    func reset(){
+        fingerDown = false
+        GameScene.gamePaused = false
+        
+        if (bubbleTimer != nil) {
+            bubbleTimer.invalidate()
+            bubbleTimer = nil
+        }
+        
+        if (coinTimer != nil) {
+            coinTimer.invalidate()
+            coinTimer = nil
+        }
+        
+        for (i,bubble) in bubbles.enumerated().reversed() {
+            bubbles.remove(at: i)
+            bubble.removeFromParent()
+        }
+        for (i,coin) in coins.enumerated().reversed() {
+            coins.remove(at: i)
+            coin.removeFromParent()
+        }
+        
+        timesPaused = 0
+        Bubble.riseSpeed = 4.0
+        
+        lives = 10
+        time = 0
+        
+        pathEmitter?.position = CGPoint(x:-100,y: -100)
+        Bubble.riseSpeed = 4.0
+        Bubble.frozen = false
+        gameEnded = false
+        gameOver = false
     }
     
     func playAgain(){
@@ -819,7 +861,7 @@ class GameScene: SKScene {
     func startBubbles(){
         var timeInterval: Double!
         
-        if gameMode == "Timed" {
+        if GameViewController.gameMode == "Timed" {
             timeInterval = 0.25
         }
         else {
@@ -846,7 +888,7 @@ class GameScene: SKScene {
     }
     
     func pause(){
-        if (gameMode == "Timed"){
+        if (GameViewController.gameMode == "Timed"){
             GameScene.gamePaused = true
             timesPaused += 1
             viewController.pausesLeft.text = "Pauses left: \(3 - timesPaused)"
@@ -874,7 +916,7 @@ class GameScene: SKScene {
             powerUpLabel.text = ""
             powerUpLabel.setScale(0)
             startBubbles()
-            if (gameMode == "Timed") {
+            if (GameViewController.gameMode == "Timed") {
                 if gameTimer == nil {
                     gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(stopWatch), userInfo: nil, repeats: true)
                 }
@@ -884,263 +926,267 @@ class GameScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        NotificationCenter.default.addObserver(self, selector: #selector(pauseTimers), name: NSNotification.Name(rawValue: "inactive"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(unpauseTimers), name: NSNotification.Name(rawValue: "active"), object: nil)
-        
-        if (!fingerDown && startsIn < 0 && gameMode == "Timed" && !GameScene.gamePaused){
-            timesPaused -= 1
-            pause()
-        }
-        
-        if (isAutoPop){
-            autoPopLine.isHidden = false
-        }
-        else {
-            autoPopLine.isHidden = true
-        }
-        for (i,coin) in coins.enumerated().reversed() {
-            if coin.contains(previousLocation) {
-                if (Menu.sound) {
-                    playCoin()
-                }
-                coin.removeFromParent()
-                coins.remove(at: i)
-                coinCount += 1
+        if (!gameisDone){
+            NotificationCenter.default.addObserver(self, selector: #selector(pauseTimers), name: NSNotification.Name(rawValue: "inactive"), object: nil)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(unpauseTimers), name: NSNotification.Name(rawValue: "active"), object: nil)
+            
+            if (GameViewController.gameMode == "Timed" && !fingerDown && startsIn < 0 && !GameScene.gamePaused){
+                timesPaused -= 1
+                pause()
             }
-        }
-        
-        for (i,bubble) in bubbles.enumerated().reversed() {
-            if bubble.contains(previousLocation) {
-                if (Menu.sound) {
-                    playPop()
-                    /*if #available(iOS 10.0, *) {
-                     let generator = UINotificationFeedbackGenerator()
-                     generator.notificationOccurred(.error)
-                     } else {
-                     // Fallback on earlier versions
-                     }*/
+            
+            
+            
+            if (isAutoPop){
+                autoPopLine.isHidden = false
+            }
+            else {
+                autoPopLine.isHidden = true
+            }
+            for (i,coin) in coins.enumerated().reversed() {
+                if coin.contains(previousLocation) {
+                    if (Menu.sound) {
+                        playCoin()
+                    }
+                    coin.removeFromParent()
+                    coins.remove(at: i)
+                    coinCount += 1
                 }
-                
-                if bubble.ifGreen() {
-                    if (gameMode == "Classic"){
-                        powerUp(bubble: bubble)
+            }
+            
+            for (i,bubble) in bubbles.enumerated().reversed() {
+                if bubble.contains(previousLocation) {
+                    if (Menu.sound) {
+                        playPop()
+                        /*if #available(iOS 10.0, *) {
+                         let generator = UINotificationFeedbackGenerator()
+                         generator.notificationOccurred(.error)
+                         } else {
+                         // Fallback on earlier versions
+                         }*/
                     }
-                    else if (gameMode == "Endless"){
-                        endlessPowerUp(bubble: bubble)
-                    }
-                    if bubbles.count == 0 {
-                        break
-                    }
-                }
-                
-                if bubble.ifRed() {
-                    if (gameMode == "Classic") {
-                        score -= 1
-                        lives = 0
-                        gameOver = true
-                    }
-                    else if (gameMode == "Timed"){
-                        gameOver = true
-                        if (gameTimer != nil){
-                            gameTimer.invalidate()
-                            gameTimer = nil
+                    
+                    if bubble.ifGreen() {
+                        if (GameViewController.gameMode == "Classic"){
+                            powerUp(bubble: bubble)
+                        }
+                        else if (GameViewController.gameMode == "Endless"){
+                            endlessPowerUp(bubble: bubble)
+                        }
+                        if bubbles.count == 0 {
+                            break
                         }
                     }
-                    else if (gameMode == "Endless"){
-                        if (score > 5){
-                            score -= 6
-                        }
-                        else {
-                            score = 0
+                    
+                    if bubble.ifRed() {
+                        if (GameViewController.gameMode == "Classic") {
+                            score -= 1
+                            lives = 0
                             gameOver = true
                         }
+                        else if (GameViewController.gameMode == "Timed"){
+                            gameOver = true
+                            if (gameTimer != nil){
+                                gameTimer.invalidate()
+                                gameTimer = nil
+                            }
+                        }
+                        else if (GameViewController.gameMode == "Endless"){
+                            if (score > 5){
+                                score -= 6
+                            }
+                            else {
+                                score = 0
+                                gameOver = true
+                            }
+                        }
                     }
+                    bubble.removeFromParent()
+                    bubbles.remove(at: i)
+                    score += 1
                 }
-                bubble.removeFromParent()
-                bubbles.remove(at: i)
-                score += 1
-                
             }
-        }
-        
-        if (gameMode == "Classic"){
-            if (isOneUp){
-                inactiveOneUp.isHidden = true
-                oneUpIcon.isHidden = false
+            
+            if (GameViewController.gameMode == "Classic"){
+                if (isOneUp){
+                    inactiveOneUp.isHidden = true
+                    oneUpIcon.isHidden = false
+                }
+                else {
+                    inactiveOneUp.isHidden = false
+                    oneUpIcon.isHidden = true
+                }
             }
             else {
-                inactiveOneUp.isHidden = false
+                inactiveOneUp.isHidden = true
                 oneUpIcon.isHidden = true
             }
-        }
-        else {
-            inactiveOneUp.isHidden = true
-            oneUpIcon.isHidden = true
-        }
-        
-        if (gameMode != "Timed"){
-            if (isSlowMo){
-                inactiveSlowMo.isHidden = true
-                slowMoIcon.isHidden = false
+            
+            if (GameViewController.gameMode != "Timed"){
+                if (isSlowMo){
+                    inactiveSlowMo.isHidden = true
+                    slowMoIcon.isHidden = false
+                }
+                else {
+                    inactiveSlowMo.isHidden = false
+                    slowMoIcon.isHidden = true
+                }
             }
             else {
-                inactiveSlowMo.isHidden = false
+                inactiveSlowMo.isHidden = true
                 slowMoIcon.isHidden = true
             }
-        }
-        else {
-            inactiveSlowMo.isHidden = true
-            slowMoIcon.isHidden = true
-        }
-        
-        if (isFreeze){
-            inactiveFreeze.isHidden = true
-            freezeIcon.isHidden = false
-        }
-        else {
-            inactiveFreeze.isHidden = false
-            freezeIcon.isHidden = true
-        }
-        
-        if (isSuperPop){
-            inactiveSuperPop.isHidden = true
-            superPopIcon.isHidden = false
-        }
-        else {
-            inactiveSuperPop.isHidden = false
-            superPopIcon.isHidden = true
-        }
-        if (isAutoPop){
-            inactiveAutoPop.isHidden = true
-            autoPopIcon.isHidden = false
-            timerIcon.isHidden = false
-        }
-        else {
-            inactiveAutoPop.isHidden = false
-            autoPopIcon.isHidden = true
-            timerIcon.isHidden = true
-        }
-        if (gameMode == "Timed"){
             
-            inactiveOneUp.isHidden = true
-            inactiveFreeze.isHidden = true
-            inactiveSlowMo.isHidden = true
-            inactiveAutoPop.isHidden = true
-            inactiveSuperPop.isHidden = true
-        }
-        
-        if (gameOver && !gameEnded) {
-            endGame()
-            gameEnded = true
-        }
-            
-        else {
-            if (viewController.pauseShowing && unpaused){
-                viewController.hidePause()
+            if (isFreeze){
+                inactiveFreeze.isHidden = true
+                freezeIcon.isHidden = false
             }
-        }
-        for (i,bubble) in bubbles.enumerated().reversed() {
-            bubble.update()
-            if (gameMode == "Classic") {
-                if (Menu.bundle == "Classic" || Menu.bundle == "Greenery") {
-                    if (bubble.getY() > 1400){
-                        bubbles.remove(at: i)
-                        bubble.removeFromParent()
-                        if lives > 0 && bubble.ifBlue(){
-                            lives -= 1
+            else {
+                inactiveFreeze.isHidden = false
+                freezeIcon.isHidden = true
+            }
+            
+            if (isSuperPop){
+                inactiveSuperPop.isHidden = true
+                superPopIcon.isHidden = false
+            }
+            else {
+                inactiveSuperPop.isHidden = false
+                superPopIcon.isHidden = true
+            }
+            if (isAutoPop){
+                inactiveAutoPop.isHidden = true
+                autoPopIcon.isHidden = false
+                timerIcon.isHidden = false
+            }
+            else {
+                inactiveAutoPop.isHidden = false
+                autoPopIcon.isHidden = true
+                timerIcon.isHidden = true
+            }
+            if (GameViewController.gameMode == "Timed"){
+                
+                inactiveOneUp.isHidden = true
+                inactiveFreeze.isHidden = true
+                inactiveSlowMo.isHidden = true
+                inactiveAutoPop.isHidden = true
+                inactiveSuperPop.isHidden = true
+            }
+            
+            if (gameOver && !gameEnded) {
+                endGame()
+                gameEnded = true
+            }
+            
+            /*else {
+             if (viewController.pauseShowing && unpaused){
+             viewController.hidePause()
+             }
+             }*/
+            
+            for (i,bubble) in bubbles.enumerated().reversed() {
+                bubble.update()
+                if (GameViewController.gameMode == "Classic") {
+                    if (Menu.bundle == "Classic" || Menu.bundle == "Greenery") {
+                        if (bubble.getY() > 1400){
+                            bubbles.remove(at: i)
+                            bubble.removeFromParent()
+                            if lives > 0 && bubble.ifBlue(){
+                                lives -= 1
+                            }
+                        }
+                    }
+                    else {
+                        if (bubble.getY() < 0){
+                            bubbles.remove(at: i)
+                            bubble.removeFromParent()
+                            if lives > 0 && bubble.ifBlue(){
+                                lives -= 1
+                            }
+                        }
+                    }
+                    if lives <= 0 {
+                        gameOver = true
+                    }
+                }
+                if (GameViewController.gameMode == "Timed"){
+                    if (Menu.bundle == "Classic" || Menu.bundle == "Greenery") {
+                        if (bubble.getY() > 1400){
+                            bubbles.remove(at: i)
+                            bubble.removeFromParent()
+                            score += 1
+                        }
+                    }
+                    else {
+                        if (bubble.getY() < 0){
+                            bubbles.remove(at: i)
+                            bubble.removeFromParent()
+                            score += 1
                         }
                     }
                 }
-                else {
-                    if (bubble.getY() < 0){
-                        bubbles.remove(at: i)
-                        bubble.removeFromParent()
-                        if lives > 0 && bubble.ifBlue(){
-                            lives -= 1
-                        }
-                    }
-                }
-                if lives <= 0 {
-                    gameOver = true
-                }
+                
             }
-            if (gameMode == "Timed"){
+            for (i,coin) in coins.enumerated().reversed() {
+                coin.update()
                 if (Menu.bundle == "Classic" || Menu.bundle == "Greenery") {
-                    if (bubble.getY() > 1400){
-                        bubbles.remove(at: i)
-                        bubble.removeFromParent()
-                        score += 1
+                    if (coin.getY() > 1400){
+                        coins.remove(at: i)
+                        coin.removeFromParent()
                     }
                 }
                 else {
-                    if (bubble.getY() < 0){
-                        bubbles.remove(at: i)
-                        bubble.removeFromParent()
-                        score += 1
+                    if (coin.getY() < 0){
+                        coins.remove(at: i)
+                        coin.removeFromParent()
                     }
                 }
             }
             
-        }
-        for (i,coin) in coins.enumerated().reversed() {
-            coin.update()
-            if (Menu.bundle == "Classic" || Menu.bundle == "Greenery") {
-                if (coin.getY() > 1400){
-                    coins.remove(at: i)
-                    coin.removeFromParent()
+            if (GameViewController.gameMode == "Timed"){
+                viewController.livesTimeLabel.text = "\(time)"
+            }
+            else if (GameViewController.gameMode == "Classic") {
+                viewController.livesTimeLabel.text = "\(lives)"
+            }
+            
+            viewController.scoreLabel.text = "\(score)"
+            viewController.coinsLabel.text = "\(coinCount)"
+            
+            if (isAutoPop) {
+                timerLabel.text = "\(autoPop)"
+                for (i,bubble) in bubbles.enumerated().reversed() {
+                    if (Menu.bundle == "Classic" || Menu.bundle == "Greenery") {
+                        if (bubble.getY() >= self.frame.height / 2 && bubble.ifBlue()){
+                            if (Menu.sound) {
+                                playPop()
+                            }
+                            bubbles.remove(at: i)
+                            bubble.removeFromParent()
+                            score += 1
+                        }
+                    }
+                    else {
+                        if (bubble.getY() <= self.frame.height / 2 && bubble.ifBlue()){
+                            if (Menu.sound) {
+                                playPop()
+                            }
+                            bubbles.remove(at: i)
+                            bubble.removeFromParent()
+                            score += 1
+                        }
+                    }
                 }
             }
             else {
-                if (coin.getY() < 0){
-                    coins.remove(at: i)
-                    coin.removeFromParent()
-                }
+                timerLabel.text = ""
             }
-        }
-        
-        if (gameMode == "Timed"){
-            viewController.livesTimeLabel.text = "\(time)"
-        }
-        else if (gameMode == "Classic") {
-            viewController.livesTimeLabel.text = "\(lives)"
-        }
-        
-        viewController.scoreLabel.text = "\(score)"
-        viewController.coinsLabel.text = "\(coinCount)"
-        
-        if (isAutoPop) {
-            timerLabel.text = "\(autoPop)"
-            for (i,bubble) in bubbles.enumerated().reversed() {
-                if (Menu.bundle == "Classic" || Menu.bundle == "Greenery") {
-                    if (bubble.getY() >= self.frame.height / 2 && bubble.ifBlue()){
-                        if (Menu.sound) {
-                            playPop()
-                        }
-                        bubbles.remove(at: i)
-                        bubble.removeFromParent()
-                        score += 1
-                    }
-                }
-                else {
-                    if (bubble.getY() <= self.frame.height / 2 && bubble.ifBlue()){
-                        if (Menu.sound) {
-                            playPop()
-                        }
-                        bubbles.remove(at: i)
-                        bubble.removeFromParent()
-                        score += 1
-                    }
-                }
-            }
-        }
-        else {
-            timerLabel.text = ""
         }
     }
     
     @objc func pauseTimers(){
-        if (gameMode != "Timed"){
+        if (GameViewController.gameMode != "Timed"){
             if (gameTimer != nil){
                 gameTimer.invalidate()
                 gameTimer = nil
@@ -1152,7 +1198,7 @@ class GameScene: SKScene {
         if (bubbleTimer != nil){
             bubbleTimer.invalidate()
             bubbleTimer = nil
-            }
+        }
         if (coinTimer != nil){
             coinTimer.invalidate()
             coinTimer = nil
@@ -1160,9 +1206,13 @@ class GameScene: SKScene {
     }
     
     @objc func unpauseTimers(){
-        if (gameMode != "Timed"){
+        if (GameViewController.gameMode != "Timed"){
             startCountdown()
         }
+    }
+    
+    func setGameisDone(b: Bool) {
+        gameisDone = b
     }
     
     class Bubble: SKSpriteNode {
@@ -1172,7 +1222,6 @@ class GameScene: SKScene {
         var y = 0
         static var riseSpeed = 4.0
         static var frozen = false
-        static var gameMode: String!
         
         var red = false
         var green = false
@@ -1190,7 +1239,7 @@ class GameScene: SKScene {
             }
             
             bubbleSize = Int(arc4random_uniform(3))
-            if (Bubble.gameMode != "Timed") {
+            if (GameViewController.gameMode != "Timed") {
                 type = Int(arc4random_uniform(100))
             }
             else {
@@ -1301,7 +1350,7 @@ class GameScene: SKScene {
                 if Bubble.frozen {
                     Bubble.riseSpeed = 0.0
                 }
-                if (Bubble.gameMode != "Timed") {
+                if (GameViewController.gameMode != "Timed") {
                     if (Bubble.riseSpeed < 30) {
                         Bubble.riseSpeed *= 1.001
                     }

@@ -29,7 +29,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var instructionsLabel: UILabel!
     
     let scene = GameScene(fileNamed: "GameScene")
-    var gameMode: String!
+    static var gameMode: String!
     var pauseShowing = false
     
     @IBOutlet weak var fade: UIImageView!
@@ -65,15 +65,15 @@ class GameViewController: UIViewController {
             BubbleIcon.image = UIImage(named: "Snow")
         }
         
-        if (gameMode == "Timed" || gameMode == "Endless"){
+        if (GameViewController.gameMode == "Timed" || GameViewController.gameMode == "Endless"){
             LivesIcon.isHidden = true
         }
         
-        if (gameMode == "Endless"){
+        if (GameViewController.gameMode == "Endless"){
             coinsIcon.frame.origin.y = LivesIcon.frame.origin.y
         }
         
-        if (gameMode != "Timed"){
+        if (GameViewController.gameMode != "Timed"){
             TimerIcon.isHidden = true
         }
         
@@ -86,31 +86,33 @@ class GameViewController: UIViewController {
                 scene?.scaleMode = .aspectFill
                 
                 // Present the scene
-                scene?.gameMode = gameMode
+                scene?.viewController = self
                 view.presentScene(scene)
             }
             view.ignoresSiblingOrder = true
             //view.showsFPS = true
             //view.showsNodeCount = true
         }
-        scene?.viewController = self
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
-        self.navigationController?.popViewController(animated: false)
+        scene?.setGameisDone(b: false)
         
+        //self.navigationController?.popViewController(animated: false)
+
         scoreLabel.text = "0"
         
-        if (gameMode == "Timed") {
+        if (GameViewController.gameMode == "Timed") {
             livesTimeLabel.text = "0"
             instructionsLabel.text = "Keep your finger \n on the screen!"
         }
-        if (gameMode == "Classic") {
+        if (GameViewController.gameMode == "Classic") {
             livesTimeLabel.text = "10"
             instructionsLabel.text = "Swipe or tap the bubbles \n to pop them!"
         }
-        if (gameMode == "Endless") {
+        if (GameViewController.gameMode == "Endless") {
             livesTimeLabel.isHidden = true
             coinsLabel.frame.origin.y = livesTimeLabel.frame.origin.y
             instructionsLabel.text = "Swipe or tap the bubbles \n to pop them!"
@@ -135,7 +137,7 @@ class GameViewController: UIViewController {
         )
         
         scene?.playAgain()
-        if (gameMode == "Endless"){
+        if (GameViewController.gameMode == "Endless"){
             UIView.animate(withDuration: 0.7, delay: 0,
                            options: [.curveEaseOut],
                            animations: {
@@ -167,8 +169,15 @@ class GameViewController: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        scene?.setGameisDone(b: true)
+        
+        if (pauseShowing){
+            hidePause()
+        }
+        
         scene?.gameEnd()
-        if (gameMode == "Endless"){
+        //scene?.sceneDidLoad()
+        if (GameViewController.gameMode == "Endless"){
             UIView.animate(withDuration: 0.7, delay: 0,
                            options: [.curveEaseOut],
                            animations: {
@@ -177,6 +186,7 @@ class GameViewController: UIViewController {
                            completion: nil
             )
         }
+        
         BubbleIcon.center.x -= view.bounds.width
         scoreLabel.center.x -= view.bounds.width
         LivesIcon.center.x -= view.bounds.width
@@ -225,7 +235,6 @@ class GameViewController: UIViewController {
         if let nextVC = segue.destination as? Postgame {
             nextVC.score = scene!.score
             nextVC.time = scene!.time
-            nextVC.gameMode = scene!.gameMode
             nextVC.coins = scene!.coinCount
             nextVC.usedExtraLife = scene!.usedExtraLife
         }
@@ -257,6 +266,7 @@ class GameViewController: UIViewController {
     }
     
     @IBAction func homePressed(_ sender: Any) {
+        AppDelegate.playClick()
         segueToGameOver()
     }
     
@@ -264,7 +274,7 @@ class GameViewController: UIViewController {
         if (scene?.bubbleTimer != nil) {
             scene?.bubbleTimer.invalidate()
         }
-        if (gameMode == "Timed") {
+        if (GameViewController.gameMode == "Timed") {
             if (scene?.gameTimer != nil) {
                 scene?.gameTimer.invalidate()
             }

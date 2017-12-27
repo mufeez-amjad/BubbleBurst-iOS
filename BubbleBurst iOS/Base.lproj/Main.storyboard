@@ -254,10 +254,6 @@
                                     <action selector="settingsPressed:" destination="e2B-Fl-lWH" eventType="touchDown" id="HUj-oX-MLz"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fade" translatesAutoresizingMaskIntoConstraints="NO" id="R9E-eg-hwx">
-                                <rect key="frame" x="-2" y="-2" width="379" height="670"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d54-bM-EmV" customClass="GADBannerView">
                                 <rect key="frame" x="27" y="0.0" width="320" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -266,6 +262,10 @@
                                     <constraint firstAttribute="width" constant="320" id="dom-w9-9SI"/>
                                 </constraints>
                             </view>
+                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fade" translatesAutoresizingMaskIntoConstraints="NO" id="R9E-eg-hwx">
+                                <rect key="frame" x="-2" y="-2" width="379" height="670"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="whiteBG" translatesAutoresizingMaskIntoConstraints="NO" id="ZaS-uR-0ru">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
@@ -930,7 +930,6 @@
                         <outlet property="highScoreLabel" destination="ZYC-5A-YiO" id="pgg-NQ-chg"/>
                         <outlet property="scoreLabel" destination="fxH-pJ-Xv5" id="kv8-Rg-S75"/>
                         <outlet property="videoAdButton" destination="8rC-43-nUr" id="C2P-86-iBb"/>
-                        <segue destination="e2B-Fl-lWH" kind="showDetail" identifier="backtoMenu" animates="NO" action="showViewController:sender:" id="fys-Qd-I5b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kYZ-lD-dlT" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -961,8 +960,4 @@
         <image name="unlock" width="511" height="384"/>
         <image name="whiteBG" width="2251" height="4001"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="FaO-yk-SI8"/>
-        <segue reference="fys-Qd-I5b"/>
-    </inferredMetricsTieBreakers>
 </document>

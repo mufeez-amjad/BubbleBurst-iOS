@@ -77,7 +77,6 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     @IBOutlet weak var coinsIcon: UIImageView!
     @IBOutlet weak var coinsLabel: UILabel!
     
-    var gameMode = "Classic"
     var points = 0
     var coins = 0
     
@@ -295,6 +294,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         else {
             MALogo.alpha = 0
             MALogoBackground.alpha = 0
+            //fade.alpha = 0
             fadeIn()
             introIn()
         }
@@ -678,24 +678,20 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     }
     
     @IBAction func unwindToMenu(segue: UIStoryboardSegue) {
-        infoScreen = false
-        playScreen = false
-        
-        self.viewDidLoad()
-        self.viewWillAppear(true)
+
     }
     
     
     @IBAction func classicPressed(_ sender: Any) {
         AppDelegate.playClick()
-        gameMode = "Classic"
+        GameViewController.gameMode = "Classic"
         toGame()
     }
     
     @IBAction func timedPressed(_ sender: Any) {
         AppDelegate.playClick()
         if (!timedLocked) {
-            gameMode = "Timed"
+            GameViewController.gameMode = "Timed"
             toGame()
         }
         else {
@@ -717,7 +713,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     @IBAction func endlessPressed(_ sender: Any) {
         AppDelegate.playClick()
         if (!endlessLocked) {
-            gameMode = "Endless"
+            GameViewController.gameMode = "Endless"
             toGame()
         }
         else {
@@ -850,7 +846,6 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let yourVC = segue.destination as? GameViewController {
-            yourVC.gameMode = gameMode
             gameSegue = true
         }
     }

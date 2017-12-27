@@ -37,7 +37,6 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     var score: Int = 0
     var time: Int = 0
     var highScore: Int = 0
-    var gameMode: String!
     var coins: Int = 0
     
     var usedExtraLife = false
@@ -68,7 +67,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         
         super.viewDidLoad()
         
-        if (gameMode == "Endless") {
+        if (GameViewController.gameMode == "Endless") {
             videoAdButton.isHidden = true
         }
         
@@ -168,12 +167,12 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             defaults.set("N", forKey: "failedGameCenter")
         }
         
-        LEADERBOARD_ID = "BubbleBurst" + gameMode
+        LEADERBOARD_ID = "BubbleBurst" + GameViewController.gameMode
         
-        if (gameMode != "Timed"){
-            if (defaults.value(forKeyPath: gameMode) == nil){
+        if (GameViewController.gameMode != "Timed"){
+            if (defaults.value(forKeyPath: GameViewController.gameMode) == nil){
                 if (score > 0) {
-                    defaults.set(score, forKey: gameMode)
+                    defaults.set(score, forKey: GameViewController.gameMode)
                     highScoreLabel.text = "New Best!"
                 }
                 else {
@@ -181,10 +180,10 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
                 }
             }
             else {
-                let readHighScore = defaults.integer(forKey: gameMode)
+                let readHighScore = defaults.integer(forKey: GameViewController.gameMode)
                 if readHighScore < score {
                     highScore = score
-                    defaults.set(score, forKey: gameMode)
+                    defaults.set(score, forKey: GameViewController.gameMode)
                     highScoreLabel.text = "New Best!"
                     if Reachability.isConnectedToNetwork(){
                         let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
@@ -197,7 +196,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
                             }
                         }
                     } else{
-                        defaults.set(gameMode, forKey: "failed\(gameMode)")
+                        defaults.set(GameViewController.gameMode, forKey: "failed\(GameViewController.gameMode)")
                         defaults.set("Y", forKey: "failedGameCenter")
                     }
                 }
@@ -208,15 +207,15 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             }
         }
         else {
-            if (defaults.value(forKeyPath: gameMode) == nil){
-                defaults.set(time, forKey: gameMode)
+            if (defaults.value(forKeyPath: GameViewController.gameMode) == nil){
+                defaults.set(time, forKey: GameViewController.gameMode)
                 highScoreLabel.text = "New Best!"
             }
             else {
-                let readHighScore = defaults.integer(forKey: gameMode)
+                let readHighScore = defaults.integer(forKey: GameViewController.gameMode)
                 if readHighScore < time {
                     highScore = time
-                    defaults.set(time, forKey: gameMode)
+                    defaults.set(time, forKey: GameViewController.gameMode)
                     highScoreLabel.text = "New Best!"
                     if Reachability.isConnectedToNetwork(){
                         let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
@@ -229,7 +228,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
                             }
                         }
                     } else{
-                        defaults.set(gameMode, forKey: "failed\(gameMode)")
+                        defaults.set(GameViewController.gameMode, forKey: "failed\(GameViewController.gameMode)")
                         defaults.set("Y", forKey: "failedGameCenter")
                     }
                 }
@@ -260,7 +259,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             defaults.set(newCoins, forKey: "Coins")
         }
         
-        if (gameMode != "Timed") {
+        if (GameViewController.gameMode != "Timed") {
             scoreLabel.text = "Score: \(score)"
         }
         else {
@@ -383,7 +382,13 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     
     @IBAction func homePressed(_ sender: Any) {
         AppDelegate.playClick()
-        performSegue(withIdentifier: "backtoMenu", sender: self)
+        fadeOut()
+        if let presenter = presentingViewController as? GameViewController {
+            presenter.scene?.reset()
+        }
+        
+        self.presentingViewController?.dismiss(animated: false, completion: nil)
+        self.presentingViewController?.dismiss(animated: false, completion: nil)
     }
     
     @IBAction func leaderboardPressed(_ sender: Any) {
