@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1EF04F249BB4726E89B317F5 /* Pods_BubbleBurst_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B94F5643138E279590F074 /* Pods_BubbleBurst_iOS.framework */; };
+		1EF04F249BB4726E89B317F5 /* Pods_BubbleBurst_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B94F5643138E279590F074 /* Pods_BubbleBurst_iOS.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8F0104E91FAA951900392E56 /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8F0104E81FAA951900392E56 /* coin.mp3 */; };
+		8F223D731FF4568000D5B87E /* GoogleToolboxForMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F223D741FF4568000D5B87E /* GoogleToolboxForMac.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8F26EA1B1FB256E800CC38D4 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26EA1A1FB256E800CC38D4 /* GameKit.framework */; };
 		8F26EA1D1FB256FB00CC38D4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26EA1C1FB256FB00CC38D4 /* StoreKit.framework */; };
 		8F2EA0891F86C507009AC742 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2EA0881F86C507009AC742 /* Menu.swift */; };
@@ -40,6 +41,7 @@
 		4DC81E9F282F232D8634AEF8 /* Pods-BubbleBurst iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BubbleBurst iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BubbleBurst iOS/Pods-BubbleBurst iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		80B94F5643138E279590F074 /* Pods_BubbleBurst_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BubbleBurst_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F0104E81FAA951900392E56 /* coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coin.mp3; sourceTree = "<group>"; };
+		8F223D741FF4568000D5B87E /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GoogleToolboxForMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F26EA1A1FB256E800CC38D4 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		8F26EA1C1FB256FB00CC38D4 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		8F26EA1E1FB2570C00CC38D4 /* BubbleBurst iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BubbleBurst iOS.entitlements"; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F223D731FF4568000D5B87E /* GoogleToolboxForMac.framework in Frameworks */,
 				8F26EA1B1FB256E800CC38D4 /* GameKit.framework in Frameworks */,
 				8FF354111F96A76100F74F00 /* AVFoundation.framework in Frameworks */,
 				8FDAFF081F86FF0E00F5C852 /* GoogleMobileAds.framework in Frameworks */,
@@ -89,6 +92,7 @@
 		8F35C9411F86E970004D8C5A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8F223D741FF4568000D5B87E /* GoogleToolboxForMac.framework */,
 				8F26EA1C1FB256FB00CC38D4 /* StoreKit.framework */,
 				8F26EA1A1FB256E800CC38D4 /* GameKit.framework */,
 				8FF354101F96A76100F74F00 /* AVFoundation.framework */,
@@ -358,7 +362,7 @@
 		8FA132081F8013DF00B6D3D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -408,7 +412,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -427,7 +431,7 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Framework/",
+					"$(SRCROOT)/**",
 				);
 				INFOPLIST_FILE = "BubbleBurst iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;

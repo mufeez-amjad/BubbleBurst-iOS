@@ -1397,7 +1397,7 @@ class GameScene: SKScene {
                 y = 1400
             }
             
-            var texture = SKTexture(imageNamed: "coin1")
+            let texture = SKTexture(imageNamed: "coin1")
             
             let f0 = SKTexture.init(imageNamed: "coin1")
             let f1 = SKTexture.init(imageNamed: "coin2")

@@ -44,7 +44,6 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     var lifeAd: GADRewardBasedVideoAd?
     var interstitial: GADInterstitial!
     
-    /* Variables */
     var gcEnabled = Bool()
     var gcDefaultLeaderBoard = String()
     
@@ -55,20 +54,12 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     var noAdsPurchased: Bool!
     
     override func viewDidLoad() {
-        noAdsPurchased = defaults.bool(forKey: "noAdsPurchased")
+        super.viewDidLoad()
         
-        if(usedExtraLife) {
-            videoAdButton.isHidden = true
-        }
+        noAdsPurchased = defaults.bool(forKey: "noAdsPurchased")
         
         if !(GKLocalPlayer.localPlayer().isAuthenticated) {
             authenticateLocalPlayer()
-        }
-        
-        super.viewDidLoad()
-        
-        if (GameViewController.gameMode == "Endless") {
-            videoAdButton.isHidden = true
         }
         
         if (Menu.bundle == "Classic"){
@@ -98,12 +89,16 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             bannerAd.load(request)
         }
         
-        lifeAd = GADRewardBasedVideoAd.sharedInstance()
-        lifeAd?.delegate = self
-        
-        lifeAd?.load(GADRequest(),
-                     withAdUnitID: "ca-app-pub-4669355053831786/4776540656")
-        
+        if (usedExtraLife || GameViewController.gameMode == "Endless") {
+            videoAdButton.isHidden = true
+        }
+        else if (GameViewController.gameMode != "Endless"){
+            lifeAd = GADRewardBasedVideoAd.sharedInstance()
+            lifeAd?.delegate = self
+            
+            lifeAd?.load(GADRequest(),
+                         withAdUnitID: "ca-app-pub-4669355053831786/4776540656")
+        }
         
         interstitial = createAndLoadInterstitial()
         
@@ -329,6 +324,9 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     }
     
     func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+        if(!usedExtraLife) {
+            videoAdButton.isHidden = false
+        }
         print("Reward based video ad is received.")
     }
     
@@ -355,10 +353,6 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if lifeAd?.isReady == true {
-            videoAdButton.isHidden = false
-        }
-        
         if interstitial.isReady {
             interstitial.present(fromRootViewController: self)
         }
@@ -447,31 +441,35 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     }
     
     func updateiCloud(){
-        
-        if !(defaults.object(forKey: "Classic") == nil){
-            let classicHigh = defaults.integer(forKey: "Classic")
-            iCloudKeyStore?.set(classicHigh, forKey: "Classic")
+        if (Reachability.isConnectedToNetwork()){
+            
+            if (defaults.bool(forKey: "UpdatedLocal")){
+                if !(defaults.object(forKey: "Classic") == nil){
+                    let classicHigh = defaults.integer(forKey: "Classic")
+                    iCloudKeyStore?.set(classicHigh, forKey: "Classic")
+                }
+                else {
+                    iCloudKeyStore?.set(0, forKey: "Classic")
+                }
+                
+                if !(defaults.object(forKey: "Timed") == nil){
+                    let timedHigh = defaults.integer(forKey: "Timed")
+                    iCloudKeyStore?.set(timedHigh, forKey: "Timed")
+                }
+                else {
+                    iCloudKeyStore?.set(0, forKey: "Timed")
+                }
+                
+                if !(defaults.object(forKey: "Endless") == nil){
+                    let endlessHigh = defaults.integer(forKey: "Endless")
+                    iCloudKeyStore?.set(endlessHigh, forKey: "Endless")
+                }
+                else {
+                    iCloudKeyStore?.set(0, forKey: "Endless")
+                }
+                iCloudKeyStore?.synchronize()
+            }
         }
-        else {
-            iCloudKeyStore?.set(0, forKey: "Classic")
-        }
-        
-        if !(defaults.object(forKey: "Timed") == nil){
-            let timedHigh = defaults.integer(forKey: "Timed")
-            iCloudKeyStore?.set(timedHigh, forKey: "Timed")
-        }
-        else {
-            iCloudKeyStore?.set(0, forKey: "Timed")
-        }
-        
-        if !(defaults.object(forKey: "Endless") == nil){
-            let endlessHigh = defaults.integer(forKey: "Endless")
-            iCloudKeyStore?.set(endlessHigh, forKey: "Endless")
-        }
-        else {
-            iCloudKeyStore?.set(0, forKey: "Endless")
-        }
-        iCloudKeyStore?.synchronize()
     }
 }
 

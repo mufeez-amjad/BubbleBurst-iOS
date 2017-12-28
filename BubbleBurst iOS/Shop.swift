@@ -149,11 +149,11 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             buySet.setImage(UIImage(named: "setItemI"), for: .normal)
         }
         Back.setImage(UIImage(named: "back"), for: .normal)
-        coinAd.setImage(UIImage(named: "coinAd"), for: .normal)
+        coinAd.setImage(UIImage(named: "coinAd2"), for: .normal)
         buyCoins.setImage(UIImage(named: "buyCoin"), for: .normal)
         noAds.setImage(UIImage(named: "noAds"), for: .normal)
         restorePurchases.setImage(UIImage(named: "restore"), for: .normal)
-        
+    
         powerUpMenu.isHidden = false
         
         customizeMenu.isHidden = true
@@ -265,10 +265,6 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         },
                        completion: nil
         )
-        
-        if coinRewardAd?.isReady == true {
-            coinAd.isHidden = false
-        }
     }
     
     func resizeImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
@@ -285,6 +281,8 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         defaults.set(coins, forKey: "Coins")
         coinsLabel.text = "\(coins)"
         AppDelegate.playMoney()
+        coinRewardAd?.load(GADRequest(),
+                           withAdUnitID: "ca-app-pub-4669355053831786/3619020008")
         print("Reward received with currency: \(reward.type), amount \(reward.amount).")
     }
     func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
@@ -293,6 +291,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+        coinAd.setImage(UIImage(named: "coinAd"), for: .normal)
         print("Reward based video ad is received.")
     }
     
@@ -582,6 +581,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     @IBAction func noAdsPressed(_ sender: Any) {
+        AppDelegate.playClick()
         if !(noAdsPurchased){
             if (!iapProducts.isEmpty) {
                 purchaseMyProduct(product: iapProducts[3])
@@ -593,11 +593,13 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     @IBAction func restorePressed(_ sender: Any) {
+        AppDelegate.playClick()
         SKPaymentQueue.default().add(self)
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
     
     @IBAction func buyCoinsPressed(_ sender: Any) {
+        AppDelegate.playClick()
         buyCoinsLabel.text = "\(coins)"
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
@@ -614,6 +616,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         )
     }
     @IBAction func xButtonPressed(_ sender: Any) {
+        AppDelegate.playClick()
         coinsLabel.text = "\(coins)"
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
@@ -631,6 +634,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     @IBAction func hundredCoinsPressed(_ sender: Any) {
+        AppDelegate.playClick()
         if (!iapProducts.isEmpty) {
             purchaseMyProduct(product: iapProducts[0])
         }
@@ -640,6 +644,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     @IBAction func twoHundredCoinsPressed(_ sender: Any) {
+        AppDelegate.playClick()
         if (!iapProducts.isEmpty) {
             purchaseMyProduct(product: iapProducts[1])
         }
@@ -649,6 +654,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     @IBAction func fiveHundredCoinsPressed(_ sender: Any) {
+        AppDelegate.playClick()
         if (!iapProducts.isEmpty) {
             purchaseMyProduct(product: iapProducts[2])
         }
@@ -919,11 +925,16 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         present(alert, animated: true)
     }
     
-    @IBAction func watchCoinAd(_ sender: Any) {
+    @IBAction func adCoinsPressed(_ sender: Any) {
         if coinRewardAd?.isReady == true {
+            AppDelegate.playClick()
             coinRewardAd?.present(fromRootViewController: self)
         }
+        else {
+            AppDelegate.playError()
+        }
     }
+    
     func fetchAvailableProducts()  {
         // Put here your IAP Products ID's
         let productIdentifiers = NSSet(objects: hundredCoinsID, twohundredCoinsID, fivehundredCoinsID, removeAdsID)

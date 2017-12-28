@@ -669,7 +669,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
                 playOut()
                 playScreen = false
             }
-            if infoScreen {
+            else if infoScreen {
                 instructionsOut()
                 infoScreen = false
             }
@@ -677,19 +677,16 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         
     }
     
-    @IBAction func unwindToMenu(segue: UIStoryboardSegue) {
-
-    }
-    
-    
     @IBAction func classicPressed(_ sender: Any) {
         AppDelegate.playClick()
+        playScreen = false
         GameViewController.gameMode = "Classic"
         toGame()
     }
     
     @IBAction func timedPressed(_ sender: Any) {
         AppDelegate.playClick()
+        playScreen = false
         if (!timedLocked) {
             GameViewController.gameMode = "Timed"
             toGame()
@@ -712,6 +709,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     @IBAction func endlessPressed(_ sender: Any) {
         AppDelegate.playClick()
+        playScreen = false
         if (!endlessLocked) {
             GameViewController.gameMode = "Endless"
             toGame()
@@ -845,7 +843,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let yourVC = segue.destination as? GameViewController {
+        if segue.destination is GameViewController {
             gameSegue = true
         }
     }
