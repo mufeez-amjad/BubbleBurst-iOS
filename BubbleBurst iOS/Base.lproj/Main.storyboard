@@ -181,13 +181,6 @@
                                     <action selector="xButtonPressed:" destination="e2B-Fl-lWH" eventType="touchDown" id="PRF-yI-WxE"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100,000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ctu-dn-uxU">
-                                <rect key="frame" x="213" y="352" width="103" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="26"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZzJ-4i-7nA">
                                 <rect key="frame" x="71" y="418" width="234" height="54"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
@@ -274,6 +267,20 @@
                                 <rect key="frame" x="65" y="212" width="243" height="243"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RRF-9G-Uhz">
+                                <rect key="frame" x="209" y="375" width="55" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="22"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100,000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ctu-dn-uxU">
+                                <rect key="frame" x="209" y="339" width="86" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="22"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -313,6 +320,7 @@
                         <outlet property="coinsLabel" destination="gB2-GC-ou4" id="XDI-qy-HhS"/>
                         <outlet property="colorButton" destination="BJV-YN-kka" id="hHd-WE-QzK"/>
                         <outlet property="costLabel" destination="ctu-dn-uxU" id="dt5-S0-MMs"/>
+                        <outlet property="costLabelCns" destination="RRF-9G-Uhz" id="O83-1M-nuu"/>
                         <outlet property="dropdown" destination="dpl-1k-X8v" id="qc6-ow-XDY"/>
                         <outlet property="fade" destination="R9E-eg-hwx" id="1Qx-qn-bKz"/>
                         <outlet property="musicButton" destination="bkq-rx-fyP" id="EvD-zF-f9B"/>
@@ -957,7 +965,7 @@
         <image name="powerUpMenu" width="842" height="1223"/>
         <image name="regularI" width="335" height="335"/>
         <image name="timer" width="1018" height="1017"/>
-        <image name="unlock" width="511" height="384"/>
+        <image name="unlock" width="920" height="692"/>
         <image name="whiteBG" width="2251" height="4001"/>
     </resources>
 </document>

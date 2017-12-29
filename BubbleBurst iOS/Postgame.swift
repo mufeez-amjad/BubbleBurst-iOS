@@ -89,10 +89,9 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             bannerAd.load(request)
         }
         
-        if (usedExtraLife || GameViewController.gameMode == "Endless") {
-            videoAdButton.isHidden = true
-        }
-        else if (GameViewController.gameMode != "Endless"){
+        videoAdButton.isHidden = true
+        
+        if (GameViewController.gameMode != "Endless" || !usedExtraLife){
             lifeAd = GADRewardBasedVideoAd.sharedInstance()
             lifeAd?.delegate = self
             
@@ -324,9 +323,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     }
     
     func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        if(!usedExtraLife) {
-            videoAdButton.isHidden = false
-        }
+        videoAdButton.isHidden = false
         print("Reward based video ad is received.")
     }
     

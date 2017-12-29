@@ -42,7 +42,9 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     @IBOutlet weak var xButton: UIButton!
     @IBOutlet weak var costLabel: UILabel!
     @IBOutlet weak var unlockButton: UIButton!
-    @IBOutlet var blur: UIVisualEffectView!
+    @IBOutlet weak var blur: UIVisualEffectView!
+    
+    @IBOutlet weak var costLabelCns: UILabel!
     
     var gcEnabled = Bool() // Check if the user has Game Center enabled
     var gcDefaultLeaderBoard = String() // Check the default leaderboardID
@@ -50,10 +52,11 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     var endlessSelected = false
     var timedSelected = false
     
-    //TODO: var endlessCost = 50000
-    var endlessCost = 100
-    var timedCost = 50
-    //TODO: var timedCost = 20000
+    var endlessCostPts = 50000
+    var timedCostPts = 20000
+    var timedCostCns = 250
+    var endlessCostCns = 600
+
     @IBOutlet weak var MALogo: UIImageView!
     @IBOutlet weak var MALogoBackground: UIImageView!
     
@@ -117,8 +120,6 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        defaults.setValue(5000, forKey: "Coins")
         
         if (defaults.string(forKey: "bundle") != nil) {
             Menu.bundle = defaults.string(forKey: "bundle")!
@@ -250,6 +251,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         xButton.center.y += view.bounds.height
         unlockButton.center.y += view.bounds.height
         costLabel.center.y += view.bounds.height
+        costLabelCns.center.y += view.bounds.height
         blur.alpha = 0.0
         
         authenticateLocalPlayer()
@@ -608,6 +610,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
                         self.xButton.center.y -= self.view.bounds.height
                         self.unlockButton.center.y -= self.view.bounds.height
                         self.costLabel.center.y -= self.view.bounds.height
+                        self.costLabelCns.center.y -= self.view.bounds.height
                         self.Back.center.x -= self.view.bounds.width
         },
                        completion: nil
@@ -639,6 +642,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
                         self.xButton.center.y += self.view.bounds.height
                         self.unlockButton.center.y += self.view.bounds.height
                         self.costLabel.center.y += self.view.bounds.height
+                        self.costLabelCns.center.y += self.view.bounds.height
                         self.pointsIcon.center.x -= self.view.bounds.width
                         self.pointsLabel.center.x -= self.view.bounds.width
                         self.coinsIcon.center.x -= self.view.bounds.width
@@ -687,13 +691,13 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     @IBAction func timedPressed(_ sender: Any) {
         AppDelegate.playClick()
-        playScreen = false
         if (!timedLocked) {
+            playScreen = false
             GameViewController.gameMode = "Timed"
             toGame()
         }
         else {
-            if points < timedCost {
+            if points < timedCostPts || coins < timedCostCns {
                 unlockButton.isHidden = true
             }
             else {
@@ -702,21 +706,22 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             timedSelected = true
             let numberFormatter = NumberFormatter()
             numberFormatter.numberStyle = NumberFormatter.Style.decimal
-            let formattedNumber = numberFormatter.string(from: NSNumber(value:timedCost))
+            let formattedNumber = numberFormatter.string(from: NSNumber(value:timedCostPts))
             costLabel.text = formattedNumber
+            costLabelCns.text = "\(timedCostCns)"
             unlockIn()
         }
     }
     
     @IBAction func endlessPressed(_ sender: Any) {
         AppDelegate.playClick()
-        playScreen = false
         if (!endlessLocked) {
+            playScreen = false
             GameViewController.gameMode = "Endless"
             toGame()
         }
         else {
-            if points < endlessCost {
+            if points < endlessCostPts || coins < endlessCostCns {
                 unlockButton.isHidden = true
             }
             else {
@@ -725,8 +730,9 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             endlessSelected = true
             let numberFormatter = NumberFormatter()
             numberFormatter.numberStyle = NumberFormatter.Style.decimal
-            let formattedNumber = numberFormatter.string(from: NSNumber(value:endlessCost))
+            let formattedNumber = numberFormatter.string(from: NSNumber(value:endlessCostPts))
             costLabel.text = formattedNumber
+            costLabelCns.text = "\(endlessCostCns)"
             unlockIn()
         }
     }
@@ -741,28 +747,53 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     @IBAction func unlockPressed(_ sender: Any) {
         AppDelegate.playClick()
         
-        if (endlessSelected && points >= endlessCost){
-            points -= endlessCost
-            defaults.set(points, forKey: "Points")
-            defaults.set(false, forKey: "EndlessLock")
-            endlessLocked = false
-            EndlessLock.isHidden = true
-            unlockOut()
+        if (endlessSelected){
+            if (points >= endlessCostPts) {
+                points -= endlessCostPts
+                defaults.set(points, forKey: "Points")
+                defaults.set(false, forKey: "EndlessLock")
+                endlessLocked = false
+                EndlessLock.isHidden = true
+                unlockOut()
+                endlessSelected = false
+            }
+            else if (coins >= endlessCostCns) {
+                coins -= endlessCostCns
+                defaults.set(coins, forKey: "Coins")
+                defaults.set(false, forKey: "EndlessLock")
+                endlessLocked = false
+                EndlessLock.isHidden = true
+                unlockOut()
+                endlessSelected = false
+            }
         }
-        else if (timedSelected && points >= timedCost){
-            points -= timedCost
-            defaults.set(points, forKey: "Points")
-            defaults.set(false, forKey: "TimedLock")
-            timedLocked = false
-            TimedLock.isHidden = true
-            unlockOut()
+        else if (timedSelected){
+            if (points >= timedCostPts){
+                points -= timedCostPts
+                defaults.set(points, forKey: "Points")
+                defaults.set(false, forKey: "TimedLock")
+                timedLocked = false
+                TimedLock.isHidden = true
+                unlockOut()
+                timedSelected = false
+            }
+            else if (coins >= timedCostCns){
+                coins -= timedCostCns
+                defaults.set(coins, forKey: "Coins")
+                defaults.set(false, forKey: "TimedLock")
+                timedLocked = false
+                TimedLock.isHidden = true
+                unlockOut()
+                timedSelected = false
+            }
         }
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = NumberFormatter.Style.decimal
         let formattedNumber = numberFormatter.string(from: NSNumber(value:points))
-        
+        let formattedNumber2 = numberFormatter.string(from: NSNumber(value:coins))
         pointsLabel.text = formattedNumber
+        coinsLabel.text = formattedNumber2
         updateiCloud()
     }
     
