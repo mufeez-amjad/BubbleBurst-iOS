@@ -11,19 +11,18 @@
 		8F26EA1B1FB256E800CC38D4 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26EA1A1FB256E800CC38D4 /* GameKit.framework */; };
 		8F26EA1D1FB256FB00CC38D4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26EA1C1FB256FB00CC38D4 /* StoreKit.framework */; };
 		8F2EA0891F86C507009AC742 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2EA0881F86C507009AC742 /* Menu.swift */; };
+		8F3A55E81FF6D6DA00120ED8 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F3A55E11FF6D6D900120ED8 /* nanopb.framework */; };
+		8F3A55E91FF6D6DA00120ED8 /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F3A55E21FF6D6D900120ED8 /* FirebaseCore.framework */; };
+		8F3A55EA1FF6D6DA00120ED8 /* FirebaseCoreDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F3A55E31FF6D6D900120ED8 /* FirebaseCoreDiagnostics.framework */; };
+		8F3A55EB1FF6D6DA00120ED8 /* FirebaseInstanceID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F3A55E41FF6D6DA00120ED8 /* FirebaseInstanceID.framework */; };
+		8F3A55EC1FF6D6DA00120ED8 /* FirebaseNanoPB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F3A55E51FF6D6DA00120ED8 /* FirebaseNanoPB.framework */; };
+		8F3A55ED1FF6D6DA00120ED8 /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F3A55E61FF6D6DA00120ED8 /* FirebaseAnalytics.framework */; };
+		8F3A55EE1FF6D6DA00120ED8 /* GoogleToolboxForMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F3A55E71FF6D6DA00120ED8 /* GoogleToolboxForMac.framework */; };
 		8F525D8B1F87272500C2CD4F /* Postgame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F525D8A1F87272500C2CD4F /* Postgame.swift */; };
-		8F579A6D1FF56A2F002A30FB /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F579A661FF56A2C002A30FB /* FirebaseAnalytics.framework */; };
-		8F579A6E1FF56A2F002A30FB /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F579A671FF56A2D002A30FB /* nanopb.framework */; };
-		8F579A6F1FF56A2F002A30FB /* FirebaseNanoPB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F579A681FF56A2D002A30FB /* FirebaseNanoPB.framework */; };
-		8F579A701FF56A2F002A30FB /* FirebaseInstanceID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F579A691FF56A2D002A30FB /* FirebaseInstanceID.framework */; };
-		8F579A711FF56A2F002A30FB /* GoogleToolboxForMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F579A6A1FF56A2E002A30FB /* GoogleToolboxForMac.framework */; };
-		8F579A721FF56A2F002A30FB /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F579A6B1FF56A2E002A30FB /* FirebaseCore.framework */; };
-		8F579A731FF56A2F002A30FB /* FirebaseCoreDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F579A6C1FF56A2F002A30FB /* FirebaseCoreDiagnostics.framework */; };
 		8F65F8E31FA4126200041FB0 /* bgMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8F65F8E21FA4126200041FB0 /* bgMusic.mp3 */; };
 		8F65F8E51FA4FC1300041FB0 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F65F8E41FA4FC1300041FB0 /* Shop.swift */; };
 		8F8EDF191F816EA300336BC2 /* Bubblegum.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F8EDF181F816E8D00336BC2 /* Bubblegum.ttf */; };
 		8F8EDF1C1F82E1CA00336BC2 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8F8EDF1A1F82E1CA00336BC2 /* MyParticle.sks */; };
-		8F8EDF1D1F82E1CA00336BC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F8EDF1B1F82E1CA00336BC2 /* Assets.xcassets */; };
 		8FA131F61F8013DF00B6D3D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA131F51F8013DF00B6D3D8 /* AppDelegate.swift */; };
 		8FA131F81F8013DF00B6D3D8 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8FA131F71F8013DF00B6D3D8 /* GameScene.sks */; };
 		8FA131FA1F8013DF00B6D3D8 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8FA131F91F8013DF00B6D3D8 /* Actions.sks */; };
@@ -47,21 +46,20 @@
 		8F26EA1C1FB256FB00CC38D4 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		8F26EA1E1FB2570C00CC38D4 /* BubbleBurst iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BubbleBurst iOS.entitlements"; sourceTree = "<group>"; };
 		8F2EA0881F86C507009AC742 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		8F3A55E11FF6D6D900120ED8 /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = nanopb.framework; path = Framework/nanopb.framework; sourceTree = "<group>"; };
+		8F3A55E21FF6D6D900120ED8 /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = Framework/FirebaseCore.framework; sourceTree = "<group>"; };
+		8F3A55E31FF6D6D900120ED8 /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCoreDiagnostics.framework; path = Framework/FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
+		8F3A55E41FF6D6DA00120ED8 /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseInstanceID.framework; path = Framework/FirebaseInstanceID.framework; sourceTree = "<group>"; };
+		8F3A55E51FF6D6DA00120ED8 /* FirebaseNanoPB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseNanoPB.framework; path = Framework/FirebaseNanoPB.framework; sourceTree = "<group>"; };
+		8F3A55E61FF6D6DA00120ED8 /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAnalytics.framework; path = Framework/FirebaseAnalytics.framework; sourceTree = "<group>"; };
+		8F3A55E71FF6D6DA00120ED8 /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleToolboxForMac.framework; path = Framework/GoogleToolboxForMac.framework; sourceTree = "<group>"; };
 		8F525D8A1F87272500C2CD4F /* Postgame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Postgame.swift; sourceTree = "<group>"; };
-		8F579A661FF56A2C002A30FB /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseAnalytics.framework; sourceTree = "<group>"; };
-		8F579A671FF56A2D002A30FB /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = nanopb.framework; sourceTree = "<group>"; };
-		8F579A681FF56A2D002A30FB /* FirebaseNanoPB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseNanoPB.framework; sourceTree = "<group>"; };
-		8F579A691FF56A2D002A30FB /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseInstanceID.framework; sourceTree = "<group>"; };
-		8F579A6A1FF56A2E002A30FB /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleToolboxForMac.framework; sourceTree = "<group>"; };
-		8F579A6B1FF56A2E002A30FB /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = "<group>"; };
-		8F579A6C1FF56A2F002A30FB /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
 		8F579A741FF56ADD002A30FB /* Firebase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Firebase.h; sourceTree = "<group>"; };
 		8F579A751FF56AFB002A30FB /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		8F65F8E21FA4126200041FB0 /* bgMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgMusic.mp3; sourceTree = "<group>"; };
 		8F65F8E41FA4FC1300041FB0 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		8F8EDF181F816E8D00336BC2 /* Bubblegum.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bubblegum.ttf; sourceTree = "<group>"; };
 		8F8EDF1A1F82E1CA00336BC2 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
-		8F8EDF1B1F82E1CA00336BC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8FA131F21F8013DF00B6D3D8 /* BubbleBurst iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BubbleBurst iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FA131F51F8013DF00B6D3D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8FA131F71F8013DF00B6D3D8 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -86,17 +84,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F579A711FF56A2F002A30FB /* GoogleToolboxForMac.framework in Frameworks */,
+				8F3A55EC1FF6D6DA00120ED8 /* FirebaseNanoPB.framework in Frameworks */,
 				8F26EA1B1FB256E800CC38D4 /* GameKit.framework in Frameworks */,
 				8FF354111F96A76100F74F00 /* AVFoundation.framework in Frameworks */,
+				8F3A55E91FF6D6DA00120ED8 /* FirebaseCore.framework in Frameworks */,
+				8F3A55ED1FF6D6DA00120ED8 /* FirebaseAnalytics.framework in Frameworks */,
+				8F3A55EE1FF6D6DA00120ED8 /* GoogleToolboxForMac.framework in Frameworks */,
+				8F3A55EB1FF6D6DA00120ED8 /* FirebaseInstanceID.framework in Frameworks */,
+				8F3A55E81FF6D6DA00120ED8 /* nanopb.framework in Frameworks */,
+				8F3A55EA1FF6D6DA00120ED8 /* FirebaseCoreDiagnostics.framework in Frameworks */,
 				8FDAFF081F86FF0E00F5C852 /* GoogleMobileAds.framework in Frameworks */,
-				8F579A701FF56A2F002A30FB /* FirebaseInstanceID.framework in Frameworks */,
 				8F26EA1D1FB256FB00CC38D4 /* StoreKit.framework in Frameworks */,
-				8F579A721FF56A2F002A30FB /* FirebaseCore.framework in Frameworks */,
-				8F579A731FF56A2F002A30FB /* FirebaseCoreDiagnostics.framework in Frameworks */,
-				8F579A6E1FF56A2F002A30FB /* nanopb.framework in Frameworks */,
-				8F579A6F1FF56A2F002A30FB /* FirebaseNanoPB.framework in Frameworks */,
-				8F579A6D1FF56A2F002A30FB /* FirebaseAnalytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,13 +104,13 @@
 		8F35C9411F86E970004D8C5A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8F579A661FF56A2C002A30FB /* FirebaseAnalytics.framework */,
-				8F579A6B1FF56A2E002A30FB /* FirebaseCore.framework */,
-				8F579A6C1FF56A2F002A30FB /* FirebaseCoreDiagnostics.framework */,
-				8F579A691FF56A2D002A30FB /* FirebaseInstanceID.framework */,
-				8F579A681FF56A2D002A30FB /* FirebaseNanoPB.framework */,
-				8F579A6A1FF56A2E002A30FB /* GoogleToolboxForMac.framework */,
-				8F579A671FF56A2D002A30FB /* nanopb.framework */,
+				8F3A55E61FF6D6DA00120ED8 /* FirebaseAnalytics.framework */,
+				8F3A55E21FF6D6D900120ED8 /* FirebaseCore.framework */,
+				8F3A55E31FF6D6D900120ED8 /* FirebaseCoreDiagnostics.framework */,
+				8F3A55E41FF6D6DA00120ED8 /* FirebaseInstanceID.framework */,
+				8F3A55E51FF6D6DA00120ED8 /* FirebaseNanoPB.framework */,
+				8F3A55E71FF6D6DA00120ED8 /* GoogleToolboxForMac.framework */,
+				8F3A55E11FF6D6D900120ED8 /* nanopb.framework */,
 				8F26EA1C1FB256FB00CC38D4 /* StoreKit.framework */,
 				8F26EA1A1FB256E800CC38D4 /* GameKit.framework */,
 				8FF354101F96A76100F74F00 /* AVFoundation.framework */,
@@ -124,7 +122,6 @@
 		8FA131E91F8013DF00B6D3D8 = {
 			isa = PBXGroup;
 			children = (
-				8F8EDF1B1F82E1CA00336BC2 /* Assets.xcassets */,
 				8FA131F41F8013DF00B6D3D8 /* BubbleBurst iOS */,
 				8FA131F31F8013DF00B6D3D8 /* Products */,
 				8F35C9411F86E970004D8C5A /* Frameworks */,
@@ -264,7 +261,6 @@
 				8F65F8E31FA4126200041FB0 /* bgMusic.mp3 in Resources */,
 				8F0104E91FAA951900392E56 /* coin.mp3 in Resources */,
 				8FA732D41FC50E2F00E13DB0 /* money.mp3 in Resources */,
-				8F8EDF1D1F82E1CA00336BC2 /* Assets.xcassets in Resources */,
 				8FA732D21FC50E1B00E13DB0 /* error.mp3 in Resources */,
 				8FA131FA1F8013DF00B6D3D8 /* Actions.sks in Resources */,
 				8FDE4FE31FF1C8DA00F2255E /* GoogleService-Info.plist in Resources */,
@@ -384,6 +380,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/**",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Framework",
 				);
 				INFOPLIST_FILE = "BubbleBurst iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
