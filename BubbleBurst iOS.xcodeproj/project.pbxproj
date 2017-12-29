@@ -7,13 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1EF04F249BB4726E89B317F5 /* Pods_BubbleBurst_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B94F5643138E279590F074 /* Pods_BubbleBurst_iOS.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8F0104E91FAA951900392E56 /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8F0104E81FAA951900392E56 /* coin.mp3 */; };
-		8F223D731FF4568000D5B87E /* GoogleToolboxForMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F223D741FF4568000D5B87E /* GoogleToolboxForMac.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8F26EA1B1FB256E800CC38D4 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26EA1A1FB256E800CC38D4 /* GameKit.framework */; };
 		8F26EA1D1FB256FB00CC38D4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26EA1C1FB256FB00CC38D4 /* StoreKit.framework */; };
 		8F2EA0891F86C507009AC742 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2EA0881F86C507009AC742 /* Menu.swift */; };
 		8F525D8B1F87272500C2CD4F /* Postgame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F525D8A1F87272500C2CD4F /* Postgame.swift */; };
+		8F579A6D1FF56A2F002A30FB /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F579A661FF56A2C002A30FB /* FirebaseAnalytics.framework */; };
+		8F579A6E1FF56A2F002A30FB /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F579A671FF56A2D002A30FB /* nanopb.framework */; };
+		8F579A6F1FF56A2F002A30FB /* FirebaseNanoPB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F579A681FF56A2D002A30FB /* FirebaseNanoPB.framework */; };
+		8F579A701FF56A2F002A30FB /* FirebaseInstanceID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F579A691FF56A2D002A30FB /* FirebaseInstanceID.framework */; };
+		8F579A711FF56A2F002A30FB /* GoogleToolboxForMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F579A6A1FF56A2E002A30FB /* GoogleToolboxForMac.framework */; };
+		8F579A721FF56A2F002A30FB /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F579A6B1FF56A2E002A30FB /* FirebaseCore.framework */; };
+		8F579A731FF56A2F002A30FB /* FirebaseCoreDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F579A6C1FF56A2F002A30FB /* FirebaseCoreDiagnostics.framework */; };
 		8F65F8E31FA4126200041FB0 /* bgMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8F65F8E21FA4126200041FB0 /* bgMusic.mp3 */; };
 		8F65F8E51FA4FC1300041FB0 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F65F8E41FA4FC1300041FB0 /* Shop.swift */; };
 		8F8EDF191F816EA300336BC2 /* Bubblegum.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F8EDF181F816E8D00336BC2 /* Bubblegum.ttf */; };
@@ -37,17 +42,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		01F2E16F29933B133CF9A997 /* Pods-BubbleBurst iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BubbleBurst iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-BubbleBurst iOS/Pods-BubbleBurst iOS.release.xcconfig"; sourceTree = "<group>"; };
-		4DC81E9F282F232D8634AEF8 /* Pods-BubbleBurst iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BubbleBurst iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BubbleBurst iOS/Pods-BubbleBurst iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		80B94F5643138E279590F074 /* Pods_BubbleBurst_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BubbleBurst_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F0104E81FAA951900392E56 /* coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coin.mp3; sourceTree = "<group>"; };
-		8F223D741FF4568000D5B87E /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GoogleToolboxForMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F26EA1A1FB256E800CC38D4 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		8F26EA1C1FB256FB00CC38D4 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		8F26EA1E1FB2570C00CC38D4 /* BubbleBurst iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BubbleBurst iOS.entitlements"; sourceTree = "<group>"; };
 		8F2EA0881F86C507009AC742 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
-		8F35C9421F86E970004D8C5A /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = "../../../Downloads/GoogleMobileAdsSdkiOS-7.24.1/GoogleMobileAds.framework"; sourceTree = "<group>"; };
 		8F525D8A1F87272500C2CD4F /* Postgame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Postgame.swift; sourceTree = "<group>"; };
+		8F579A661FF56A2C002A30FB /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseAnalytics.framework; sourceTree = "<group>"; };
+		8F579A671FF56A2D002A30FB /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = nanopb.framework; sourceTree = "<group>"; };
+		8F579A681FF56A2D002A30FB /* FirebaseNanoPB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseNanoPB.framework; sourceTree = "<group>"; };
+		8F579A691FF56A2D002A30FB /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseInstanceID.framework; sourceTree = "<group>"; };
+		8F579A6A1FF56A2E002A30FB /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleToolboxForMac.framework; sourceTree = "<group>"; };
+		8F579A6B1FF56A2E002A30FB /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = "<group>"; };
+		8F579A6C1FF56A2F002A30FB /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
+		8F579A741FF56ADD002A30FB /* Firebase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Firebase.h; sourceTree = "<group>"; };
+		8F579A751FF56AFB002A30FB /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		8F65F8E21FA4126200041FB0 /* bgMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgMusic.mp3; sourceTree = "<group>"; };
 		8F65F8E41FA4FC1300041FB0 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		8F8EDF181F816E8D00336BC2 /* Bubblegum.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bubblegum.ttf; sourceTree = "<group>"; };
@@ -77,12 +86,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F223D731FF4568000D5B87E /* GoogleToolboxForMac.framework in Frameworks */,
+				8F579A711FF56A2F002A30FB /* GoogleToolboxForMac.framework in Frameworks */,
 				8F26EA1B1FB256E800CC38D4 /* GameKit.framework in Frameworks */,
 				8FF354111F96A76100F74F00 /* AVFoundation.framework in Frameworks */,
 				8FDAFF081F86FF0E00F5C852 /* GoogleMobileAds.framework in Frameworks */,
+				8F579A701FF56A2F002A30FB /* FirebaseInstanceID.framework in Frameworks */,
 				8F26EA1D1FB256FB00CC38D4 /* StoreKit.framework in Frameworks */,
-				1EF04F249BB4726E89B317F5 /* Pods_BubbleBurst_iOS.framework in Frameworks */,
+				8F579A721FF56A2F002A30FB /* FirebaseCore.framework in Frameworks */,
+				8F579A731FF56A2F002A30FB /* FirebaseCoreDiagnostics.framework in Frameworks */,
+				8F579A6E1FF56A2F002A30FB /* nanopb.framework in Frameworks */,
+				8F579A6F1FF56A2F002A30FB /* FirebaseNanoPB.framework in Frameworks */,
+				8F579A6D1FF56A2F002A30FB /* FirebaseAnalytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,13 +106,17 @@
 		8F35C9411F86E970004D8C5A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8F223D741FF4568000D5B87E /* GoogleToolboxForMac.framework */,
+				8F579A661FF56A2C002A30FB /* FirebaseAnalytics.framework */,
+				8F579A6B1FF56A2E002A30FB /* FirebaseCore.framework */,
+				8F579A6C1FF56A2F002A30FB /* FirebaseCoreDiagnostics.framework */,
+				8F579A691FF56A2D002A30FB /* FirebaseInstanceID.framework */,
+				8F579A681FF56A2D002A30FB /* FirebaseNanoPB.framework */,
+				8F579A6A1FF56A2E002A30FB /* GoogleToolboxForMac.framework */,
+				8F579A671FF56A2D002A30FB /* nanopb.framework */,
 				8F26EA1C1FB256FB00CC38D4 /* StoreKit.framework */,
 				8F26EA1A1FB256E800CC38D4 /* GameKit.framework */,
 				8FF354101F96A76100F74F00 /* AVFoundation.framework */,
 				8FDAFF071F86FF0E00F5C852 /* GoogleMobileAds.framework */,
-				8F35C9421F86E970004D8C5A /* GoogleMobileAds.framework */,
-				80B94F5643138E279590F074 /* Pods_BubbleBurst_iOS.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -110,7 +128,6 @@
 				8FA131F41F8013DF00B6D3D8 /* BubbleBurst iOS */,
 				8FA131F31F8013DF00B6D3D8 /* Products */,
 				8F35C9411F86E970004D8C5A /* Frameworks */,
-				B0DBEFD585923C8FF7E8B6C5 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -128,6 +145,8 @@
 				8F26EA1E1FB2570C00CC38D4 /* BubbleBurst iOS.entitlements */,
 				8FC7F5611F96AD3300BF24A3 /* Sounds */,
 				8F8EDF1A1F82E1CA00336BC2 /* MyParticle.sks */,
+				8F579A741FF56ADD002A30FB /* Firebase.h */,
+				8F579A751FF56AFB002A30FB /* module.modulemap */,
 				8F8EDF181F816E8D00336BC2 /* Bubblegum.ttf */,
 				8FA131F51F8013DF00B6D3D8 /* AppDelegate.swift */,
 				8FA131F71F8013DF00B6D3D8 /* GameScene.sks */,
@@ -159,15 +178,6 @@
 			path = Sounds;
 			sourceTree = "<group>";
 		};
-		B0DBEFD585923C8FF7E8B6C5 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				4DC81E9F282F232D8634AEF8 /* Pods-BubbleBurst iOS.debug.xcconfig */,
-				01F2E16F29933B133CF9A997 /* Pods-BubbleBurst iOS.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -175,12 +185,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8FA1320A1F8013DF00B6D3D8 /* Build configuration list for PBXNativeTarget "BubbleBurst iOS" */;
 			buildPhases = (
-				67990F8A35A9D76CE6D062F9 /* [CP] Check Pods Manifest.lock */,
 				8FA131EE1F8013DF00B6D3D8 /* Sources */,
 				8FA131EF1F8013DF00B6D3D8 /* Frameworks */,
 				8FA131F01F8013DF00B6D3D8 /* Resources */,
-				19CC1BEC5D059CCD109A2BA7 /* [CP] Embed Pods Frameworks */,
-				C22B588C19E372313C4BD8FD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -265,62 +272,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		19CC1BEC5D059CCD109A2BA7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BubbleBurst iOS/Pods-BubbleBurst iOS-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BubbleBurst iOS/Pods-BubbleBurst iOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		67990F8A35A9D76CE6D062F9 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BubbleBurst iOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C22B588C19E372313C4BD8FD /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BubbleBurst iOS/Pods-BubbleBurst iOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8FA131EE1F8013DF00B6D3D8 /* Sources */ = {
@@ -413,6 +364,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -421,7 +373,6 @@
 		};
 		8FA1320B1F8013DF00B6D3D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4DC81E9F282F232D8634AEF8 /* Pods-BubbleBurst iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "BubbleBurst iOS/BubbleBurst iOS.entitlements";
@@ -432,9 +383,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "BubbleBurst iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Mufeez-Amjad.BubbleBurst";
 				PRODUCT_NAME = "$(TARGET_NAME)";

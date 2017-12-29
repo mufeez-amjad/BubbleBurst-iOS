@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 import StoreKit
-import Firebase
+import FirebaseAnalytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

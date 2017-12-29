@@ -116,8 +116,9 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     }
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
+        
+        defaults.setValue(5000, forKey: "Coins")
         
         if (defaults.string(forKey: "bundle") != nil) {
             Menu.bundle = defaults.string(forKey: "bundle")!
