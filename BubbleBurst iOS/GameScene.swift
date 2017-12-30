@@ -102,7 +102,6 @@ class GameScene: SKScene {
     
     var countdownAction: SKAction!
     
-    
     var startsIn = 3
     
     var previousLocation = CGPoint(x:-100,y: -100)
@@ -170,27 +169,34 @@ class GameScene: SKScene {
         inactiveAutoPop = SKSpriteNode(imageNamed: "auto2")
         
         pathEmitter = SKEmitterNode(fileNamed: "MyParticle")
-        timerIcon.position = CGPoint(x: 250,y: self.frame.height - 100)
+        
+        if UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436 {
+            timerIcon.position = CGPoint(x: 250,y: self.frame.height - 100)
+        }
+        else {
+            timerIcon.position = CGPoint(x: 250,y: self.frame.height - 100)
+        }
+        
         timerIcon.xScale = 0.07
         timerIcon.yScale = 0.07
         self.addChild(timerIcon)
         
-        autoPopIcon.position = CGPoint(x: timerIcon.position.x + 100,y: self.frame.height - 100)
+        autoPopIcon.position = CGPoint(x: timerIcon.position.x + 75,y: self.frame.height - 100)
         autoPopIcon.xScale = 0.07
         autoPopIcon.yScale = 0.07
         self.addChild(autoPopIcon)
         
-        inactiveAutoPop.position = CGPoint(x: timerIcon.position.x + 100,y: self.frame.height - 100)
+        inactiveAutoPop.position = CGPoint(x: autoPopIcon.position.x, y: self.frame.height - 100)
         inactiveAutoPop.xScale = 0.07
         inactiveAutoPop.yScale = 0.07
         self.addChild(inactiveAutoPop)
         
-        slowMoIcon.position = CGPoint(x: autoPopIcon.position.x + autoPopIcon.size.width * 1.1,y: self.frame.height - 100)
+        slowMoIcon.position = CGPoint(x: autoPopIcon.position.x + autoPopIcon.size.width * 1.1, y: self.frame.height - 100)
         slowMoIcon.xScale = 0.07
         slowMoIcon.yScale = 0.07
         self.addChild(slowMoIcon)
         
-        inactiveSlowMo.position = CGPoint(x: autoPopIcon.position.x + autoPopIcon.size.width * 1.1,y: self.frame.height - 100)
+        inactiveSlowMo.position = CGPoint(x: slowMoIcon.position.x, y: self.frame.height - 100)
         inactiveSlowMo.xScale = 0.07
         inactiveSlowMo.yScale = 0.07
         self.addChild(inactiveSlowMo)
@@ -200,7 +206,7 @@ class GameScene: SKScene {
         oneUpIcon.yScale = 0.07
         self.addChild(oneUpIcon)
         
-        inactiveOneUp.position = CGPoint(x: slowMoIcon.position.x + slowMoIcon.size.width * 1.1,y: self.frame.height - 100)
+        inactiveOneUp.position = CGPoint(x: oneUpIcon.position.x, y: self.frame.height - 100)
         inactiveOneUp.xScale = 0.07
         inactiveOneUp.yScale = 0.07
         self.addChild(inactiveOneUp)
@@ -210,7 +216,7 @@ class GameScene: SKScene {
         freezeIcon.yScale = 0.07
         self.addChild(freezeIcon)
         
-        inactiveFreeze.position = CGPoint(x: oneUpIcon.position.x + oneUpIcon.size.width * 1.1,y: self.frame.height - 100)
+        inactiveFreeze.position = CGPoint(x: freezeIcon.position.x, y: self.frame.height - 100)
         inactiveFreeze.xScale = 0.07
         inactiveFreeze.yScale = 0.07
         self.addChild(inactiveFreeze)
@@ -220,15 +226,13 @@ class GameScene: SKScene {
         superPopIcon.yScale = 0.07
         self.addChild(superPopIcon)
         
-        inactiveSuperPop.position = CGPoint(x: freezeIcon.position.x + freezeIcon.size.width * 1.1,y: self.frame.height - 100)
+        inactiveSuperPop.position = CGPoint(x: superPopIcon.position.x, y: self.frame.height - 100)
         inactiveSuperPop.xScale = 0.07
         inactiveSuperPop.yScale = 0.07
         self.addChild(inactiveSuperPop)
         
-        
         reveal = SKAction.sequence([sizeUp, wait, sizeDown])
         countdownAction = SKAction.sequence([sizeUp, wait, disappear])
-        
     }
     
     override func didMove(to view: SKView) {
@@ -271,7 +275,13 @@ class GameScene: SKScene {
         timerLabel = SKLabelNode(fontNamed: "Bubblegum")
         timerLabel.text = "10"
         timerLabel.fontSize = 25
-        timerLabel.position = CGPoint(x: 250,y: self.frame.height - 115)
+        
+        if UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436 {
+            timerLabel.position = CGPoint(x: 250,y: self.frame.height - 115)
+        }
+        else {
+            timerLabel.position = CGPoint(x: 250,y: self.frame.height - 115)
+        }
         self.addChild(timerLabel)
         
         powerUpLabel = SKLabelNode(fontNamed: "Bubblegum")
@@ -1245,7 +1255,6 @@ class GameScene: SKScene {
             else {
                 type = 95 //forced red bubble
             }
-            
             var texture = SKTexture(imageNamed: bubbleImage)
             
             if (type < 85){
@@ -1320,7 +1329,15 @@ class GameScene: SKScene {
                 }
             }
             
-            let randomBubbleX = GKRandomDistribution(lowestValue: Int(texture.size().width) / 3, highestValue: 750 - Int(texture.size().width) / 3)
+            var randomBubbleX: GKRandomDistribution!
+            
+            if UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436 {
+                randomBubbleX = GKRandomDistribution(lowestValue: 125, highestValue: 625)
+            }
+            else {
+                randomBubbleX = GKRandomDistribution(lowestValue: Int(texture.size().width) / 3, highestValue: 750 - Int(texture.size().width) / 3)
+            }
+            
             x = randomBubbleX.nextInt()
             super.init(texture: texture, color: UIColor.clear, size: texture.size())
         }
@@ -1410,7 +1427,15 @@ class GameScene: SKScene {
             
             let animation = SKAction.animate(with: frames, timePerFrame: 0.2, resize: false, restore: true)
             
-            let randomX = GKRandomDistribution(lowestValue:Int(f5.size().width/2), highestValue: 750 - Int(f5.size().width/2))
+            var randomX: GKRandomDistribution!
+            
+            if UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436 {
+                randomX = GKRandomDistribution(lowestValue: 125, highestValue: 625)
+            }
+            else {
+                randomX = GKRandomDistribution(lowestValue: Int(texture.size().width) / 3, highestValue: 750 - Int(texture.size().width) / 3)
+            }
+            
             x = randomX.nextInt()
             
             super.init(texture: texture, color: UIColor.clear, size: texture.size())
