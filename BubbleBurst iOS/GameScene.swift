@@ -333,6 +333,7 @@ class GameScene: SKScene {
             guard let bubblePlayer = bubblePlayer else { return }
             
             bubblePlayer.play()
+            bubblePlayer.volume = 0.5
             
         } catch let error {
             print(error.localizedDescription)
@@ -356,6 +357,7 @@ class GameScene: SKScene {
             guard let coinPlayer = coinPlayer else { return }
             
             coinPlayer.play()
+            coinPlayer.volume = 0.5
             
         } catch let error {
             print(error.localizedDescription)

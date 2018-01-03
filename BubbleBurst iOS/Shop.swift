@@ -502,6 +502,8 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         AppDelegate.playClick()
         menu = "PowerUp"
         changeMenu()
+        
+        
     }
     
     func changeMenu(){
@@ -567,6 +569,26 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             lifeNext.isHidden = false
             lifeDetails.isHidden = false
             lifeProgress.isHidden = false
+            
+            buyImage.image = UIImage(named: "regularI")
+            
+            buyTitle.text = "Classic"
+            
+            details.text = "Bubbles, Ocean"
+            coinPrice.isHidden = true
+            price.isHidden = true
+            
+            if (Menu.bundle != "Classic") {
+                buySet.setImage(UIImage(named: "setItem"), for: .normal)
+            }
+            else {
+                buySet.setImage(UIImage(named: "setItemI"), for: .normal)
+            }
+            
+            Regular.setImage(UIImage(named: "regularS"), for: .normal)
+            Grass.setImage(UIImage(named: "leaf"), for: .normal)
+            Snow.setImage(UIImage(named: "snow"), for: .normal)
+            Tapioca.setImage(UIImage(named: "tapioca"), for: .normal)
         }
     }
     
