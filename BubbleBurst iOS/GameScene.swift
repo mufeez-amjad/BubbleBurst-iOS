@@ -559,7 +559,6 @@ class GameScene: SKScene {
                 powerUpLabel.text = "Auto Pop"
                 powerUpLabel.run(reveal)
             }
-                
             else if powerUp < 10 {
                 freezeTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(freezeCountdown), userInfo: nil, repeats: true)
                 isFreeze = true
@@ -716,6 +715,7 @@ class GameScene: SKScene {
         
         if (autoPop == 0) {
             isAutoPop = false
+            autoPop = 0
             if (autoLevel == 1){
                 autoPop = 5
             }

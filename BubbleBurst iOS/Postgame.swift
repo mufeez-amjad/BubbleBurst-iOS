@@ -353,7 +353,6 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         if interstitial.isReady {
             interstitial.present(fromRootViewController: self)
         }
-        updateiCloud()
     }
     
     @IBAction func backPressed(_ sender: Any) {
@@ -433,38 +432,6 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
                 self.gcEnabled = false
                 print("Local player could not be authenticated!")
                 print(error)
-            }
-        }
-    }
-    
-    func updateiCloud(){
-        if (Reachability.isConnectedToNetwork()){
-            
-            if (defaults.bool(forKey: "UpdatedLocal")){
-                if !(defaults.object(forKey: "Classic") == nil){
-                    let classicHigh = defaults.integer(forKey: "Classic")
-                    iCloudKeyStore?.set(classicHigh, forKey: "Classic")
-                }
-                else {
-                    iCloudKeyStore?.set(0, forKey: "Classic")
-                }
-                
-                if !(defaults.object(forKey: "Timed") == nil){
-                    let timedHigh = defaults.integer(forKey: "Timed")
-                    iCloudKeyStore?.set(timedHigh, forKey: "Timed")
-                }
-                else {
-                    iCloudKeyStore?.set(0, forKey: "Timed")
-                }
-                
-                if !(defaults.object(forKey: "Endless") == nil){
-                    let endlessHigh = defaults.integer(forKey: "Endless")
-                    iCloudKeyStore?.set(endlessHigh, forKey: "Endless")
-                }
-                else {
-                    iCloudKeyStore?.set(0, forKey: "Endless")
-                }
-                iCloudKeyStore?.synchronize()
             }
         }
     }
