@@ -18,8 +18,6 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     
     let defaults = UserDefaults.standard
     
-    var iCloudKeyStore: NSUbiquitousKeyValueStore? = NSUbiquitousKeyValueStore()
-    
     @IBOutlet weak var BG: UIImageView!
     
     @IBOutlet weak var gameOverOverlay: UIImageView!
@@ -52,11 +50,22 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     @IBOutlet weak var fade: UIImageView!
     
     var noAdsPurchased: Bool!
+    var plays = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         noAdsPurchased = defaults.bool(forKey: "noAdsPurchased")
+        
+        if (defaults.value(forKey: "plays") != nil){
+            plays = defaults.integer(forKey: "plays")
+        }
+        else {
+            plays = 0
+        }
+        
+        plays += 1
+        defaults.set(plays, forKey: "plays")
         
         if !(GKLocalPlayer.localPlayer().isAuthenticated) {
             authenticateLocalPlayer()
@@ -89,8 +98,6 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             bannerAd.load(request)
         }
         
-        videoAdButton.isHidden = true
-        
         if (GameViewController.gameMode != "Endless" || !usedExtraLife){
             lifeAd = GADRewardBasedVideoAd.sharedInstance()
             lifeAd?.delegate = self
@@ -105,7 +112,11 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         Retry.setImage(UIImage(named: "restart"), for: .normal)
         Home.setImage(UIImage(named: "home"), for: .normal)
         Leaderboard.setImage(UIImage(named: "leaderboard"), for: .normal)
-        videoAdButton.setImage(UIImage(named: "videoAd"), for: .normal)
+        videoAdButton.setImage(UIImage(named: "videoAd2"), for: .normal)
+        
+        if (GameViewController.gameMode == "Endless") {
+            videoAdButton.isHidden = true
+        }
         
         if (defaults.string(forKey: "failedGameCenter") == "Y") { //uploads score to GameCenter if previously offline
             if (defaults.string(forKey: "failedClassic") != "" && defaults.string(forKey: "failedClassic") != nil){
@@ -279,11 +290,13 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     func createAndLoadInterstitial() -> GADInterstitial {
         interstitial = GADInterstitial(adUnitID: "ca-app-pub-4669355053831786/7207262873")
         
-        if !(noAdsPurchased) {
-            let request = GADRequest()
-            request.testDevices = [kGADSimulatorID]
-            interstitial.load(request)
-            interstitial.delegate = self
+        if (plays % 3 == 0){
+            if !(noAdsPurchased) {
+                let request = GADRequest()
+                request.testDevices = [kGADSimulatorID]
+                interstitial.load(request)
+                interstitial.delegate = self
+            }
         }
         
         return interstitial
@@ -323,7 +336,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     }
     
     func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        videoAdButton.isHidden = false
+        videoAdButton.setImage(UIImage(named: "videoAd"), for: .normal)
         print("Reward based video ad is received.")
     }
     

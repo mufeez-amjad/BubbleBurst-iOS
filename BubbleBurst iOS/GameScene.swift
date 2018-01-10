@@ -443,50 +443,48 @@ class GameScene: SKScene {
                 powerUp = Int(arc4random_uniform(27)) + 3
             }
             if powerUp <= 3 {
-                isAutoPop = true
-                if (autoLevel == 1){
-                    autoPop = 5
+                if !(isAutoPop){
+                    isAutoPop = true
+                    if (autoLevel == 1){
+                        autoPop = 5
+                    }
+                    else if (autoLevel == 2){
+                        autoPop = 10
+                    }
+                    else if (autoLevel == 3){
+                        autoPop = 15
+                    }
+                    autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(autoPopCountdown), userInfo: nil, repeats: true)
+                    powerUpLabel.text = "Auto Pop"
+                    powerUpLabel.run(reveal)
                 }
-                else if (autoLevel == 2){
-                    autoPop = 10
+                else {
+                    superPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(superPopCountdown), userInfo: nil, repeats: true)
+                    isSuperPop = true
+                    score += bubbles.capacity
+                    for bubble in bubbles {
+                        bubble.removeFromParent()
+                    }
+                    bubbles.removeAll()
+                    powerUpLabel.text = "Super Pop"
+                    powerUpLabel.run(reveal)
                 }
-                else if (autoLevel == 3){
-                    autoPop = 15
-                }
-                autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(autoPopCountdown), userInfo: nil, repeats: true)
-                powerUpLabel.text = "Auto Pop"
-                powerUpLabel.run(reveal)
             }
                 
             else if powerUp < 10 {
                 if (Bubble.riseSpeed > 15){
                     freezeTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(freezeCountdown), userInfo: nil, repeats: true)
                     isFreeze = true
-                    Bubble.frozen = true
-                    beforeFreezeSpeed = Bubble.riseSpeed
-                    Bubble.riseSpeed = 0.0
-                    powerUpLabel.text = "Freeze"
-                    powerUpLabel.run(reveal)
+                    if (!isAutoPop){
+                        freezeBubbles()
+                    }
                 }
                 else {
                     slowMoTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(slowMoCountdown), userInfo: nil, repeats: true)
                     isSlowMo = true
-                    var amount = 2.0
-                    if (slowLevel == 2) {
-                        amount = 2.25
+                    if (!isAutoPop){
+                        slow()
                     }
-                    else if (slowLevel == 3) {
-                        amount = 2.5
-                    }
-                    else if (slowLevel == 4) {
-                        amount = 2.75
-                    }
-                    else if (slowLevel == 5) {
-                        amount = 3
-                    }
-                    Bubble.riseSpeed = Bubble.riseSpeed / amount
-                    powerUpLabel.text = "Slow-mo"
-                    powerUpLabel.run(reveal)
                 }
             }
             else if powerUp < 20 {
@@ -504,27 +502,13 @@ class GameScene: SKScene {
             else if powerUp <= 30 {
                 slowMoTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(slowMoCountdown), userInfo: nil, repeats: true)
                 isSlowMo = true
-                var amount = 2.0
-                if (slowLevel == 2) {
-                    amount = 2.25
+                if (!isAutoPop){
+                    slow()
                 }
-                else if (slowLevel == 3) {
-                    amount = 2.5
-                }
-                else if (slowLevel == 4) {
-                    amount = 2.75
-                }
-                else if (slowLevel == 5) {
-                    amount = 3
-                }
-                Bubble.riseSpeed = Bubble.riseSpeed / amount
-                powerUpLabel.text = "Slow-mo"
-                powerUpLabel.run(reveal)
             }
         }
             
         else {
-            
             superPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(superPopCountdown), userInfo: nil, repeats: true)
             isSuperPop = true
             score += bubbles.capacity
@@ -560,14 +544,11 @@ class GameScene: SKScene {
                 powerUpLabel.run(reveal)
             }
             else if powerUp < 10 {
-                freezeTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(freezeCountdown), userInfo: nil, repeats: true)
-                isFreeze = true
-                Bubble.frozen = true
-                beforeFreezeSpeed = Bubble.riseSpeed
-                Bubble.riseSpeed = 0.0
-                powerUpLabel.text = "Freeze"
-                powerUpLabel.run(reveal)
-                
+                    freezeTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(freezeCountdown), userInfo: nil, repeats: true)
+                    isFreeze = true
+                if (!isAutoPop){
+                    freezeBubbles()
+                }
             }
             else if powerUp < 20 {
                 superPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(superPopCountdown), userInfo: nil, repeats: true)
@@ -584,22 +565,9 @@ class GameScene: SKScene {
             else if powerUp < 30 {
                 slowMoTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(slowMoCountdown), userInfo: nil, repeats: true)
                 isSlowMo = true
-                var amount = 1.5
-                if (slowLevel == 2) {
-                    amount = 1.75
+                if !(isAutoPop){
+                    slow()
                 }
-                else if (slowLevel == 3) {
-                    amount = 2.0
-                }
-                else if (slowLevel == 4) {
-                    amount = 2.25
-                }
-                else if (slowLevel == 5) {
-                    amount = 2.5
-                }
-                Bubble.riseSpeed = Bubble.riseSpeed / amount
-                powerUpLabel.text = "Slow-mo"
-                powerUpLabel.run(reveal)
             }
                 
             else if powerUp <= 33 {
@@ -673,7 +641,7 @@ class GameScene: SKScene {
     }
     
     @objc func freezeCountdown(){
-        if isFreeze {
+        if isFreeze && !isAutoPop{
             freeze -= 1
         }
         if (freeze == 0) {
@@ -729,7 +697,41 @@ class GameScene: SKScene {
                 autoPopTimer.invalidate()
                 autoPopTimer = nil
             }
+            
+            if (isSlowMo){
+                slow()
+            }
+            if (isFreeze){
+                freezeBubbles()
+            }
         }
+    }
+    
+    func freezeBubbles() {
+        Bubble.frozen = true
+        beforeFreezeSpeed = Bubble.riseSpeed
+        Bubble.riseSpeed = 0.0
+        powerUpLabel.text = "Freeze"
+        powerUpLabel.run(reveal)
+    }
+    
+    func slow(){
+        var amount = 1.5
+        if (slowLevel == 2) {
+            amount = 1.75
+        }
+        else if (slowLevel == 3) {
+            amount = 2.0
+        }
+        else if (slowLevel == 4) {
+            amount = 2.25
+        }
+        else if (slowLevel == 5) {
+            amount = 2.5
+        }
+        Bubble.riseSpeed = Bubble.riseSpeed / amount
+        powerUpLabel.text = "Slow-mo"
+        powerUpLabel.run(reveal)
     }
     
     func reset(){
@@ -855,7 +857,7 @@ class GameScene: SKScene {
     }
     
     @objc func addBubble() {
-        if (!(isFreeze || gameOver)) {
+        if (!(Bubble.frozen || gameOver)) {
             let bubble = Bubble()
             bubbles.append(bubble)
             bubble.name = "bubble"
@@ -968,15 +970,10 @@ class GameScene: SKScene {
             }
             
             for (i,bubble) in bubbles.enumerated().reversed() {
-                if bubble.contains(previousLocation) {
+                
+                if (bubble.contains(previousLocation)) {
                     if (Menu.sound) {
                         playPop()
-                        /*if #available(iOS 10.0, *) {
-                         let generator = UINotificationFeedbackGenerator()
-                         generator.notificationOccurred(.error)
-                         } else {
-                         // Fallback on earlier versions
-                         }*/
                     }
                     
                     if bubble.ifGreen() {
@@ -1198,7 +1195,7 @@ class GameScene: SKScene {
     }
     
     @objc func pauseTimers(){
-        if (GameViewController.gameMode != "Timed"){
+        if (GameViewController.gameMode == "Timed"){
             if (gameTimer != nil){
                 gameTimer.invalidate()
                 gameTimer = nil
@@ -1366,26 +1363,28 @@ class GameScene: SKScene {
         }
         func update(){
             if !(GameScene.gamePaused){
-                if Bubble.frozen {
-                    Bubble.riseSpeed = 0.0
+                if (GameViewController.gameMode == "Classic") {
+                    if (Bubble.riseSpeed < 20) {
+                        Bubble.riseSpeed *= 1.0004
+                    }
+                    else if (Bubble.riseSpeed < 25) {
+                        Bubble.riseSpeed *= 1.00055
+                    }
+                    else if (Bubble.riseSpeed < 30) {
+                        Bubble.riseSpeed *= 1.0007
+                    }
                 }
-                if (GameViewController.gameMode != "Timed") {
+                else if (GameViewController.gameMode == "Endless"){
                     if (Bubble.riseSpeed < 30) {
-                        Bubble.riseSpeed *= 1.001
+                        Bubble.riseSpeed *= 1.0001
                     }
                 }
                 else {
                     if (Bubble.riseSpeed < 15) {
                         Bubble.riseSpeed *= 1.0005
                     }
-                    else if (Bubble.riseSpeed < 20){
-                        Bubble.riseSpeed *= 1.0015
-                    }
-                    else if (Bubble.riseSpeed < 25){
-                        Bubble.riseSpeed *= 1.001
-                    }
                     else if (Bubble.riseSpeed < 30){
-                        Bubble.riseSpeed *= 1.005
+                        Bubble.riseSpeed *= 1.0007
                     }
                 }
                 if (Menu.bundle == "Classic" || Menu.bundle == "Greenery") {

@@ -17,8 +17,6 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     
     let defaults = UserDefaults.standard
     
-    var iCloudKeyStore: NSUbiquitousKeyValueStore? = NSUbiquitousKeyValueStore()
-
     @IBOutlet weak var BG: UIImageView!
     
     @IBOutlet weak var Back: UIButton!
@@ -75,9 +73,9 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     
     var menu = "PowerUp"
     
-    var autoCost = 70
-    var lifeCost = 60
-    var slowCost = 50
+    var autoCost = 30
+    var lifeCost = 20
+    var slowCost = 20
     
     var autoLevel = 0
     var slowLevel = 1
@@ -125,6 +123,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     @IBOutlet weak var fiveHundredCoins: UIButton!
     
     override func viewDidLoad() {
+		
         if (defaults.bool(forKey: "Greenery") == true){
             grassUnlocked = true
         }
@@ -155,6 +154,10 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         restorePurchases.setImage(UIImage(named: "restore"), for: .normal)
     
         powerUpMenu.isHidden = false
+		
+		autoDetails.text = "Unlock"
+		slowDetails.text = "Slower"
+		lifeDetails.text = "One more life"
         
         customizeMenu.isHidden = true
         buyImage.isHidden = true
@@ -212,9 +215,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         }
         
         fetchAvailableProducts()
-        
-        updateProgress(powerUp: 0)
-    }
+	}
     
     override func viewDidDisappear(_ animated: Bool) {
         Back.center.x -= view.bounds.width
@@ -368,18 +369,18 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         
         if (powerUp == 1 || powerUp == 0) { //all or autoPop
             if (defaults.object(forKey: "AutoPop") == nil){
-                autoCost = 75
+                autoCost = 30
                 autoLevel = 0
             }
             else if (defaults.integer(forKey: "AutoPop") == 1){
                 autoWidth = "33"
-                autoCost = 125
+                autoCost = 60
                 autoLevel = 1
                 autoDetails.text = "Longer duration"
             }
             else if (defaults.integer(forKey: "AutoPop") == 2){
                 autoWidth = "66"
-                autoCost = 200
+                autoCost = 120
                 autoLevel = 2
                 autoDetails.text = "Longer duration"
             }
@@ -404,25 +405,25 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
         
         if (powerUp == 2 || powerUp == 0) {
             if (defaults.object(forKey: "SlowMo") == nil){
-                slowCost = 60
+                slowCost = 20
                 slowLevel = 1
                 slowDetails.text = "Slower"
             }
             else if (defaults.integer(forKey: "SlowMo") == 2){
                 slowWidth = "40"
-                slowCost = 100
+                slowCost = 40
                 slowLevel = 2
                 slowDetails.text = "Slower"
             }
             else if (defaults.integer(forKey: "SlowMo") == 3){
                 slowWidth = "60"
-                slowCost = 180
+                slowCost = 80
                 slowLevel = 3
                 slowDetails.text = "Slower"
             }
             else if (defaults.integer(forKey: "SlowMo") == 4){
                 slowWidth = "80"
-                slowCost = 340
+                slowCost = 160
                 slowLevel = 4
                 slowDetails.text = "Slower"
             }
@@ -444,27 +445,26 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             slowProgress.image = UIImage(named: slowWidth)
         }
         if (powerUp == 3 || powerUp == 0) {
-
             if (defaults.object(forKey: "Life") == nil) {
-                lifeCost = 50
+                lifeCost = 20
                 lifeLevel = 1
                 lifeDetails.text = "One more life"
             }
             else if (defaults.integer(forKey: "Life") == 2){
                 lifeWidth = "40"
-                lifeCost = 100
+                lifeCost = 40
                 lifeLevel = 2
                 lifeDetails.text = "One more life"
             }
             else if (defaults.integer(forKey: "Life") == 3){
                 lifeWidth = "60"
-                lifeCost = 200
+                lifeCost = 80
                 lifeLevel = 3
                 lifeDetails.text = "One more life"
             }
             else if (defaults.integer(forKey: "Life") == 4){
                 lifeWidth = "80"
-                lifeCost = 400
+                lifeCost = 160
                 lifeLevel = 4
                 lifeDetails.text = "One more life"
             }

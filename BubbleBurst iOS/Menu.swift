@@ -14,9 +14,6 @@ import GameKit
 class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDelegate {
     
     let defaults = UserDefaults.standard
-    
-    var iCloudKeyStore: NSUbiquitousKeyValueStore? = NSUbiquitousKeyValueStore()
-    
     var noAdsPurchased: Bool!
     
     var gameSegue = false
@@ -115,7 +112,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         if (AppDelegate.firstLaunch){
             defaults.set(0, forKey: "Points")
             points = 0
@@ -285,6 +282,22 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        /* Coin Promo
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        let someDate = dateFormatter.date(from: "01/15/2018")
+        
+        if (someDate?.timeIntervalSinceNow.sign == .plus) {
+            let alert = UIAlertController(title: "Coin Promo", message: "Promo", preferredStyle: UIAlertControllerStyle.alert)
+            
+            let cancelAction = UIAlertAction(title: "OK",
+                                             style: .cancel, handler: nil)
+            
+            alert.addAction(cancelAction)
+            present(alert, animated: true)
+        }*/
+        
         if (defaults.value(forKeyPath: "Points") == nil){
             points = 0
         }
@@ -717,7 +730,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             toGame()
         }
         else {
-            if points < timedCostPts || coins < timedCostCns {
+            if points < timedCostPts && coins < timedCostCns {
                 unlockButton.isHidden = true
             }
             else {
@@ -741,7 +754,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             toGame()
         }
         else {
-            if points < endlessCostPts || coins < endlessCostCns {
+            if points < endlessCostPts && coins < endlessCostCns {
                 unlockButton.isHidden = true
             }
             else {
@@ -930,75 +943,6 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
                 print("Local player could not be authenticated!")
                 print(error)
             }
-        }
-    }
-    
-    func updateLocal() {
-        if (Reachability.isConnectedToNetwork()){
-            print("updateLocal()")
-            if (!defaults.bool(forKey: "UpdatedLocal")) { //if it has to be synced
-                
-                print("Updated LOCAL")
-                
-                defaults.set(iCloudKeyStore?.string(forKey: "bundle"), forKey: "bundle")
-                if (defaults.string(forKey: "bundle") != nil){
-                    Menu.bundle = defaults.string(forKey: "bundle")!
-                }
-                
-                Menu.music = (iCloudKeyStore?.bool(forKey: "music"))!
-                defaults.set(Menu.music, forKey: "music")
-                
-                Menu.sound = (iCloudKeyStore?.bool(forKey: "sound"))!
-                defaults.set(Menu.sound, forKey: "sound")
-                
-                Menu.color = (iCloudKeyStore?.bool(forKey: "color"))!
-                defaults.set(Menu.color, forKey: "color")
-                
-                endlessLocked = (iCloudKeyStore?.bool(forKey: "EndlessLock"))!
-                defaults.set(endlessLocked, forKey: "EndlessLock")
-                
-                timedLocked = (iCloudKeyStore?.bool(forKey: "TimedLock"))!
-                defaults.set(timedLocked, forKey: "TimedLock")
-                
-                points =  Int(truncatingIfNeeded: (iCloudKeyStore?.longLong(forKey: "Points"))!)
-                defaults.set(points, forKey: "Points")
-                pointsLabel.text = "\(points)"
-                print("Points : " + "\(iCloudKeyStore?.longLong(forKey: "Points"))")
-                
-                coins = Int(truncatingIfNeeded: (iCloudKeyStore?.longLong(forKey: "Coins"))!)
-                defaults.set(coins, forKey: "Coins")
-                coinsLabel.text = "\(coins)"
-                
-                noAdsPurchased = iCloudKeyStore?.bool(forKey: "noAdsPurchased")
-                defaults.set(noAdsPurchased, forKey: "noAdsPurchased")
-                if (noAdsPurchased) {
-                    bannerAd.isHidden = true
-                }
-                
-                defaults.set(iCloudKeyStore?.longLong(forKey: "AutoPop"), forKey: "AutoPop")
-                defaults.set(iCloudKeyStore?.longLong(forKey: "SlowMo"), forKey: "SlowMo")
-                defaults.set(iCloudKeyStore?.longLong(forKey: "Life"), forKey: "Life")
-                
-                defaults.set(iCloudKeyStore?.longLong(forKey: "Classic"), forKey: "Classic")
-                defaults.set(iCloudKeyStore?.longLong(forKey: "Timed"), forKey: "Timed")
-                defaults.set(iCloudKeyStore?.longLong(forKey: "Endless"), forKey: "Endless")
-                
-                defaults.set(iCloudKeyStore?.bool(forKey: "Greenery"), forKey: "Greenery")
-                defaults.set(iCloudKeyStore?.bool(forKey: "Snowy"), forKey: "Snowy")
-                defaults.set(iCloudKeyStore?.bool(forKey: "Bubble Tea"), forKey: "Bubble Tea")
-                
-                defaults.set(false, forKey: "firstLaunch")
-                AppDelegate.firstLaunch = false
-                defaults.set(true, forKey: "UpdatedLocal")
-            }
-            else {
-                defaults.set(false, forKey: "firstLaunch")
-                AppDelegate.firstLaunch = false
-                defaults.set(true, forKey: "UpdatedLocal")
-            }
-        }
-        else {
-            defaults.set(false, forKey: "UpdatedLocal")
         }
     }
     
