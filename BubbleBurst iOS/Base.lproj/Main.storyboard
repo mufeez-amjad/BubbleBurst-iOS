@@ -268,14 +268,14 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="250" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RRF-9G-Uhz">
-                                <rect key="frame" x="209" y="375" width="86" height="30"/>
+                                <rect key="frame" x="219" y="375" width="86" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="22"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100,000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ctu-dn-uxU">
-                                <rect key="frame" x="209" y="339" width="86" height="30"/>
+                                <rect key="frame" x="219" y="339" width="110" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="BubbleGum" family="BubbleGum" pointSize="22"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -953,7 +953,7 @@
         <image name="Lives" width="1018" height="1018"/>
         <image name="MALogo" width="1451" height="1451"/>
         <image name="buyCoins" width="1000" height="1014"/>
-        <image name="coin6" width="110" height="111"/>
+        <image name="coin6" width="111" height="111"/>
         <image name="customizeMenu" width="842" height="1038"/>
         <image name="dropdown" width="379" height="1055"/>
         <image name="fade" width="2251" height="4001"/>

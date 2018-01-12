@@ -28,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         FirebaseApp.configure()
+        
         if (defaults.value(forKey: "firstLaunch") != nil){
             AppDelegate.firstLaunch = defaults.bool(forKey: "firstLaunch")
         }

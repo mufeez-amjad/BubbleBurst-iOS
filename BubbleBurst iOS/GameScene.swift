@@ -438,13 +438,16 @@ class GameScene: SKScene {
     func endlessPowerUp(bubble: Bubble){
         var powerUp: Int!
         if (Bubble.riseSpeed > 5){
-            powerUp = Int(arc4random_uniform(30))
             if (autoLevel == 0) {
-                powerUp = Int(arc4random_uniform(27)) + 3
+                powerUp = Int(arc4random_uniform(27)) + 4
+            }
+            else {
+                powerUp = Int(arc4random_uniform(30))
             }
             if powerUp <= 3 {
                 if !(isAutoPop){
                     isAutoPop = true
+                    
                     if (autoLevel == 1){
                         autoPop = 5
                     }
@@ -454,9 +457,11 @@ class GameScene: SKScene {
                     else if (autoLevel == 3){
                         autoPop = 15
                     }
-                    autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(autoPopCountdown), userInfo: nil, repeats: true)
-                    powerUpLabel.text = "Auto Pop"
-                    powerUpLabel.run(reveal)
+                    if (autoLevel > 0) {
+                        autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(autoPopCountdown), userInfo: nil, repeats: true)
+                        powerUpLabel.text = "Auto Pop"
+                        powerUpLabel.run(reveal)
+                    }
                 }
                 else {
                     superPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(superPopCountdown), userInfo: nil, repeats: true)
@@ -520,28 +525,36 @@ class GameScene: SKScene {
             powerUpLabel.run(reveal)
         }
     }
+
     
     func powerUp(bubble: Bubble){
         var powerUp: Int!
         if (Bubble.riseSpeed > 7){
             powerUp = Int(arc4random_uniform(33))
             if (autoLevel == 0) {
-                powerUp = Int(arc4random_uniform(30)) + 3
+                powerUp = Int(arc4random_uniform(30)) + 4
+            }
+            else {
+                powerUp = Int(arc4random_uniform(33))
             }
             if powerUp <= 3 {
-                isAutoPop = true
-                if (autoLevel == 1){
-                    autoPop = 5
+                if !(isAutoPop){
+                    isAutoPop = true
+                    if (autoLevel == 1){
+                        autoPop = 5
+                    }
+                    else if (autoLevel == 2){
+                        autoPop = 10
+                    }
+                    else if (autoLevel == 3){
+                        autoPop = 15
+                    }
+                    if (autoLevel > 0) {
+                        autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(autoPopCountdown), userInfo: nil, repeats: true)
+                        powerUpLabel.text = "Auto Pop"
+                        powerUpLabel.run(reveal)
+                    }
                 }
-                else if (autoLevel == 2){
-                    autoPop = 10
-                }
-                else if (autoLevel == 3){
-                    autoPop = 15
-                }
-                autoPopTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(autoPopCountdown), userInfo: nil, repeats: true)
-                powerUpLabel.text = "Auto Pop"
-                powerUpLabel.run(reveal)
             }
             else if powerUp < 10 {
                     freezeTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(freezeCountdown), userInfo: nil, repeats: true)

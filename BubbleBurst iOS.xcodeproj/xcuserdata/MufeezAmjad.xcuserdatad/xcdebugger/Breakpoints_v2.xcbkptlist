@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BubbleBurst iOS/GameScene.swift"
-            timestampString = "537252227.030467"
+            timestampString = "537254307.765759"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "713"
             endingLineNumber = "713"
-            landmarkName = "freezeBubbles()"
+            landmarkName = "autoPopCountdown()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
