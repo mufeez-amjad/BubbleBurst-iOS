@@ -326,8 +326,10 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             coins -= autoCost
             autoLevel += 1
             coinsLabel.text = "\(coins)"
+			defaults.set(coins, forKey: "Coins")
             defaults.setValue(autoLevel, forKey: "AutoPop")
             updateProgress(powerUp: 1)
+			defaults.set(coins, forKey: "Coins")
         }
         else {
             AppDelegate.playError()
@@ -342,6 +344,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             coins -= slowCost
             slowLevel += 1
             coinsLabel.text = "\(coins)"
+			defaults.set(coins, forKey: "Coins")
             defaults.setValue(slowLevel, forKey: "SlowMo")
             updateProgress(powerUp: 2)
         }
@@ -357,6 +360,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
             coins -= lifeCost
             lifeLevel += 1
             coinsLabel.text = "\(coins)"
+			defaults.set(coins, forKey: "Coins")
             defaults.setValue(lifeLevel, forKey: "Life")
             updateProgress(powerUp: 3)
         }
@@ -858,11 +862,11 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                 }
                 else if (coins >= grassPrice){
                     AppDelegate.playMoney()
-
                     coinPrice.isHidden = true
                     price.isHidden = true
                     coins -= grassPrice
                     coinsLabel.text = "\(coins)"
+					defaults.set(coins, forKey: "Coins")
                     Menu.bundle = "Greenery"
                     defaults.set(Menu.bundle, forKey: "bundle")
                     grassUnlocked = true
@@ -890,6 +894,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                     price.isHidden = true
                     coins -= snowPrice
                     coinsLabel.text = "\(coins)"
+					defaults.set(coins, forKey: "Coins")
                     Menu.bundle = "Snowy"
                     defaults.set(Menu.bundle, forKey: "bundle")
                     snowUnlocked = true
@@ -917,6 +922,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
                     coinPrice.isHidden = true
                     price.isHidden = true
                     coins -= tapiocaPrice
+					defaults.set(coins, forKey: "Coins")
                     coinsLabel.text = "\(coins)"
                     Menu.bundle = "Bubble Tea"
                     defaults.set(Menu.bundle, forKey: "bundle")

@@ -114,9 +114,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         Leaderboard.setImage(UIImage(named: "leaderboard"), for: .normal)
         videoAdButton.setImage(UIImage(named: "videoAd2"), for: .normal)
         
-        if (GameViewController.gameMode == "Endless") {
-            videoAdButton.isHidden = true
-        }
+        
         
         if (defaults.string(forKey: "failedGameCenter") == "Y") { //uploads score to GameCenter if previously offline
             if (defaults.string(forKey: "failedClassic") != "" && defaults.string(forKey: "failedClassic") != nil){
@@ -336,8 +334,10 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     }
     
     func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        videoAdButton.setImage(UIImage(named: "videoAd"), for: .normal)
-        print("Reward based video ad is received.")
+        if(!usedExtraLife) {
+            videoAdButton.setImage(UIImage(named: "videoAd"), for: .normal)
+            print("Reward based video ad is received.")
+        }
     }
     
     func rewardBasedVideoAdDidOpen(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
@@ -365,6 +365,12 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     override func viewDidAppear(_ animated: Bool) {
         if interstitial.isReady {
             interstitial.present(fromRootViewController: self)
+        }
+        if(usedExtraLife || GameViewController.gameMode == "Endless") {
+            videoAdButton.isHidden = true
+        }
+        else {
+            videoAdButton.isHidden = false
         }
     }
     
