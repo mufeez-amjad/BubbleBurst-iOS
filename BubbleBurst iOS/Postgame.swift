@@ -57,7 +57,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         
         noAdsPurchased = defaults.bool(forKey: "noAdsPurchased")
         
-        if (defaults.value(forKey: "plays") != nil){
+        if defaults.value(forKey: "plays") != nil {
             plays = defaults.integer(forKey: "plays")
         }
         else {
@@ -67,27 +67,27 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         plays += 1
         defaults.set(plays, forKey: "plays")
         
-        if !(GKLocalPlayer.localPlayer().isAuthenticated) {
+        if !GKLocalPlayer.localPlayer().isAuthenticated {
             authenticateLocalPlayer()
         }
         
-        if (Menu.bundle == "Classic"){
+        if Menu.bundle == "Classic" {
             BG.image = UIImage(named: "BG")
         }
             
-        else if (Menu.bundle == "Bubble Tea"){
+        else if Menu.bundle == "Bubble Tea" {
             BG.image = UIImage(named: "milkBG")
         }
             
-        else if (Menu.bundle == "Snowy"){
+        else if Menu.bundle == "Snowy" {
             BG.image = UIImage(named: "snowBG")
         }
             
-        else if (Menu.bundle == "Greenery"){
+        else if Menu.bundle == "Greenery" {
             BG.image = UIImage(named: "grassBG")
         }
         
-        if (!noAdsPurchased){
+        if !noAdsPurchased {
             let request = GADRequest()
             request.testDevices = [kGADSimulatorID]
             
@@ -98,7 +98,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             bannerAd.load(request)
         }
         
-        if (GameViewController.gameMode != "Endless" || !usedExtraLife){
+        if GameViewController.gameMode != "Endless" || !usedExtraLife {
             lifeAd = GADRewardBasedVideoAd.sharedInstance()
             lifeAd?.delegate = self
             
@@ -116,10 +116,10 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         
         
         
-        if (defaults.string(forKey: "failedGameCenter") == "Y") { //uploads score to GameCenter if previously offline
-            if (defaults.string(forKey: "failedClassic") != "" && defaults.string(forKey: "failedClassic") != nil){
+        if defaults.string(forKey: "failedGameCenter") == "Y" { //uploads score to GameCenter if previously offline
+            if defaults.string(forKey: "failedClassic") != "" && defaults.string(forKey: "failedClassic") != nil {
                 let readHighScore = defaults.integer(forKey: "Classic")
-                if Reachability.isConnectedToNetwork(){
+                if Reachability.isConnectedToNetwork() {
                     LEADERBOARD_ID = "BubbleBurstClassic"
                     let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
                     bestScoreInt.value = Int64(highScore)
@@ -134,9 +134,9 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
                 }
             }
             
-            if (defaults.string(forKey: "failedTimed") != "" && defaults.string(forKey: "failedTimed") != nil){
+            if defaults.string(forKey: "failedTimed") != "" && defaults.string(forKey: "failedTimed") != nil {
                 let readHighScore = defaults.integer(forKey: "Timed")
-                if Reachability.isConnectedToNetwork(){
+                if Reachability.isConnectedToNetwork() {
                     LEADERBOARD_ID = "BubbleBurstTimed"
                     let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
                     bestScoreInt.value = Int64(highScore)
@@ -151,9 +151,9 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
                 }
             }
             
-            if (defaults.string(forKey: "failedEndless") != "" && defaults.string(forKey: "failedEndless") != nil){
+            if defaults.string(forKey: "failedEndless") != "" && defaults.string(forKey: "failedEndless") != nil {
                 let readHighScore = defaults.integer(forKey: "Endless")
-                if Reachability.isConnectedToNetwork(){
+                if Reachability.isConnectedToNetwork() {
                     LEADERBOARD_ID = "BubbleBurstEndless"
                     let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
                     bestScoreInt.value = Int64(highScore)
@@ -172,9 +172,9 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         
         LEADERBOARD_ID = "BubbleBurst" + GameViewController.gameMode
         
-        if (GameViewController.gameMode != "Timed"){
-            if (defaults.value(forKeyPath: GameViewController.gameMode) == nil){
-                if (score > 0) {
+        if GameViewController.gameMode != "Timed" {
+            if defaults.value(forKeyPath: GameViewController.gameMode) == nil {
+                if score > 0 {
                     defaults.set(score, forKey: GameViewController.gameMode)
                     highScoreLabel.text = "New Best!"
                 }
@@ -210,7 +210,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             }
         }
         else {
-            if (defaults.value(forKeyPath: GameViewController.gameMode) == nil){
+            if defaults.value(forKeyPath: GameViewController.gameMode) == nil {
                 defaults.set(time, forKey: GameViewController.gameMode)
                 highScoreLabel.text = "New Best!"
             }
@@ -244,7 +244,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
                 }
             }
         }
-        if (defaults.value(forKeyPath: "Points") == nil) {
+        if defaults.value(forKeyPath: "Points") == nil {
             defaults.set(score, forKey: "Points")
         }
         else {
@@ -253,7 +253,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             defaults.set(points, forKey: "Points")
         }
         
-        if (defaults.value(forKeyPath: "Coins") == nil) {
+        if defaults.value(forKeyPath: "Coins") == nil {
             defaults.set(coins, forKey: "Coins")
         }
         else {
@@ -262,7 +262,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
             defaults.set(newCoins, forKey: "Coins")
         }
         
-        if (GameViewController.gameMode != "Timed") {
+        if GameViewController.gameMode != "Timed" {
             scoreLabel.text = "Score: \(score)"
         }
         else {
@@ -272,7 +272,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         }
         
         highScoreLabel.center.x = self.view.center.x
-        if (!noAdsPurchased){
+        if !noAdsPurchased {
             interstitial.present(fromRootViewController: self)
         }
     }
@@ -288,7 +288,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     func createAndLoadInterstitial() -> GADInterstitial {
         interstitial = GADInterstitial(adUnitID: "ca-app-pub-4669355053831786/7207262873")
         
-        if (plays % 3 == 0){
+        if plays % 3 == 0 { //shows interstitial every 3 plays
             if !(noAdsPurchased) {
                 let request = GADRequest()
                 request.testDevices = [kGADSimulatorID]
@@ -312,8 +312,8 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     func interstitialDidDismissScreen(_ ad: GADInterstitial) { }
     
     @IBAction func watchVideo(_ sender: Any) {
-        if(!usedExtraLife) {
-            if lifeAd?.isReady == true {
+        if !usedExtraLife {
+            if (lifeAd?.isReady)! {
                 lifeAd?.present(fromRootViewController: self)
             }
         }
@@ -334,7 +334,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
     }
     
     func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        if(!usedExtraLife) {
+        if !usedExtraLife {
             videoAdButton.setImage(UIImage(named: "videoAd"), for: .normal)
             print("Reward based video ad is received.")
         }
@@ -366,7 +366,7 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         if interstitial.isReady {
             interstitial.present(fromRootViewController: self)
         }
-        if(usedExtraLife || GameViewController.gameMode == "Endless") {
+        if usedExtraLife || GameViewController.gameMode == "Endless" {
             videoAdButton.isHidden = true
         }
         else {
@@ -433,10 +433,10 @@ class Postgame: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDe
         let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
         
         localPlayer.authenticateHandler = {(ViewController, error) -> Void in
-            if((ViewController) != nil) {
+            if ViewController != nil {
                 // 1. Show login if player is not logged in
                 self.present(ViewController!, animated: true, completion: nil)
-            } else if (localPlayer.isAuthenticated) {
+            } else if localPlayer.isAuthenticated {
                 // 2. Player is already authenticated & logged in, load game center
                 self.gcEnabled = true
                 

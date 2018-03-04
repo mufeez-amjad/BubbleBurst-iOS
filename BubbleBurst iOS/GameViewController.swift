@@ -53,27 +53,27 @@ class GameViewController: UIViewController {
         coinsIcon.center.x -= view.bounds.width
         coinsLabel.center.x -= view.bounds.width
         
-        if (Menu.bundle == "Classic" || Menu.bundle == "Greenery"){
+        if Menu.bundle == "Classic" || Menu.bundle == "Greenery" {
             BubbleIcon.image = UIImage(named: "Bubble")
         }
             
-        else if (Menu.bundle == "Bubble Tea"){
+        else if Menu.bundle == "Bubble Tea" {
             BubbleIcon.image = UIImage(named: "Tapioca")
         }
             
-        else if (Menu.bundle == "Snowy"){
+        else if Menu.bundle == "Snowy" {
             BubbleIcon.image = UIImage(named: "Snow")
         }
         
-        if (GameViewController.gameMode == "Timed" || GameViewController.gameMode == "Endless"){
+        if GameViewController.gameMode == "Timed" || GameViewController.gameMode == "Endless" {
             LivesIcon.isHidden = true
         }
         
-        if (GameViewController.gameMode == "Endless"){
+        if GameViewController.gameMode == "Endless" {
             coinsIcon.frame.origin.y = LivesIcon.frame.origin.y
         }
         
-        if (GameViewController.gameMode != "Timed"){
+        if GameViewController.gameMode != "Timed" {
             TimerIcon.isHidden = true
         }
         
@@ -100,8 +100,6 @@ class GameViewController: UIViewController {
         
         scene?.setGameisDone(b: false)
         
-        //self.navigationController?.popViewController(animated: false)
-
         scoreLabel.text = "0"
         
         if (GameViewController.gameMode == "Timed") {
@@ -147,18 +145,6 @@ class GameViewController: UIViewController {
             )
         }
         
-        /*if (gameMode == "Timed"){
-         UIView.animate(withDuration: 0.7, delay: 0,
-         options: [.curveEaseOut],
-         animations: {
-         self.blurOverlay.alpha = 1
-         self.pausedOverlay.alpha = 1
-         self.pausesLeft.alpha = 1
-         },
-         completion: nil
-         )
-         }*/
-        
         UIView.animate(withDuration: 1, delay: 5,
                        options: [.curveEaseOut],
                        animations: {
@@ -171,12 +157,11 @@ class GameViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         scene?.setGameisDone(b: true)
         
-        if (pauseShowing){
+        if pauseShowing {
             hidePause()
         }
         
         scene?.gameEnd()
-        //scene?.sceneDidLoad()
         if (GameViewController.gameMode == "Endless"){
             UIView.animate(withDuration: 0.7, delay: 0,
                            options: [.curveEaseOut],
@@ -196,7 +181,7 @@ class GameViewController: UIViewController {
         coinsLabel.center.x -= view.bounds.width
     }
     
-    func hidePause(){
+    func hidePause() {
         pauseShowing = false
         Home.isHidden = true
         UIView.animate(withDuration: 0.7, delay: 0,
@@ -211,7 +196,7 @@ class GameViewController: UIViewController {
         )
     }
     
-    func showPause(){
+    func showPause() {
         pauseShowing = true
         Home.isHidden = false
         UIView.animate(withDuration: 0.7, delay: 0,
@@ -226,7 +211,7 @@ class GameViewController: UIViewController {
         )
     }
     
-    @objc func segueToGameOver(){
+    @objc func segueToGameOver() {
         performSegue(withIdentifier: "gameIsOver", sender: self)
         nullify()
     }
@@ -270,12 +255,12 @@ class GameViewController: UIViewController {
         segueToGameOver()
     }
     
-    func nullify(){
-        if (scene?.bubbleTimer != nil) {
+    func nullify() {
+        if scene?.bubbleTimer != nil {
             scene?.bubbleTimer.invalidate()
         }
-        if (GameViewController.gameMode == "Timed") {
-            if (scene?.gameTimer != nil) {
+        if GameViewController.gameMode == "Timed" {
+            if scene?.gameTimer != nil {
                 scene?.gameTimer.invalidate()
             }
         }
@@ -295,7 +280,7 @@ class GameViewController: UIViewController {
         segueToGameOver()
     }
     
-    func fadeIn(){
+    func fadeIn() {
         UIView.animate(withDuration: 1, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
@@ -305,7 +290,7 @@ class GameViewController: UIViewController {
         )
     }
     
-    func fadeOut(){
+    func fadeOut() {
         UIView.animate(withDuration: 1, delay: 0,
                        options: [.curveEaseOut],
                        animations: {

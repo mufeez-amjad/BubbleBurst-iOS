@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         FirebaseApp.configure()
         
-        if (defaults.value(forKey: "firstLaunch") != nil){
+        if defaults.value(forKey: "firstLaunch") != nil {
             AppDelegate.firstLaunch = defaults.bool(forKey: "firstLaunch")
         }
         incrementAppRuns()
@@ -62,19 +62,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     class func playClick(){
-        if (Menu.sound){
+        if Menu.sound {
             playSound(source: "pop", type: "wav")
         }
     }
     
     class func playMoney(){
-        if (Menu.sound){
+        if Menu.sound {
             playSound(source: "money", type: "mp3")
         }
     }
     
     class func playError(){
-        if (Menu.sound){
+        if Menu.sound {
             playSound(source: "error", type: "mp3")
         }
     }
@@ -104,13 +104,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func incrementAppRuns() {
         var runs = 0
-        if (defaults.value(forKey: "timesRun") != nil){
+        if defaults.value(forKey: "timesRun") != nil {
             runs = defaults.integer(forKey: "timesRun")
         }
         runs += 1
         defaults.set(runs, forKey: "timesRun")
         
-        if (runs % 3 == 0) {
+        if runs % 3 == 0 {
             if #available(iOS 10.3, *) {
                 SKStoreReviewController.requestReview()
             }
@@ -122,7 +122,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
         
-        if (Menu.music) {
+        if Menu.music {
             AppDelegate.player?.pause()
         }
         
@@ -133,7 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
-        if (Menu.music) {
+        if Menu.music {
             AppDelegate.player?.pause()
         }
         
@@ -142,7 +142,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        if (Menu.music) {
+        if Menu.music {
             AppDelegate.player?.play()
         }
         
@@ -152,7 +152,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        if (Menu.music) {
+        if Menu.music {
             AppDelegate.player?.play()
         }
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "active"), object: nil)

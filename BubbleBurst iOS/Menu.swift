@@ -14,15 +14,13 @@ import GameKit
 class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDelegate {
     
     let defaults = UserDefaults.standard
-    var noAdsPurchased: Bool!
-    
+   
     var gameSegue = false
     var transitionOut = false
     
     var infoScreen = false
     var playScreen = false
-    var endlessLocked = true
-    var timedLocked = true
+    
     @IBOutlet weak var Logo: UIImageView!
     @IBOutlet weak var Play: UIButton!
     @IBOutlet weak var Info: UIButton!
@@ -32,7 +30,6 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     @IBOutlet weak var Classic: UIButton!
     @IBOutlet weak var Timed: UIButton!
     @IBOutlet weak var Endless: UIButton!
-    
     @IBOutlet weak var Multiplayer: UIButton!
     
     @IBOutlet weak var unlockPopUp: UIImageView!
@@ -40,7 +37,6 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     @IBOutlet weak var costLabel: UILabel!
     @IBOutlet weak var unlockButton: UIButton!
     @IBOutlet weak var blur: UIVisualEffectView!
-    
     @IBOutlet weak var costLabelCns: UILabel!
     
     var gcEnabled = Bool() // Check if the user has Game Center enabled
@@ -48,6 +44,9 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     var endlessSelected = false
     var timedSelected = false
+    
+    var endlessLocked = true
+    var timedLocked = true
     
     var endlessCostPts = 50000
     var timedCostPts = 20000
@@ -61,7 +60,6 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     @IBOutlet weak var EndlessLock: UIImageView!
     
     @IBOutlet weak var musicButton: UIButton!
-    
     @IBOutlet weak var soundButton: UIButton!
     @IBOutlet weak var colorButton: UIButton!
     @IBOutlet weak var dropdown: UIImageView!
@@ -69,7 +67,6 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     @IBOutlet weak var bannerAd: GADBannerView!
     @IBOutlet weak var Instructions: UIImageView!
-    
     
     @IBOutlet weak var pointsLabel: UILabel!
     @IBOutlet weak var pointsIcon: UIImageView!
@@ -89,6 +86,8 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     static var music = true
     static var sound = true
     static var color = false
+    
+    var noAdsPurchased: Bool!
     
     var settings = false
     
@@ -110,15 +109,15 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     var buttonPlayer: AVAudioPlayer?
     
-    func addCheats(){
+    func addCheats() {
         defaults.set(10000, forKey: "Coins")
     }
     
     override func viewDidLoad() {
-        //addCheats()
         super.viewDidLoad()
-                
-        if (AppDelegate.firstLaunch){
+        //addCheats()
+
+        if AppDelegate.firstLaunch {
             defaults.set(0, forKey: "Points")
             points = 0
             defaults.set(0, forKey: "Coins")
@@ -150,7 +149,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             AppDelegate.firstLaunch = false
         }
         
-        if (defaults.string(forKey: "bundle") != nil) {
+        if defaults.string(forKey: "bundle") != nil {
             Menu.bundle = defaults.string(forKey: "bundle")!
         }
         
@@ -179,26 +178,26 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         Endless.setImage(UIImage(named: "endless"), for: .normal)
         
         
-        if (defaults.value(forKeyPath: "music") == nil || defaults.bool(forKey: "music")){
+        if defaults.value(forKeyPath: "music") == nil || defaults.bool(forKey: "music") {
             Menu.music = true
         }
         else {
             Menu.music = false
         }
-        if (Menu.music == true) {
+        if Menu.music {
             musicButton.setImage(UIImage(named: "musicOn"), for: .normal)
         }
         else {
             musicButton.setImage(UIImage(named: "musicOff"), for: .normal)
         }
         
-        if (defaults.value(forKeyPath: "sound") == nil || defaults.bool(forKey: "sound")){
+        if defaults.value(forKeyPath: "sound") == nil || defaults.bool(forKey: "sound") {
             Menu.sound = true
         }
         else {
             Menu.sound = false
         }
-        if (Menu.sound == true) {
+        if Menu.sound {
             soundButton.setImage(UIImage(named: "soundOn"), for: .normal)
         }
         else {
@@ -225,21 +224,20 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         soundButton.isHidden = true
         colorButton.isHidden = true
         
-        
-        if (defaults.object(forKey: "EndlessLock") == nil){
+        if defaults.object(forKey: "EndlessLock") == nil {
             endlessLocked = true
         }
-        else if (defaults.bool(forKey: "EndlessLock") == false){
+        else if !defaults.bool(forKey: "EndlessLock") {
             endlessLocked = false
         }
         
-        if (defaults.object(forKey: "TimedLock") == nil){
+        if defaults.object(forKey: "TimedLock") == nil {
             timedLocked = true
         }
-        else if (defaults.bool(forKey: "TimedLock") == false){
+        else if !defaults.bool(forKey: "TimedLock") {
             timedLocked = false
         }
-        if (Menu.music && !AppDelegate.musicisPlaying) {
+        if Menu.music && !AppDelegate.musicisPlaying {
             AppDelegate.playMusic()
         }
         
@@ -288,29 +286,14 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     override func viewDidAppear(_ animated: Bool) {
         
-        /* Coin Promo
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy"
-        let someDate = dateFormatter.date(from: "01/15/2018")
-        
-        if (someDate?.timeIntervalSinceNow.sign == .plus) {
-            let alert = UIAlertController(title: "Coin Promo", message: "Promo", preferredStyle: UIAlertControllerStyle.alert)
-            
-            let cancelAction = UIAlertAction(title: "OK",
-                                             style: .cancel, handler: nil)
-            
-            alert.addAction(cancelAction)
-            present(alert, animated: true)
-        }*/
-        
-        if (defaults.value(forKeyPath: "Points") == nil){
+        if defaults.value(forKeyPath: "Points") == nil {
             points = 0
         }
         else {
             points = defaults.integer(forKey: "Points")
         }
         
-        if (defaults.value(forKeyPath: "Coins") == nil) {
+        if defaults.value(forKeyPath: "Coins") == nil {
             coins = 0
         }
         else {
@@ -327,7 +310,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         
         coinsLabel.text = formattedNumber2
         
-        if (AppDelegate.justLaunched){
+        if AppDelegate.justLaunched {
             MALogo.alpha = 1
             MALogoBackground.alpha = 1
             logoIntro()
@@ -336,13 +319,12 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         else {
             MALogo.alpha = 0
             MALogoBackground.alpha = 0
-            //fade.alpha = 0
             fadeIn()
             introIn()
         }
     }
     
-    func fadeIn(){
+    func fadeIn() {
         UIView.animate(withDuration: 1, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
@@ -381,7 +363,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         })
     }
     
-    func fadeOut(){
+    func fadeOut() {
         UIView.animate(withDuration: 1, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
@@ -393,14 +375,14 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     override func viewDidDisappear(_ animated: Bool) {}
     
     override func viewWillAppear(_ animated: Bool) {
-        if (timedLocked) {
+        if timedLocked {
             TimedLock.isHidden = false
         }
         else {
             TimedLock.isHidden = true
         }
         
-        if (endlessLocked) {
+        if endlessLocked {
             EndlessLock.isHidden = false
         }
         else {
@@ -409,26 +391,26 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         
         var BubbleType = "Bubble"
         
-        if (Menu.bundle == "Classic"){
+        if Menu.bundle == "Classic" {
             BG.image = UIImage(named: "BG")
         }
             
-        else if (Menu.bundle == "Bubble Tea"){
+        else if Menu.bundle == "Bubble Tea" {
             BG.image = UIImage(named: "milkBG")
             BubbleType = "Tapioca"
         }
             
-        else if (Menu.bundle == "Snowy"){
+        else if Menu.bundle == "Snowy" {
             BG.image = UIImage(named: "snowBG")
             BubbleType = "Snow"
         }
             
-        else if (Menu.bundle == "Greenery"){
+        else if Menu.bundle == "Greenery" {
             BG.image = UIImage(named: "grassBG")
         }
         
         PointsImage.image = UIImage(named: BubbleType)
-        if (Menu.color) {
+        if Menu.color {
             PowerupImage.image = UIImage(named: BubbleType + "Y")
             PowerupTitle.textColor = UIColor(red: 0.89, green: 0.84, blue: 0.27, alpha: 1.0) //yellow
             PowerUpsTitle.textColor = UIColor(red: 0.89, green: 0.84, blue: 0.27, alpha: 1.0)
@@ -440,7 +422,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
             PowerUpsTitle.textColor = UIColor(red: 0.32, green: 0.71, blue: 0.38, alpha: 1.0)
             tapEachDetails.textColor = UIColor(red: 0.32, green: 0.71, blue: 0.38, alpha: 1.0)
         }
-        if (Menu.bundle != "Bubble Tea") {
+        if Menu.bundle != "Bubble Tea" {
             PointsTitle.textColor = UIColor(red: 0.8, green: 0.95, blue: 1.0, alpha: 1.0) //blue
         }
         else {
@@ -454,7 +436,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         // Dispose of any resources that can be recreated.
     }
     
-    func introOut(menu: Int){
+    func introOut(menu: Int) {
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
@@ -485,7 +467,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         hideSettings()
     }
     
-    func introIn(){
+    func introIn() {
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
@@ -517,7 +499,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         )
     }
     
-    func revealSettings(){
+    func revealSettings() {
         UIView.animate(withDuration: 1, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
@@ -530,7 +512,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         )
     }
     
-    func hideSettings(){
+    func hideSettings() {
         UIView.animate(withDuration: 1, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
@@ -543,7 +525,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         )
     }
     
-    func instructionsIn(){
+    func instructionsIn() {
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
@@ -562,7 +544,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         )
     }
     
-    func instructionsOut(){
+    func instructionsOut() {
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
@@ -582,7 +564,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         })
     }
     
-    func toGame(){
+    func toGame() {
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
@@ -601,11 +583,11 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         fadeOut()
     }
     
-    func playIn(){
-        if !(endlessLocked){
+    func playIn() {
+        if !endlessLocked{
             EndlessLock.isHidden = true
         }
-        if !(timedLocked){
+        if !timedLocked {
             TimedLock.isHidden = true
         }
         UIView.animate(withDuration: 0.7, delay: 0,
@@ -623,7 +605,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         )
     }
     
-    func playOut(){
+    func playOut() {
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
@@ -640,7 +622,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         })
     }
     
-    func unlockIn(){
+    func unlockIn() {
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
@@ -672,7 +654,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         )
         
     }
-    func unlockOut(){
+    func unlockOut() {
         UIView.animate(withDuration: 0.7, delay: 0,
                        options: [.curveEaseOut],
                        animations: {
@@ -729,7 +711,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     @IBAction func timedPressed(_ sender: Any) {
         AppDelegate.playClick()
-        if (!timedLocked) {
+        if !timedLocked {
             playScreen = false
             GameViewController.gameMode = "Timed"
             toGame()
@@ -753,7 +735,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     @IBAction func endlessPressed(_ sender: Any) {
         AppDelegate.playClick()
-        if (!endlessLocked) {
+        if !endlessLocked {
             playScreen = false
             GameViewController.gameMode = "Endless"
             toGame()
@@ -785,8 +767,8 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     @IBAction func unlockPressed(_ sender: Any) {
         AppDelegate.playClick()
         
-        if (endlessSelected){
-            if (points >= endlessCostPts) {
+        if endlessSelected {
+            if points >= endlessCostPts {
                 points -= endlessCostPts
                 defaults.set(points, forKey: "Points")
                 defaults.set(false, forKey: "EndlessLock")
@@ -795,7 +777,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
                 unlockOut()
                 endlessSelected = false
             }
-            else if (coins >= endlessCostCns) {
+            else if coins >= endlessCostCns {
                 coins -= endlessCostCns
                 defaults.set(coins, forKey: "Coins")
                 defaults.set(false, forKey: "EndlessLock")
@@ -805,8 +787,8 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
                 endlessSelected = false
             }
         }
-        else if (timedSelected){
-            if (points >= timedCostPts){
+        else if timedSelected {
+            if points >= timedCostPts {
                 points -= timedCostPts
                 defaults.set(points, forKey: "Points")
                 defaults.set(false, forKey: "TimedLock")
@@ -815,7 +797,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
                 unlockOut()
                 timedSelected = false
             }
-            else if (coins >= timedCostCns){
+            else if coins >= timedCostCns {
                 coins -= timedCostCns
                 defaults.set(coins, forKey: "Coins")
                 defaults.set(false, forKey: "TimedLock")
@@ -840,7 +822,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     @IBAction func settingsPressed(_ sender: Any) {
         AppDelegate.playClick()
         settings = !settings
-        if (settings) {
+        if settings {
             revealSettings()
         }
         else {
@@ -851,7 +833,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     @IBAction func musicPressed(_ sender: Any) {
         AppDelegate.playClick()
         Menu.music = !Menu.music
-        if (!Menu.music){
+        if !Menu.music {
             musicButton.setImage(UIImage(named: "musicOff"), for: .normal)
             defaults.set(false, forKey: "music")
             AppDelegate.player?.stop()
@@ -866,7 +848,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     @IBAction func soundPressed(_ sender: Any) {
         AppDelegate.playClick()
         Menu.sound = !Menu.sound
-        if (!Menu.sound){
+        if !Menu.sound {
             soundButton.setImage(UIImage(named: "soundOff"), for: .normal)
             defaults.set(false, forKey: "sound")
         }
@@ -882,14 +864,14 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         
         var BubbleType = "Bubble"
         
-        if (Menu.bundle == "Bubble Tea"){
+        if Menu.bundle == "Bubble Tea"{
             BubbleType = "Tapioca"
         }
-        else if (Menu.bundle == "Snowy"){
+        else if Menu.bundle == "Snowy" {
             BubbleType = "Snow"
         }
         
-        if (!Menu.color){
+        if !Menu.color {
             colorButton.setImage(UIImage(named: "colorOff"), for: .normal)
             defaults.set(false, forKey: "color")
             PowerupImage.image = UIImage(named: BubbleType + "G")
@@ -929,10 +911,10 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
         
         localPlayer.authenticateHandler = {(ViewController, error) -> Void in
-            if((ViewController) != nil) {
+            if ViewController != nil {
                 // 1. Show login if player is not logged in
                 self.present(ViewController!, animated: true, completion: nil)
-            } else if (localPlayer.isAuthenticated) {
+            } else if localPlayer.isAuthenticated {
                 // 2. Player is already authenticated & logged in, load game center
                 self.gcEnabled = true
                 
@@ -961,7 +943,3 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     }
     
 }
-
-
-
-
