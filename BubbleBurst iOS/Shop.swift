@@ -124,15 +124,15 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     
     override func viewDidLoad() {
 		
-        if defaults.bool(forKey: "Greenery") {
+        if (defaults.bool(forKey: "Greenery") == true){
             grassUnlocked = true
         }
         
-        if defaults.bool(forKey: "Snowy") {
+        if (defaults.bool(forKey: "Snowy") == true){
             snowUnlocked = true
         }
         
-        if defaults.bool(forKey: "Bubble Tea") {
+        if (defaults.bool(forKey: "Bubble Tea") == true){
             tapiocaUnlocked = true
         }
         
@@ -949,7 +949,7 @@ class Shop: UIViewController, GADBannerViewDelegate, GADRewardBasedVideoAdDelega
     }
     
     @IBAction func adCoinsPressed(_ sender: Any) {
-		if (coinRewardAd?.isReady)! {
+        if coinRewardAd?.isReady == true {
             AppDelegate.playClick()
             coinRewardAd?.present(fromRootViewController: self)
         }
