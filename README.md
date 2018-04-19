@@ -1,4 +1,4 @@
-# Bubble Burst - iOS
+# [Bubble Burst - iOS](https://itunes.apple.com/ca/app/bubble-burst/id1329269606)
 
 Bubble Burst is an arcade game designed for iPhones and iPods. The premise of the game is to tap bubbles (or other objects) before they leave the screen. The game also has power ups, an in-game store, as well as an accessibilty option for color-blind individuals.
 
