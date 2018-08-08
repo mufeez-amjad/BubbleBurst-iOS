@@ -21,8 +21,8 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     var infoScreen = false
     var playScreen = false
-    var endlessLocked = true
-    var timedLocked = true
+    var endlessLocked = false
+    var timedLocked = false
     @IBOutlet weak var Logo: UIImageView!
     @IBOutlet weak var Play: UIButton!
     @IBOutlet weak var Info: UIButton!
@@ -118,37 +118,37 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         //addCheats()
         super.viewDidLoad()
                 
-        if (AppDelegate.firstLaunch){
-            defaults.set(0, forKey: "Points")
-            points = 0
-            defaults.set(0, forKey: "Coins")
-            coins = 0
-            defaults.set("Classic", forKey: "bundle")
-            Menu.bundle = "Classic"
-            defaults.set(true, forKey: "music")
-            defaults.set(true, forKey: "sound")
-            defaults.set(false, forKey: "color")
-            defaults.set(true, forKey: "EndlessLock")
-            defaults.set(true, forKey: "TimedLock")
+        // if (AppDelegate.firstLaunch){
+        //     defaults.set(0, forKey: "Points")
+        //     points = 0
+        //     defaults.set(0, forKey: "Coins")
+        //     coins = 0
+        //     defaults.set("Classic", forKey: "bundle")
+        //     Menu.bundle = "Classic"
+        //     defaults.set(true, forKey: "music")
+        //     defaults.set(true, forKey: "sound")
+        //     defaults.set(false, forKey: "color")
+        //     defaults.set(true, forKey: "EndlessLock")
+        //     defaults.set(true, forKey: "TimedLock")
             
-            defaults.set(false, forKey: "noAdsPurchased")
-            noAdsPurchased = false
+        //     defaults.set(false, forKey: "noAdsPurchased")
+        //     noAdsPurchased = false
             
-            defaults.set(0, forKey: "AutoPop")
-            defaults.set(1, forKey: "SlowMo")
-            defaults.set(1, forKey: "Life")
+        //     defaults.set(0, forKey: "AutoPop")
+        //     defaults.set(1, forKey: "SlowMo")
+        //     defaults.set(1, forKey: "Life")
             
-            defaults.set(0, forKey: "Classic")
-            defaults.set(0, forKey: "Timed")
-            defaults.set(0, forKey: "Endless")
+        //     defaults.set(0, forKey: "Classic")
+        //     defaults.set(0, forKey: "Timed")
+        //     defaults.set(0, forKey: "Endless")
             
-            defaults.set(false, forKey: "Greenery")
-            defaults.set(false, forKey: "Snowy")
-            defaults.set(false, forKey: "Bubble Tea")
+        //     defaults.set(false, forKey: "Greenery")
+        //     defaults.set(false, forKey: "Snowy")
+        //     defaults.set(false, forKey: "Bubble Tea")
             
-            defaults.set(false, forKey: "firstLaunch")
-            AppDelegate.firstLaunch = false
-        }
+        //     defaults.set(false, forKey: "firstLaunch")
+        //     AppDelegate.firstLaunch = false
+        // }
         
         if (defaults.string(forKey: "bundle") != nil) {
             Menu.bundle = defaults.string(forKey: "bundle")!
@@ -226,19 +226,19 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
         colorButton.isHidden = true
         
         
-        if (defaults.object(forKey: "EndlessLock") == nil){
-            endlessLocked = true
-        }
-        else if (defaults.bool(forKey: "EndlessLock") == false){
-            endlessLocked = false
-        }
+        // if (defaults.object(forKey: "EndlessLock") == nil){
+        //     endlessLocked = true
+        // }
+        // else if (defaults.bool(forKey: "EndlessLock") == false){
+        //     endlessLocked = false
+        // }
         
-        if (defaults.object(forKey: "TimedLock") == nil){
-            timedLocked = true
-        }
-        else if (defaults.bool(forKey: "TimedLock") == false){
-            timedLocked = false
-        }
+        // if (defaults.object(forKey: "TimedLock") == nil){
+        //     timedLocked = true
+        // }
+        // else if (defaults.bool(forKey: "TimedLock") == false){
+        //     timedLocked = false
+        // }
         if (Menu.music && !AppDelegate.musicisPlaying) {
             AppDelegate.playMusic()
         }
