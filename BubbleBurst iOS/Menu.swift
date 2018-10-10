@@ -110,12 +110,7 @@ class Menu: UIViewController, GADBannerViewDelegate, GKGameCenterControllerDeleg
     
     var buttonPlayer: AVAudioPlayer?
     
-    func addCheats(){
-        defaults.set(10000, forKey: "Coins")
-    }
-    
     override func viewDidLoad() {
-        //addCheats()
         super.viewDidLoad()
                 
         if (AppDelegate.firstLaunch){

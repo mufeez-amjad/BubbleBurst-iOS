@@ -1378,13 +1378,13 @@ class GameScene: SKScene {
             if !(GameScene.gamePaused){
                 if (GameViewController.gameMode == "Classic") {
                     if (Bubble.riseSpeed < 20) {
-                        Bubble.riseSpeed *= 1.00045
+                        Bubble.riseSpeed *= 1.0004
                     }
                     else if (Bubble.riseSpeed < 25) {
-                        Bubble.riseSpeed *= 1.00060
+                        Bubble.riseSpeed *= 1.00055
                     }
                     else if (Bubble.riseSpeed < 30) {
-                        Bubble.riseSpeed *= 1.00075
+                        Bubble.riseSpeed *= 1.0007
                     }
                 }
                 else if (GameViewController.gameMode == "Endless"){
